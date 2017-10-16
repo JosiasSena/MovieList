@@ -13,7 +13,7 @@ import com.josiassena.movielist.R
 import com.josiassena.movielist.movies.view.MoviesActivity
 import kotlinx.android.synthetic.main.item_genres.view.*
 
-val KEY_GENRE = "key_genre_id"
+const val KEY_GENRE = "key_genre_id"
 
 class GenresViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 
@@ -56,9 +56,12 @@ class GenresAdapter : RecyclerView.Adapter<GenresViewHolder>() {
     }
 
     fun updateGenres(genre: Genres) {
-        val position = genres.size
+        val sizeBeforeChange = itemCount
+
         genres.clear()
+        notifyItemRangeRemoved(0, sizeBeforeChange)
+
         genres.addAll(genre.genres)
-        notifyItemInserted(position)
+        notifyItemRangeInserted(0, itemCount)
     }
 }

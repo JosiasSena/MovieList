@@ -14,8 +14,6 @@ import com.rapidsos.database.daos.*
 @TypeConverters(DatabaseConverter::class)
 abstract class MLDatabase : RoomDatabase() {
 
-    abstract fun genreDao(): GenreDao
-
     abstract fun genresDao(): GenresDao
 
     abstract fun genreMovieResultsDao(): GenreMovieResultsDao

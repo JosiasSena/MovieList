@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
  */
 @Entity
 class Genres(@PrimaryKey @SerializedName("genres") @Expose
-                  var genres: List<@JvmSuppressWildcards Genre> = arrayListOf()) : Parcelable {
+             var genres: List<@JvmSuppressWildcards Genre> = arrayListOf()) : Parcelable {
 
     constructor(parcel: Parcel) : this(arrayListOf()) {
         parcel.readList(genres, Genre::class.java.classLoader)

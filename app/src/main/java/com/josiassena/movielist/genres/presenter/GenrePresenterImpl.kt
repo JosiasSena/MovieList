@@ -3,12 +3,16 @@ package com.josiassena.movielist.genres.presenter
 import android.util.Log
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
+import com.josiassena.core.Genre
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.movielist.app_helpers.listener.SearchObservable
 import com.josiassena.movielist.genres.view.GenreView
-import com.rapidsos.helpers.network.NetworkManager
+import com.mancj.materialsearchbar.MaterialSearchBar
+import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.api.Api
+import com.rapidsos.helpers.network.NetworkManager
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +21,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -69,17 +74,20 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     override fun getGenres() {
         showLoading()
 
-        api.getMovieGenres()
-                .subscribeOn(Schedulers.io())
+        val database = databaseManager.getGenresAsObservable()
+
+        val network = api.getMovieGenres()
                 .filter({ response ->
                     if (response.isSuccessful.and(response.body() != null)) {
                         return@filter true
                     }
 
                     Log.e(TAG, "getGenres filter error: ${response.errorBody().string()}")
-                    false
+                    return@filter false
                 })
                 .map { response: Response<Genres> -> response.body() }
+
+        Observable.merge(database, network)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Genres> {
                     private lateinit var genreDisposable: Disposable
@@ -90,6 +98,8 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                     }
 
                     override fun onNext(genres: Genres) {
+                        databaseManager.saveGenres(genres)
+
                         if (isViewAttached) {
                             view?.displayGenres(genres)
                         }
@@ -133,7 +143,13 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
 
     override fun unSubscribe() = compositeDisposable.clear()
 
-    fun checkIsNetworkAvailable() {
+    override fun queryGenres(query: String): List<Genre>? {
+        return databaseManager.getGenres()?.genres?.filter { genre ->
+            genre.name.contains(query, ignoreCase = true)
+        }
+    }
+
+    override fun checkIsNetworkAvailable() {
         if (isNetworkAvailable()) {
 
             if (isViewAttached) {
@@ -146,5 +162,37 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                 view?.showNoInternetConnectionError()
             }
         }
+    }
+
+    override fun listenToSearchViewChanges(genreSearchView: MaterialSearchBar) {
+        SearchObservable.fromView(genreSearchView)
+                .subscribeOn(Schedulers.io())
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<String> {
+                    override fun onSubscribe(d: Disposable) {
+                        compositeDisposable.add(d)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        error(e.message, e)
+                    }
+
+                    override fun onNext(query: String) {
+                        if (query.isEmpty()) {
+                            getGenres()
+                        } else {
+                            queryGenres(query)?.let {
+                                if (isViewAttached) {
+                                    view?.displayGenres(Genres(it))
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onComplete() {
+                    }
+                })
     }
 }

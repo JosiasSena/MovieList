@@ -22,6 +22,12 @@ class DatabaseManager(context: Context) : AnkoLogger {
                     .fallbackToDestructiveMigration()
                     .build()
 
+    fun saveGenres(genres: Genres) {
+        doAsync {
+            database.genresDao().insert(genres)
+        }
+    }
+
     fun savePreviews(values: ArrayList<MovieVideosResult>) {
         doAsync {
             database.movieVideosResultDao().insertAll(values)
@@ -51,6 +57,12 @@ class DatabaseManager(context: Context) : AnkoLogger {
                 .subscribeOn(Schedulers.io())
                 .map { it.getGenres() }
                 .blockingFirst()
+    }
+
+    fun getGenresAsObservable(): Observable<Genres>? {
+        return Observable.just(database.genresDao())
+                .subscribeOn(Schedulers.io())
+                .map { it.getGenres() }
     }
 
     @WorkerThread

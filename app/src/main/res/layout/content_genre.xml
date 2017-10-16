@@ -27,6 +27,14 @@
             android:text="@string/no_internet_click_again"
             android:visibility="gone" />
 
+        <!--<com.mancj.materialsearchbar.MaterialSearchBar-->
+        <!--android:id="@+id/genreSearchView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:mt_hint="Search Genres"-->
+        <!--app:mt_maxSuggestionsCount="10"-->
+        <!--app:mt_menuIconDrawable="@mipmap/ic_launcher" />-->
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvGenre"
             android:layout_width="match_parent"
