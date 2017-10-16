@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.josiassena.movielist.splash.SplashActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/movies"
+        android:keepScreenOn="true"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/fullscreen_content"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/movies"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
+    defaultConfig {
+        applicationId "com.josiassena.movielist"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':core')
+    compile project(':helpers')
+    compile project(':database')
+    compile project(path: ':dependencyinjection')
+
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:customtabs:26.1.0'
+
+    compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+
+    compile 'com.github.pwittchen:reactivenetwork-rx2:0.9.1'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.anko:anko-commons:$anko_version"
+    compile "org.jetbrains.anko:anko-coroutines:$anko_version"
+
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
+    kapt "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
+    compile "android.arch.persistence.room:rxjava2:1.0.0-alpha9-1"
+
+    compile 'org.mockito:mockito-inline:2.8.9'
+    testCompile 'org.mockito:mockito-inline:2.8.9'
+
+    testCompile 'junit:junit:4.12'
+
+    testCompile 'org.robolectric:robolectric:3.3.2'
+
+    testCompile 'org.assertj:assertj-core:3.8.0'
+
+    compile 'com.google.dagger:dagger:2.11'
+    kapt 'com.google.dagger:dagger-compiler:2.11'
+
+    androidTestCompile "com.google.dagger:dagger:2.11"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.11"
+
+    testCompile "com.google.dagger:dagger:2.11"
+    kaptTest "com.google.dagger:dagger-compiler:2.11"
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude module: 'support-annotations'
+    })
+}

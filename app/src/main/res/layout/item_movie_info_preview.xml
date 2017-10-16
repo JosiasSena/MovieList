@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="16dp">
+
+    <TextView
+        android:id="@+id/tvPreviewTitle"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="16dp"
+        android:drawableTop="@drawable/ic_video"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="3"
+        tools:text="Official Trailer ybawrkuybguvybeavuybreuyfhbaerwfiulehrfiuahrwilhufuirhewafilu" />
+
+</android.support.v7.widget.CardView>
