@@ -1,4 +1,4 @@
-package com.rapidsos.dependencyinjection.modules
+package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
 import android.arch.persistence.room.Room
 import android.content.Context

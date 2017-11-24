@@ -1,1 +1,1 @@
-include ':app', ':core', ':helpers', ':database', ':dependencyinjection'
+include ':app', ':core', ':helpers', ':database'

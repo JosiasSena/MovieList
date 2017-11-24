@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.josiassena.core.Result
 import com.josiassena.movielist.R
-import com.rapidsos.helpers.extensions.setImageFromUrl
 import com.josiassena.movielist.movie_info.view.MovieInfoActivity
+import com.rapidsos.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.item_movie.view.*
 import org.jetbrains.anko.AnkoLogger
 
@@ -41,7 +41,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesViewHolder>(), AnkoLogger {
         val context = itemView.context
         val ivMoviePoster = itemView.ivMoviePoster
 
-        val transitionName = ivMoviePoster?.transitionName
+        val transitionName = ivMoviePoster?.transitionName as String
         val options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(context as Activity, ivMoviePoster, transitionName)
 

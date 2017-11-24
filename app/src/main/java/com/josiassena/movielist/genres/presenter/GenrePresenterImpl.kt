@@ -82,14 +82,15 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                         return@filter true
                     }
 
-                    Log.e(TAG, "getGenres filter error: ${response.errorBody().string()}")
+                    Log.e(TAG, "getGenres filter error: ${response.errorBody()?.string()}")
                     return@filter false
                 })
                 .map { response: Response<Genres> -> response.body() }
 
         Observable.merge(database, network)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Genres> {
+                .subscribe(object : Observer<Genres?> {
                     private lateinit var genreDisposable: Disposable
 
                     override fun onSubscribe(disposable: Disposable) {

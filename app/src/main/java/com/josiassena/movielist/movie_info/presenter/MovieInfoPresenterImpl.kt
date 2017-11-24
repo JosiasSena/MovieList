@@ -48,10 +48,10 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
         val network = api.getMoviePreviewsForMovieId(movieId)
                 .filter { response -> response.isSuccessful }
-                .map { response -> response.body().results }
+                .map { response -> response.body()?.results }
                 .filter { results -> results.isNotEmpty() }
                 .collectInto(arrayListOf<MovieVideosResult>(), { list, collector ->
-                    list.addAll(collector)
+                    collector?.let { list.addAll(it) }
                 }).toObservable()
 
         Observable.merge(database, network)

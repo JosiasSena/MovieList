@@ -2,11 +2,11 @@ package com.josiassena.movielist
 
 import android.content.Context
 import com.josiassena.movielist.app_helpers.dependency_injection.DIComponent
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
 import com.josiassena.movielist.genres.presenter.GenrePresenterImplTest
 import com.josiassena.movielist.genres.view.GenreActivityTest
-import com.rapidsos.dependencyinjection.modules.ApiModule
-import com.rapidsos.dependencyinjection.modules.DatabaseModule
-import com.rapidsos.dependencyinjection.modules.NetworkManagerModule
 import dagger.Component
 import org.mockito.Mockito
 import javax.inject.Singleton
