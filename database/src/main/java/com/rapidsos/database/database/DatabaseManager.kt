@@ -17,7 +17,6 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
     private val genresDao = database.genresDao()
     private val genreMovieResultsDao = database.genreMovieResultsDao()
-    private val movieVideosDao = database.movieVideosDao()
     private val movieVideosResultDao = database.movieVideosResultDao()
     private val resultDao = database.resultDao()
 
