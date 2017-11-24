@@ -13,7 +13,6 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -43,7 +42,7 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
         val database = databaseManager.getMoviePreviewsForMovieId(movieId).toObservable()
                 .collectInto(arrayListOf<MovieVideosResult>(), { list, item ->
-                    list.add(item)
+                    list.addAll(item)
                 }).toObservable()
 
         val network = api.getMoviePreviewsForMovieId(movieId)

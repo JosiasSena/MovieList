@@ -2,6 +2,7 @@ package com.rapidsos.database.daos
 
 import android.arch.persistence.room.*
 import com.josiassena.core.MovieVideosResult
+import io.reactivex.Maybe
 
 /**
  * @author Josias Sena
@@ -10,7 +11,7 @@ import com.josiassena.core.MovieVideosResult
 interface MovieVideosResultDao {
 
     @Query("SELECT * FROM movie_videos_result WHERE id LIKE :id")
-    fun getMoviePreviewsForMovieId(id: Int): List<MovieVideosResult>
+    fun getMoviePreviewsForMovieId(id: Int): Maybe<List<MovieVideosResult>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(movieVideosResult: List<MovieVideosResult>)
