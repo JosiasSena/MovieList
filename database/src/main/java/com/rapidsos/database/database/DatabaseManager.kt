@@ -1,12 +1,10 @@
 package com.rapidsos.database.database
 
-import android.support.annotation.WorkerThread
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.core.Genres
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 import io.reactivex.Maybe
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
@@ -44,12 +42,11 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
         }
     }
 
-    @WorkerThread
-    fun getMovieFromId(movieId: Int): Result {
-        return Observable.just(database.resultDao())
+    fun getMovieFromId(movieId: Int): Maybe<Result> {
+        return database.resultDao()
+                .getMovieFromId(movieId)
                 .subscribeOn(Schedulers.io())
-                .map { it.getMovieFromId(movieId) }
-                .blockingFirst()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getGenres(): Maybe<Genres> {

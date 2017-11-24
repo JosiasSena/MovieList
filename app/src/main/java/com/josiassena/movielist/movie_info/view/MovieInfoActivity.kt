@@ -49,8 +49,9 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         savedInstanceState?.let {
             movieId = savedInstanceState.getInt(MOVIE_ID_KEY)
 
-            val result = presenter.getMovieFromId(movieId)
-            updateViewsWithMovie(result)
+            presenter.getMovieFromId(movieId).subscribe { result ->
+                updateViewsWithMovie(result)
+            }
         }
 
         movieId = if (savedInstanceState != null) {
@@ -60,8 +61,10 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
             extras.getInt(MOVIE_ID_KEY)
         }
 
-        result = presenter.getMovieFromId(movieId)
-        updateViewsWithMovie(result)
+        presenter.getMovieFromId(movieId).subscribe { result ->
+            this.result = result
+            updateViewsWithMovie(result)
+        }
 
         ivMoviePoster.setOnClickListener { goToFullScreenActivity(result) }
     }
