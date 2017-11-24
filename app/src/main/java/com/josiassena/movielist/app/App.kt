@@ -3,9 +3,9 @@ package com.josiassena.movielist.app
 import android.app.Application
 import com.josiassena.movielist.app_helpers.dependency_injection.DIComponent
 import com.josiassena.movielist.app_helpers.dependency_injection.DaggerDIComponent
-import com.rapidsos.dependencyinjection.modules.ApiModule
-import com.rapidsos.dependencyinjection.modules.DatabaseModule
-import com.rapidsos.dependencyinjection.modules.NetworkManagerModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
 
 /**
  * File created by josiassena on 7/5/17.
@@ -13,7 +13,7 @@ import com.rapidsos.dependencyinjection.modules.NetworkManagerModule
 class App : Application() {
 
     companion object {
-        @JvmStatic lateinit var component: DIComponent
+        lateinit var component: DIComponent
     }
 
     override fun onCreate() {

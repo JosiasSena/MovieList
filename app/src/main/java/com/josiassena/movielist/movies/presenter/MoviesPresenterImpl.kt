@@ -84,7 +84,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                     when {
                         response.isSuccessful -> return@Predicate true
                         else -> {
-                            Log.e(TAG, "getMoviesForGenreId: ${response.errorBody().string()}")
+                            Log.e(TAG, "getMoviesForGenreId: ${response.errorBody()?.string()}")
 
                             if (isViewAttached) {
                                 view?.hideLoading()
@@ -96,7 +96,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 })
                 .map { response -> response.body() }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<GenreMovieResults> {
+                .subscribe(object : Observer<GenreMovieResults?> {
 
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)
@@ -163,7 +163,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                     when {
                         response.isSuccessful -> return@Predicate true
                         else -> {
-                            Log.e(TAG, "getMoreMoviesForGenreId: ${response.errorBody().string()}")
+                            Log.e(TAG, "getMoreMoviesForGenreId: ${response.errorBody()?.string()}")
 
                             if (isViewAttached) {
                                 view?.hideLoading()
@@ -175,7 +175,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 })
                 .map { response -> response.body() }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<GenreMovieResults> {
+                .subscribe(object : Observer<GenreMovieResults?> {
 
                     override fun onSubscribe(disposable: Disposable) {
                         compositeDisposable.add(disposable)

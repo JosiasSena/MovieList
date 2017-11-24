@@ -1,7 +1,7 @@
 package com.josiassena.movielist
 
 import android.content.Context
-import com.rapidsos.dependencyinjection.modules.ApiModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
 import com.rapidsos.helpers.api.Api
 import com.rapidsos.helpers.api.ApiManager
 import org.mockito.Mockito

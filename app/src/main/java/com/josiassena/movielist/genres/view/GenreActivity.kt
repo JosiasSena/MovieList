@@ -12,8 +12,8 @@ import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.show
 import com.rapidsos.helpers.extensions.showLongSnackBar
 import jp.wasabeef.recyclerview.animators.LandingAnimator
+import kotlinx.android.synthetic.main.activity_genre.*
 import kotlinx.android.synthetic.main.content_genre.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
 
 class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, AnkoLogger {
@@ -26,14 +26,14 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
         App.component.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre)
-        setSupportActionBar(toolbar)
-        toolbar.title = getString(R.string.movie_genres)
 
         initRecView()
 
         refreshLayout.setOnRefreshListener { presenter.getGenres() }
 
         tvNoInternet.setOnClickListener { presenter.checkIsNetworkAvailable() }
+
+        presenter.listenToSearchViewChanges(genreSearchView)
     }
 
     private fun initRecView() {

@@ -1,14 +1,14 @@
 package com.josiassena.movielist.app_helpers.dependency_injection
 
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
 import com.josiassena.movielist.genres.view.GenreActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.dependencyinjection.modules.ApiModule
-import com.rapidsos.dependencyinjection.modules.DatabaseModule
-import com.rapidsos.dependencyinjection.modules.NetworkManagerModule
 import dagger.Component
 import javax.inject.Singleton
 

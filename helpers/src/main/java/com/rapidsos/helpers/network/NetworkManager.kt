@@ -6,7 +6,6 @@ import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -19,20 +18,11 @@ class NetworkManager(val context: Context) {
     fun subscribeToCurrentNetworkState(observer: Observer<Connectivity>) {
         ReactiveNetwork.observeNetworkConnectivity(context)
                 .subscribeOn(Schedulers.io())
-                .doOnEach(object : Observer<Connectivity> {
-                    override fun onError(e: Throwable) {
+                .doOnEach { notification ->
+                    notification.value?.let {
+                        isNetworkAvailable = isInternetConnectionAvailable(it)
                     }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onNext(t: Connectivity) {
-                        isNetworkAvailable = isInternetConnectionAvailable(t)
-                    }
-
-                    override fun onComplete() {
-                    }
-                })
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)
     }
