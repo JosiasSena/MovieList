@@ -3,7 +3,6 @@ package com.josiassena.movielist.genres.presenter
 import android.util.Log
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
-import com.josiassena.core.Genre
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.listener.SearchObservable
@@ -74,7 +73,7 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     override fun getGenres() {
         showLoading()
 
-        val database = databaseManager.getGenresAsObservable()
+        val database = databaseManager.getGenres().toObservable()
 
         val network = api.getMovieGenres()
                 .filter({ response ->
@@ -109,14 +108,14 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                     override fun onError(throwable: Throwable) {
                         Log.e(TAG, "getGenres onError: ${throwable.message}", throwable)
 
-                        val genres: Genres? = databaseManager.getGenres()
-
-                        if (genres != null) {
-                            view?.displayGenres(genres)
-                        } else {
-                            if (!isNetworkAvailable()) {
-                                view?.showEmptyStateView()
-                                view?.showNoInternetConnectionError()
+                        databaseManager.getGenres().subscribe { genres ->
+                            if (genres != null) {
+                                view?.displayGenres(genres)
+                            } else {
+                                if (!isNetworkAvailable()) {
+                                    view?.showEmptyStateView()
+                                    view?.showNoInternetConnectionError()
+                                }
                             }
                         }
                     }
@@ -143,12 +142,6 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     override fun isNetworkAvailable() = networkManager.isNetworkAvailable()
 
     override fun unSubscribe() = compositeDisposable.clear()
-
-    override fun queryGenres(query: String): List<Genre>? {
-        return databaseManager.getGenres()?.genres?.filter { genre ->
-            genre.name.contains(query, ignoreCase = true)
-        }
-    }
 
     override fun checkIsNetworkAvailable() {
         if (isNetworkAvailable()) {
@@ -184,15 +177,25 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                         if (query.isEmpty()) {
                             getGenres()
                         } else {
-                            queryGenres(query)?.let {
-                                if (isViewAttached) {
-                                    view?.displayGenres(Genres(it))
-                                }
-                            }
+                            getGenresFromQuery(query)
                         }
                     }
 
                     override fun onComplete() {
+                    }
+                })
+    }
+
+    private fun getGenresFromQuery(query: String) {
+        databaseManager.getGenres()
+                .map { genres ->
+                    genres.genres.filter { genre ->
+                        genre.name.contains(query, ignoreCase = true)
+                    }
+                }
+                .subscribe({
+                    if (isViewAttached) {
+                        view?.displayGenres(Genres(it))
                     }
                 })
     }

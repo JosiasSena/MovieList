@@ -1,6 +1,5 @@
 package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
-import android.arch.persistence.room.Room
 import android.content.Context
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.database.database.MLDatabase
@@ -16,13 +15,9 @@ open class DatabaseModule(val context: Context) {
 
     @Provides
     @Singleton
-    open fun providesDatabaseManager() = DatabaseManager(context)
+    open fun providesBeaconDatabase(): MLDatabase = MLDatabase.getDatabase(context)
 
     @Provides
     @Singleton
-    open fun providesBeaconDatabase(): MLDatabase =
-            Room.databaseBuilder(context, MLDatabase::class.java, "movie_list_db")
-                    .fallbackToDestructiveMigration()
-                    .build()
-
+    open fun providesDatabaseManager(database: MLDatabase) = DatabaseManager(database)
 }

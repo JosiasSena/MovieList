@@ -1,13 +1,13 @@
 package com.rapidsos.database.database
 
-import android.arch.persistence.room.Room
-import android.content.Context
 import android.support.annotation.WorkerThread
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.core.Genres
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
@@ -15,16 +15,17 @@ import org.jetbrains.anko.doAsync
 /**
  * @author Josias Sena
  */
-class DatabaseManager(context: Context) : AnkoLogger {
+class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
-    private var database: MLDatabase =
-            Room.databaseBuilder(context, MLDatabase::class.java, "movie_list_db")
-                    .fallbackToDestructiveMigration()
-                    .build()
+    private val genresDao = database.genresDao()
+    private val genreMovieResultsDao = database.genreMovieResultsDao()
+    private val movieVideosDao = database.movieVideosDao()
+    private val movieVideosResultDao = database.movieVideosResultDao()
+    private val resultDao = database.resultDao()
 
     fun saveGenres(genres: Genres) {
         doAsync {
-            database.genresDao().insert(genres)
+            genresDao.insert(genres)
         }
     }
 
@@ -37,8 +38,8 @@ class DatabaseManager(context: Context) : AnkoLogger {
     fun saveMovieResults(genreMovieResults: GenreMovieResults?) {
         doAsync {
             genreMovieResults?.let {
-                database.genreMovieResultsDao().insert(it)
-                database.resultDao().insert(genreMovieResults.results)
+                genreMovieResultsDao.insert(it)
+                resultDao.insert(genreMovieResults.results)
             }
         }
     }
@@ -51,18 +52,10 @@ class DatabaseManager(context: Context) : AnkoLogger {
                 .blockingFirst()
     }
 
-    @WorkerThread
-    fun getGenres(): Genres? {
-        return Observable.just(database.genresDao())
+    fun getGenres(): Maybe<Genres> {
+        return genresDao.getGenres()
                 .subscribeOn(Schedulers.io())
-                .map { it.getGenres() }
-                .blockingFirst()
-    }
-
-    fun getGenresAsObservable(): Observable<Genres>? {
-        return Observable.just(database.genresDao())
-                .subscribeOn(Schedulers.io())
-                .map { it.getGenres() }
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     @WorkerThread
