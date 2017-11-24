@@ -4,16 +4,17 @@ import android.graphics.Color
 import android.support.customtabs.CustomTabsIntent
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieVideosResult
+import com.josiassena.core.Result
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.movie_info.view.MovieInfoView
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.api.Api
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -37,13 +38,14 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
         App.component.inject(this)
     }
 
-    override fun getMovieFromId(movieId: Int) = databaseManager.getMovieFromId(movieId)
+    override fun getMovieFromId(movieId: Int): Maybe<Result> =
+            databaseManager.getMovieFromId(movieId)
 
     override fun getPreviewsForMovieFromId(movieId: Int) {
 
         val database = databaseManager.getMoviePreviewsForMovieId(movieId).toObservable()
                 .collectInto(arrayListOf<MovieVideosResult>(), { list, item ->
-                    list.add(item)
+                    list.addAll(item)
                 }).toObservable()
 
         val network = api.getMoviePreviewsForMovieId(movieId)

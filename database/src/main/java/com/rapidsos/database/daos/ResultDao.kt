@@ -2,6 +2,7 @@ package com.rapidsos.database.daos
 
 import android.arch.persistence.room.*
 import com.josiassena.core.Result
+import io.reactivex.Maybe
 
 /**
  * @author Josias Sena
@@ -10,10 +11,10 @@ import com.josiassena.core.Result
 interface ResultDao {
 
     @Query("SELECT * FROM result")
-    fun getAll(): List<Result>
+    fun getAll(): Maybe<List<Result>>
 
     @Query("SELECT * FROM result WHERE id LIKE :movieId LIMIT 1")
-    fun getMovieFromId(movieId: Int): Result
+    fun getMovieFromId(movieId: Int): Maybe<Result>
 
     @Delete
     fun delete(result: Result)
