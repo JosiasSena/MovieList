@@ -66,19 +66,17 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                 .blockingFirst()
     }
 
-    @WorkerThread
-    fun getMoviesForGenre(id: Int?): List<GenreMovieResults> {
-        return Observable.just(database.genreMovieResultsDao())
+    fun getMoviesForGenre(id: Int?): Maybe<List<GenreMovieResults>> {
+        return database.genreMovieResultsDao()
+                .getMoviesForGenre(id)
                 .subscribeOn(Schedulers.io())
-                .map { it.getMoviesForGenre(id) }
-                .blockingFirst()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
-    @WorkerThread
-    fun getMoviesPaginated(id: Int?, page: Int?): List<GenreMovieResults> {
-        return Observable.just(database.genreMovieResultsDao())
+    fun getMoviesPaginated(id: Int?, page: Int?): Maybe<List<GenreMovieResults>> {
+        return database.genreMovieResultsDao()
+                .getMoviesForGenrePaginated(id, page)
                 .subscribeOn(Schedulers.io())
-                .map { it.getMoviesForGenrePaginated(id, page) }
-                .blockingFirst()
+                .observeOn(AndroidSchedulers.mainThread())
     }
 }

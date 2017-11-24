@@ -16,9 +16,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.error
-import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 /**
@@ -128,20 +126,16 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
     }
 
     override fun checkDatabaseForMovies(id: Int?) {
-        doAsync {
-            val moviesResults = databaseManager.getMoviesForGenre(id)
-
-            uiThread {
-                if (moviesResults.isEmpty()) {
-                    if (!networkManager.isNetworkAvailable() && isViewAttached) {
-                        view?.showEmptyStateView()
-                        view?.showNoInternetConnectionError()
-                    }
-                } else {
-                    if (isViewAttached) {
-                        moviesResults.forEach {
-                            view?.displayMovies(it)
-                        }
+        databaseManager.getMoviesForGenre(id).subscribe { moviesResults ->
+            if (moviesResults.isEmpty()) {
+                if (!networkManager.isNetworkAvailable() && isViewAttached) {
+                    view?.showEmptyStateView()
+                    view?.showNoInternetConnectionError()
+                }
+            } else {
+                if (isViewAttached) {
+                    moviesResults.forEach {
+                        view?.displayMovies(it)
                     }
                 }
             }
@@ -207,17 +201,13 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
     }
 
     override fun checkRealmForMoviesPaginated(id: Int, page: Int) {
-        doAsync {
-            val moviesResults = databaseManager.getMoviesPaginated(id, page)
-
-            uiThread {
-                if (isViewAttached) {
-                    if (!networkManager.isNetworkAvailable()) {
-                        view?.showNoInternetConnectionError()
-                    } else {
-                        moviesResults.forEach {
-                            view?.displayMovies(it)
-                        }
+        databaseManager.getMoviesPaginated(id, page).subscribe { movies ->
+            if (isViewAttached) {
+                if (!networkManager.isNetworkAvailable()) {
+                    view?.showNoInternetConnectionError()
+                } else {
+                    movies.forEach {
+                        view?.displayMovies(it)
                     }
                 }
             }
