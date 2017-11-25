@@ -13,21 +13,18 @@ import java.util.concurrent.TimeUnit
 /**
  * @author Josias Sena
  */
-class ApiManager(context: Context) {
+class ApiBuilder(private val context: Context) {
 
-    private var api: Api
+    private var api: Api? = null
 
-    companion object {
-        private val BASE_URL = "https://api.themoviedb.org/3/"
+    fun buildApi(host: String): Api {
+        api = getRetrofitInstance(context, host).create(Api::class.java)
+        return api as Api
     }
 
-    init {
-        api = getRetrofitInstance(context).create(Api::class.java)
-    }
-
-    private fun getRetrofitInstance(context: Context): Retrofit {
+    private fun getRetrofitInstance(context: Context, host: String): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(host)
                 .addConverterFactory(getGSONConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient(context))
@@ -41,7 +38,7 @@ class ApiManager(context: Context) {
                 .create())
     }
 
-    private fun getOkHttpClient(context: Context): OkHttpClient? {
+    private fun getOkHttpClient(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
                 .cache(getCache(context))
                 .connectTimeout(15, TimeUnit.SECONDS)
@@ -51,6 +48,4 @@ class ApiManager(context: Context) {
     }
 
     private fun getCache(context: Context) = Cache(context.cacheDir, 12 * 1024 * 102)
-
-    fun getApi() = api
 }

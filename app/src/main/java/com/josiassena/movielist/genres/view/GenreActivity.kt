@@ -41,6 +41,8 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
         rvGenre.layoutManager = GridLayoutManager(this, 2)
         rvGenre.itemAnimator = LandingAnimator()
         rvGenre.setItemViewCacheSize(50)
+
+        presenter.getGenres()
     }
 
     override fun onPause() {

@@ -1,17 +1,16 @@
 package com.josiassena.movielist.genres.presenter
 
-import android.util.Log
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
+import com.josiassena.movielist.app_helpers.data_providers.GenreProvider
+import com.josiassena.movielist.app_helpers.data_providers.listeners.OnGotGenreListener
 import com.josiassena.movielist.app_helpers.listener.SearchObservable
 import com.josiassena.movielist.genres.view.GenreView
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.api.Api
 import com.rapidsos.helpers.network.NetworkManager
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,7 +18,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
-import retrofit2.Response
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -31,17 +29,13 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     private val compositeDisposable = CompositeDisposable()
 
     @Inject
-    lateinit var api: Api
-
-    @Inject
     lateinit var databaseManager: DatabaseManager
 
     @Inject
     lateinit var networkManager: NetworkManager
 
-    companion object {
-        private val TAG = GenrePresenterImpl::class.java.simpleName
-    }
+    @Inject
+    lateinit var genreProvider: GenreProvider
 
     init {
         App.component.inject(this)
@@ -73,58 +67,27 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     override fun getGenres() {
         showLoading()
 
-        val database = databaseManager.getGenres().toObservable()
+        genreProvider.getGenres(object : OnGotGenreListener {
 
-        val network = api.getMovieGenres()
-                .filter({ response ->
-                    if (response.isSuccessful.and(response.body() != null)) {
-                        return@filter true
-                    }
+            override fun onSuccess(genres: Genres) {
+                hideLoading()
 
-                    Log.e(TAG, "getGenres filter error: ${response.errorBody()?.string()}")
-                    return@filter false
-                })
-                .map { response: Response<Genres> -> response.body() }
+                if (isViewAttached) {
+                    view?.displayGenres(genres)
+                }
+            }
 
-        Observable.merge(database, network)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Genres?> {
-                    private lateinit var genreDisposable: Disposable
+            override fun onError(message: String) {
+                error(message)
 
-                    override fun onSubscribe(disposable: Disposable) {
-                        this.genreDisposable = disposable
-                        compositeDisposable.add(disposable)
-                    }
+                hideLoading()
 
-                    override fun onNext(genres: Genres) {
-                        databaseManager.saveGenres(genres)
-
-                        if (isViewAttached) {
-                            view?.displayGenres(genres)
-                        }
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        Log.e(TAG, "getGenres onError: ${throwable.message}", throwable)
-
-                        databaseManager.getGenres().subscribe { genres ->
-                            if (genres != null) {
-                                view?.displayGenres(genres)
-                            } else {
-                                if (!isNetworkAvailable()) {
-                                    view?.showEmptyStateView()
-                                    view?.showNoInternetConnectionError()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onComplete() {
-                        compositeDisposable.remove(genreDisposable)
-                        hideLoading()
-                    }
-                })
+                if (!isNetworkAvailable()) {
+                    view?.showEmptyStateView()
+                    view?.showNoInternetConnectionError()
+                }
+            }
+        })
     }
 
     private fun showLoading() {
@@ -197,6 +160,8 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
                     if (isViewAttached) {
                         view?.displayGenres(Genres(it))
                     }
+                }, { throwable: Throwable ->
+                    error(throwable.message, throwable)
                 })
     }
 }

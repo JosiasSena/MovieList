@@ -1,7 +1,7 @@
 package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
 import android.content.Context
-import com.rapidsos.helpers.api.ApiManager
+import com.rapidsos.helpers.api.ApiBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,10 +14,10 @@ open class ApiModule(private val context: Context) {
 
     @Provides
     @Singleton
-    open fun providesApiManager() = ApiManager(context)
+    open fun providesApiManager() = ApiBuilder(context)
 
     @Provides
     @Singleton
-    open fun providesMovieApi(apiManager: ApiManager) = apiManager.getApi()
+    open fun providesMovieApi(apiBuilder: ApiBuilder) = apiBuilder.buildApi("https://api.themoviedb.org/3/")
 
 }

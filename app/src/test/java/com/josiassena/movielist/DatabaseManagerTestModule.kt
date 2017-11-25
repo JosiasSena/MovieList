@@ -3,6 +3,7 @@ package com.josiassena.movielist
 import android.content.Context
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
 import com.rapidsos.database.database.DatabaseManager
+import com.rapidsos.database.database.MLDatabase
 import org.mockito.Mockito
 
 /**
@@ -10,6 +11,8 @@ import org.mockito.Mockito
  */
 class DatabaseManagerTestModule(context: Context) : DatabaseModule(context) {
 
-    override fun providesDatabaseManager(): DatabaseManager =
+    override fun providesBeaconDatabase(): MLDatabase = Mockito.mock(MLDatabase::class.java)
+
+    override fun providesDatabaseManager(database: MLDatabase): DatabaseManager =
             Mockito.mock(DatabaseManager::class.java)
 }

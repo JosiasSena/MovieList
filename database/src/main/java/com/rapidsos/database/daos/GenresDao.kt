@@ -2,7 +2,7 @@ package com.rapidsos.database.daos
 
 import android.arch.persistence.room.*
 import com.josiassena.core.Genres
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * @author Josias Sena
@@ -11,7 +11,7 @@ import io.reactivex.Maybe
 interface GenresDao {
 
     @Query("SELECT * FROM genres")
-    fun getGenres(): Maybe<Genres>
+    fun getGenres(): Single<Genres>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(genres: Genres)
