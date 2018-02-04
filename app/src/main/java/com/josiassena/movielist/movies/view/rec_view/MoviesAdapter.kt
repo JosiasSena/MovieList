@@ -15,8 +15,8 @@ import com.rapidsos.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.item_movie.view.*
 import org.jetbrains.anko.AnkoLogger
 
-val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w600/"
-val MOVIE_ID_KEY = "movie_id_key"
+const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
+const val MOVIE_ID_KEY = "movie_id_key"
 
 class MoviesViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 
