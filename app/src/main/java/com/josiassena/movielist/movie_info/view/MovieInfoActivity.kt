@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.content_movie_info.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
 
-val POSTER_URI = "poseter_uri"
+const val POSTER_URI = "poster_uri"
 
 class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), MovieInfoView,
         AnkoLogger {
@@ -49,20 +49,13 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         savedInstanceState?.let {
             movieId = savedInstanceState.getInt(MOVIE_ID_KEY)
 
-            presenter.getMovieFromId(movieId).subscribe { result ->
-                updateViewsWithMovie(result)
-            }
+            presenter.getMovieFromId(movieId).subscribe { updateViewsWithMovie(it) }
         }
 
-        movieId = if (savedInstanceState != null) {
-            savedInstanceState.getInt(MOVIE_ID_KEY)
-        } else {
-            val extras = intent.extras
-            extras.getInt(MOVIE_ID_KEY)
-        }
+        movieId = savedInstanceState?.getInt(MOVIE_ID_KEY) ?: intent.extras.getInt(MOVIE_ID_KEY)
 
-        presenter.getMovieFromId(movieId).subscribe { result ->
-            this.result = result
+        presenter.getMovieFromId(movieId).subscribe {
+            this.result = it
             updateViewsWithMovie(result)
         }
 
@@ -92,9 +85,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         runOnUiThread {
             loadMoviePoster(movie)
 
-            supportActionBar?.let {
-                it.title = movie.title
-            }
+            supportActionBar?.let { it.title = movie.title }
 
             tvReleaseDate.text = resources.getString(R.string.release_date, movie.releaseDate)
             tvDescription.text = movie.overview
@@ -115,7 +106,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         tvReleaseDate.startAnimation(animation)
     }
 
-    private fun getMovieVideos(movie: Result) = presenter.getPreviewsForMovieFromId(movie.id)
+    private fun getMovieVideos(movie: Result) = presenter.getPreviewsForMovieFromId(movie.id as Int)
 
     override fun initPreviewAdapter() {
         rvPreviews.adapter = adapter
