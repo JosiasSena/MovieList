@@ -12,9 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:foregroundGravity="center"
         android:contentDescription="@string/movie_poster_image"
-        android:scaleType="fitCenter"
         android:transitionName="ivMoviePoster"
         tools:src="@drawable/spiderman_homecoming" />
 
