@@ -15,7 +15,8 @@ open class ProvidersModule {
 
     @Provides
     @Singleton
-    open fun providesGenreProvider(api: Api, databaseManager: DatabaseManager) =
-            GenreProvider(api, databaseManager)
+    open fun providesGenreProvider(api: Api, databaseManager: DatabaseManager): GenreProvider {
+        return GenreProvider(api, databaseManager)
+    }
 
 }
