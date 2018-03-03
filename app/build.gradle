@@ -83,6 +83,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.8.9'
     androidTestImplementation 'org.mockito:mockito-android:2.8.9'
 
+    implementation 'com.bogdwellers:pinchtozoom:0.1'
+
     testImplementation 'junit:junit:4.12'
 
     testImplementation 'org.robolectric:robolectric:3.3.2'
