@@ -15,12 +15,11 @@ import java.util.concurrent.TimeUnit
  */
 class ApiBuilder(private val context: Context) {
 
-    private var api: Api? = null
-
-    fun buildApi(host: String): Api {
-        api = getRetrofitInstance(context, host).create(Api::class.java)
-        return api as Api
+    companion object {
+        const val DEFAULT_HOST = "https://api.themoviedb.org/3/"
     }
+
+    fun buildApi(host: String): Api = getRetrofitInstance(context, host).create(Api::class.java)
 
     private fun getRetrofitInstance(context: Context, host: String): Retrofit {
         return Retrofit.Builder()

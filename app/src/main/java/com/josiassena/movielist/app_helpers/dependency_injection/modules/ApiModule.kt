@@ -18,6 +18,6 @@ open class ApiModule(private val context: Context) {
 
     @Provides
     @Singleton
-    open fun providesMovieApi(apiBuilder: ApiBuilder) = apiBuilder.buildApi("https://api.themoviedb.org/3/")
+    open fun providesMovieApi(apiBuilder: ApiBuilder) = apiBuilder.buildApi(ApiBuilder.DEFAULT_HOST)
 
 }
