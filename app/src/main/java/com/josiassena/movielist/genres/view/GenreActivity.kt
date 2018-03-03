@@ -46,9 +46,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
         initRecView()
 
-        savedInstanceState?.let {
-            genresRetrieved = it.getParcelable(GENRES_KEY)
-        }
+        savedInstanceState?.let { genresRetrieved = it.getParcelable(GENRES_KEY) }
 
         getGenres()
 
