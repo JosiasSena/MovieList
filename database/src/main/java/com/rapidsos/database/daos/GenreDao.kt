@@ -2,19 +2,20 @@ package com.rapidsos.database.daos
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
-import com.josiassena.core.MovieVideos
+import com.josiassena.core.Genre
+import io.reactivex.Single
 
 /**
  * @author Josias Sena
  */
 @Dao
-interface MovieVideosDao : DaoRepository<MovieVideos> {
+interface GenreDao : DaoRepository<Genre> {
 
     private companion object {
-        private const val TABLE_NAME = "movie_videos"
+        private const val TABLE_NAME = "genre"
     }
 
     @Query("SELECT * FROM $TABLE_NAME")
-    fun getAll(): List<MovieVideos>
+    fun getGenre(): Single<Genre>
 
 }

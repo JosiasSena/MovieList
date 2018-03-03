@@ -16,7 +16,7 @@ import org.jetbrains.anko.warn
 /**
  * @author Josias Sena
  */
-class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
+open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
     private val genresDao = database.genresDao()
     private val genreMovieResultsDao = database.genreMovieResultsDao()
@@ -39,7 +39,7 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
         doAsync {
             genreMovieResults?.let {
                 genreMovieResultsDao.insert(it)
-                resultDao.insert(genreMovieResults.results)
+                resultDao.insertAll(genreMovieResults.results)
             }
         }
     }
