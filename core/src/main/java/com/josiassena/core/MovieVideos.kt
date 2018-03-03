@@ -12,11 +12,11 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity(tableName = "movie_videos")
-class MovieVideos(@PrimaryKey
-                  @SerializedName("id")
-                  @Expose
-                  var id: String = "",
+data class MovieVideos(@PrimaryKey
+                       @SerializedName("id")
+                       @Expose
+                       var id: String = "",
 
-                  @SerializedName("results")
-                  @Expose
-                  var results: List<@JvmSuppressWildcards MovieVideosResult>? = null) : Parcelable
+                       @SerializedName("results")
+                       @Expose
+                       var results: List<@JvmSuppressWildcards MovieVideosResult>? = null) : Parcelable

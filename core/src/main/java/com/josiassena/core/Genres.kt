@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity(tableName = "genres")
-class Genres(@PrimaryKey
-             @SerializedName("genres")
-             @Expose
-             var genres: List<@JvmSuppressWildcards Genre> = arrayListOf()) : Parcelable
+data class Genres(@PrimaryKey
+                  @SerializedName("genres")
+                  @Expose
+                  var genres: List<@JvmSuppressWildcards Genre> = arrayListOf()) : Parcelable

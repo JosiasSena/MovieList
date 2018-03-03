@@ -13,25 +13,25 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity(tableName = "genre_movie_results")
-class GenreMovieResults(@PrimaryKey
-                        @SerializedName("id")
-                        @Expose
-                        var id: Int = 0,
+data class GenreMovieResults(@PrimaryKey
+                             @SerializedName("id")
+                             @Expose
+                             var id: Int = 0,
 
-                        @SerializedName("page")
-                        @Expose
-                        var page: Int? = null,
+                             @SerializedName("page")
+                             @Expose
+                             var page: Int? = null,
 
-                        @SerializedName("results")
-                        @Expose
-                        var results: List<@JvmSuppressWildcards Result> = arrayListOf(),
+                             @SerializedName("results")
+                             @Expose
+                             var results: List<@JvmSuppressWildcards Result> = arrayListOf(),
 
-                        @SerializedName("total_pages")
-                        @ColumnInfo(name = "total_pages")
-                        @Expose
-                        var totalPages: Int? = null,
+                             @SerializedName("total_pages")
+                             @ColumnInfo(name = "total_pages")
+                             @Expose
+                             var totalPages: Int? = null,
 
-                        @SerializedName("total_results")
-                        @ColumnInfo(name = "total_results")
-                        @Expose
-                        var totalResults: Int? = null) : Parcelable
+                             @SerializedName("total_results")
+                             @ColumnInfo(name = "total_results")
+                             @Expose
+                             var totalResults: Int? = null) : Parcelable

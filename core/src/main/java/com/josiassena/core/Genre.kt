@@ -12,11 +12,11 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity
-class Genre(@PrimaryKey
-            @SerializedName("id")
-            @Expose
-            var id: Int = 0,
+data class Genre(@PrimaryKey
+                 @SerializedName("id")
+                 @Expose
+                 var id: Int = 0,
 
-            @SerializedName("name")
-            @Expose
-            var name: String? = null) : Parcelable
+                 @SerializedName("name")
+                 @Expose
+                 var name: String? = null) : Parcelable
