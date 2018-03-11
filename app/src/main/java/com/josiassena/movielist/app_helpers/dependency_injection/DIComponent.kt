@@ -17,8 +17,8 @@ import javax.inject.Singleton
  * @author Josias Sena
  */
 @Singleton
-@Component(modules = arrayOf(ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
-        ProvidersModule::class))
+@Component(modules = [ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
+    ProvidersModule::class])
 interface DIComponent {
     fun inject(mainPresenterImpl: GenrePresenterImpl)
     fun inject(moviesPresenterImpl: MoviesPresenterImpl)
