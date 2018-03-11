@@ -25,7 +25,6 @@ import javax.inject.Inject
  */
 class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPresenter, AnkoLogger {
 
-    private val youtubeBaseUrl = "https://www.youtube.com/watch?v="
     private val compositeDisposable = CompositeDisposable()
 
     @Inject
@@ -38,32 +37,21 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
         App.component.inject(this)
     }
 
-    override fun getMovieFromId(movieId: Int): Maybe<Result> =
-            databaseManager.getMovieFromId(movieId)
+    companion object {
+        private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
+    }
+
+    override fun getMovieFromId(movieId: Int): Maybe<Result> = databaseManager.getMovieFromId(movieId)
 
     override fun getPreviewsForMovieFromId(movieId: Int) {
-
-        val database = databaseManager.getMoviePreviewsForMovieId(movieId).toObservable()
-                .collectInto(arrayListOf<MovieVideosResult>(), { list, item ->
-                    list.addAll(item)
-                }).toObservable()
-
-        val network = api.getMoviePreviewsForMovieId(movieId)
-                .filter { response -> response.isSuccessful }
-                .map { response -> response.body()?.results }
-                .filter { results -> results.isNotEmpty() }
-                .collectInto(arrayListOf<MovieVideosResult>(), { list, collector ->
-                    collector?.let { list.addAll(it) }
-                }).toObservable()
-
-        Observable.merge(database, network)
+        Observable.merge(getMoviesFromDatabaseObservable(movieId), getMoviesFromNetworkObservable(movieId))
                 .subscribeOn(Schedulers.io())
                 .doOnEach { result -> savePreviewsToDatabase(result.value) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<List<MovieVideosResult>> {
 
-                    override fun onSubscribe(d: Disposable) {
-                        compositeDisposable.add(d)
+                    override fun onSubscribe(disposable: Disposable) {
+                        compositeDisposable.add(disposable)
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -88,6 +76,25 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                 })
     }
 
+    private fun getMoviesFromDatabaseObservable(movieId: Int):
+            Observable<ArrayList<MovieVideosResult>> {
+        return databaseManager.getMoviePreviewsForMovieId(movieId).toObservable()
+                .collectInto(arrayListOf<MovieVideosResult>(), { list, item ->
+                    list.addAll(item)
+                }).toObservable()
+    }
+
+    private fun getMoviesFromNetworkObservable(movieId: Int):
+            Observable<ArrayList<MovieVideosResult>> {
+        return api.getMoviePreviewsForMovieId(movieId)
+                .filter { response -> response.isSuccessful }
+                .map { response -> response.body()?.results }
+                .filter { results -> results.isNotEmpty() }
+                .collectInto(arrayListOf<MovieVideosResult>(), { list, collector ->
+                    collector?.let { list.addAll(it) }
+                }).toObservable()
+    }
+
     override fun unSubscribe() = compositeDisposable.clear()
 
     private fun savePreviewsToDatabase(previewsList: ArrayList<MovieVideosResult>?) {
@@ -96,7 +103,7 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
     override fun playVideoFromPreview(preview: MovieVideosResult) {
         if (isViewAttached) {
-            view?.playVideo(youtubeBaseUrl + preview.key)
+            view?.playVideo(YOUTUBE_BASE_URL + preview.key)
         }
     }
 
