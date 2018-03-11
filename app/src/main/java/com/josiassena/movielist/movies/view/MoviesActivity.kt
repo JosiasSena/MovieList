@@ -58,16 +58,14 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     }
 
     private fun getProperGridLayoutManager(): GridLayoutManager {
-        var layoutManager = GridLayoutManager(this, 2)
+        val currentDeviceScreenSize = resources.configuration.screenLayout and
+                Configuration.SCREENLAYOUT_SIZE_MASK
 
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-                screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            layoutManager = GridLayoutManager(this, 3)
+        return when (currentDeviceScreenSize) {
+            Configuration.SCREENLAYOUT_SIZE_LARGE,
+            Configuration.SCREENLAYOUT_SIZE_XLARGE -> GridLayoutManager(this, 3)
+            else -> GridLayoutManager(this, 2)
         }
-
-        return layoutManager
     }
 
     private fun enablePagination(layoutManager: GridLayoutManager) {
@@ -102,11 +100,6 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     override fun onPause() {
         super.onPause()
         hideLoading()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unSubscribe()
     }
 
     override fun showLoading() {
