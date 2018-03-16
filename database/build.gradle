@@ -1,17 +1,16 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion Versions.compileSdkVersion
+    buildToolsVersion Versions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+        versionCode Versions.versionCode
+        versionName Versions.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,31 +28,28 @@ dependencies {
     implementation project(':core')
     implementation project(':helpers')
 
-    implementation "com.android.support:support-v4:$support_version"
-    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation Deps.rxJava2
+    implementation Deps.rxAndroid2
+    implementation Deps.rxKotlin2
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation Deps.kotlin
+    implementation Deps.anko
+    implementation Deps.ankoCoroutines
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-commons:$anko_version"
-    implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
+    api Deps.room
+    api Deps.rxJavaForRoom
+    kapt Deps.roomCompiler
 
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    implementation "android.arch.persistence.room:rxjava2:$room_version"
-    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation Deps.mockito
+    testImplementation Deps.mockito
 
-    implementation 'org.mockito:mockito-inline:2.8.9'
-    testImplementation 'org.mockito:mockito-inline:2.8.9'
+    testImplementation Deps.jUnit
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation Deps.robolectric
 
-    testImplementation 'org.robolectric:robolectric:3.3.2'
+    testImplementation Deps.assertJCore
 
-    testImplementation 'org.assertj:assertj-core:3.8.0'
-
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation(Deps.espressoCore, {
         exclude module: 'support-annotations'
     })
 }

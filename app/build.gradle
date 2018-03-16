@@ -4,15 +4,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion Versions.compileSdkVersion
+    buildToolsVersion Versions.buildToolsVersion
 
     defaultConfig {
         applicationId "com.josiassena.movielist"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+        versionCode Versions.versionCode
+        versionName Versions.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -38,71 +39,63 @@ dependencies {
     implementation project(':helpers')
     implementation project(':database')
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation Deps.multidex
 
-    implementation "com.android.support:support-v4:$support_version"
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:design:$support_version"
-    implementation "com.android.support:cardview-v7:$support_version"
-    implementation "com.android.support:customtabs:$support_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation Deps.supportV4
+    implementation Deps.supportV7
+    implementation Deps.supportDesign
+    implementation Deps.supportCardviewV7
+    implementation Deps.supportCustomtabs
+    implementation Deps.constraintLayout
 
-    implementation 'com.hannesdorfmann.mosby:mvp:2.0.1'
+    implementation Deps.mosbyMvp
 
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation Deps.gson
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+    implementation Deps.retrofit
+    implementation Deps.retrofitRxJavaAdapter
+    implementation Deps.retrofitGsonConverter
+    implementation Deps.okHttp
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation Deps.rxJava2
+    implementation Deps.rxAndroid2
+    implementation Deps.rxKotlin2
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'jp.wasabeef:recyclerview-animators:2.2.7'
+    implementation Deps.picasso
+    implementation Deps.wasabeefRecViewAnimator
 
-    implementation 'com.github.pwittchen:reactivenetwork-rx2:0.12.1'
+    implementation Deps.rxNetwork2
 
-    implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
+    implementation Deps.materialSearchBar
 
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
-    implementation 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0'
+    implementation Deps.kotlin
+    implementation Deps.anko
+    implementation Deps.ankoCoroutines
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-commons:$anko_version"
-    implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
+    implementation Deps.mockito
+    testImplementation Deps.mockito
+    androidTestImplementation Deps.mockitoAndroid
 
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    implementation "android.arch.persistence.room:rxjava2:$room_version"
-    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation Deps.pinchToZoom
 
-    implementation 'org.mockito:mockito-inline:2.8.9'
-    testImplementation 'org.mockito:mockito-inline:2.8.9'
-    androidTestImplementation 'org.mockito:mockito-android:2.8.9'
+    testImplementation Deps.jUnit
 
-    implementation 'com.bogdwellers:pinchtozoom:0.1'
+    testImplementation Deps.robolectric
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation Deps.assertJCore
 
-    testImplementation 'org.robolectric:robolectric:3.3.2'
+    implementation Deps.dagger
+    kapt Deps.daggerCompiler
 
-    testImplementation 'org.assertj:assertj-core:3.8.0'
+    androidTestImplementation Deps.dagger
+    kaptAndroidTest Deps.daggerCompiler
 
-    implementation 'com.google.dagger:dagger:2.11'
-    kapt 'com.google.dagger:dagger-compiler:2.11'
+    testImplementation Deps.dagger
+    kaptTest Deps.daggerCompiler
 
-    androidTestImplementation "com.google.dagger:dagger:2.11"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:2.11"
-
-    testImplementation "com.google.dagger:dagger:2.11"
-    kaptTest "com.google.dagger:dagger-compiler:2.11"
-
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation(Deps.espressoCore, {
         exclude module: 'support-annotations'
     })
 
-    androidTestCompile 'com.github.andrzejchm.RESTMock:android:0.2.2'
+    androidTestCompile Deps.RESTMock
 }
