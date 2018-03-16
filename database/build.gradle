@@ -40,6 +40,8 @@ dependencies {
     api Deps.rxJavaForRoom
     kapt Deps.roomCompiler
 
+    implementation Deps.gson
+
     implementation Deps.mockito
     testImplementation Deps.mockito
 
