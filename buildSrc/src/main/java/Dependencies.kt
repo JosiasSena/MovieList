@@ -1,7 +1,6 @@
 /**
  * @author Josias Sena
  */
-
 object Versions {
 
     const val compileSdkVersion = 27
