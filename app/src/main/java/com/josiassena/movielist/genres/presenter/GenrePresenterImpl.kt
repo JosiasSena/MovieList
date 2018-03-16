@@ -34,7 +34,7 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
 
         networkManager.subscribeToCurrentNetworkState(object : Observer<Connectivity> {
             override fun onSubscribe(disposable: Disposable) {
-                GenreLifeCycleObserver.compositeDisposable.add(disposable)
+                GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
             }
 
             override fun onError(throwable: Throwable) {
@@ -55,7 +55,7 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
         genreProvider.getGenres(object : MaybeObserver<Genres?> {
 
             override fun onSubscribe(disposable: Disposable) {
-                GenreLifeCycleObserver.compositeDisposable.add(disposable)
+                GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
             }
 
             override fun onSuccess(genres: Genres) {

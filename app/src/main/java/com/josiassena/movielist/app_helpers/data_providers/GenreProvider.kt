@@ -1,13 +1,12 @@
 package com.josiassena.movielist.app_helpers.data_providers
 
+import android.support.annotation.VisibleForTesting
 import com.josiassena.core.Genres
-import com.josiassena.movielist.app_helpers.data_providers.listeners.OnGotGenreListener
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.api.Api
 import io.reactivex.MaybeObserver
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -19,53 +18,39 @@ import javax.inject.Inject
 class GenreProvider @Inject constructor(private val api: Api,
                                         private val databaseManager: DatabaseManager) : AnkoLogger {
 
+    private lateinit var observer: MaybeObserver<Genres?>
+
     /**
-     * Provides a list of genres to the [listener]. The genres comes from either the local
+     * Provides a list of genres to the [observer]. The genres comes from either the local
      * database or the web.
      *
-     * @param listener the lister to notify on success or error
+     * @param observer the lister to notify on success or error
      */
-    fun getGenres(listener: OnGotGenreListener) {
-        val database = databaseManager.getGenres().toObservable()
+    fun getGenres(observer: MaybeObserver<Genres?>) {
+        this.observer = observer
+        Observable.merge(getGenresDatabaseObservable(), getGenresNetworkObservable())
+                .subscribeOn(Schedulers.io())
+                .firstElement()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer)
+    }
 
-        val network = api.getMovieGenres()
+    @VisibleForTesting()
+    fun getGenresNetworkObservable(): Observable<Genres?> {
+        return api.getMovieGenres()
                 .filter({ response ->
                     if (response.isSuccessful.and(response.body() != null)) {
                         return@filter true
                     }
 
                     error("getGenres error: ${response.errorBody()?.string()}")
+                    observer.onError(Throwable(response.message()))
                     return@filter false
                 })
                 .map { return@map it.body() }
-                .doOnNext { genres: Genres? ->
-                    genres?.let {
-                        databaseManager.saveGenres(it)
-                    }
-                }
-
-        Observable.merge(database, network)
-                .subscribeOn(Schedulers.io())
-                .firstElement()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : MaybeObserver<Genres?> {
-                    private lateinit var genreDisposable: Disposable
-
-                    override fun onSubscribe(disposable: Disposable) {
-                        this.genreDisposable = disposable
-                    }
-
-                    override fun onSuccess(genres: Genres) {
-                        listener.onSuccess(genres)
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        listener.onError(throwable.message.toString())
-                    }
-
-                    override fun onComplete() {
-                        genreDisposable.dispose()
-                    }
-                })
+                .doOnNext { it?.let { databaseManager.saveGenres(it) } }
     }
+
+    @VisibleForTesting
+    fun getGenresDatabaseObservable(): Observable<Genres> = databaseManager.getGenres().toObservable()
 }

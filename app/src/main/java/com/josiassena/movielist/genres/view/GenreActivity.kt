@@ -85,7 +85,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<String> {
                     override fun onSubscribe(disposable: Disposable) {
-                        GenreLifeCycleObserver.compositeDisposable.add(disposable)
+                        GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
                     }
 
                     override fun onError(throwable: Throwable) {

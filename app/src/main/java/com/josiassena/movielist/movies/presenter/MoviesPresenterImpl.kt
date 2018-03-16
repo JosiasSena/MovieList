@@ -11,7 +11,6 @@ import com.rapidsos.helpers.api.Api
 import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
@@ -23,8 +22,6 @@ import javax.inject.Inject
  * @author Josias Sena
  */
 class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, AnkoLogger {
-
-    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     lateinit var api: Api
@@ -97,7 +94,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 .subscribe(object : Observer<GenreMovieResults?> {
 
                     override fun onSubscribe(disposable: Disposable) {
-                        compositeDisposable.add(disposable)
+                        MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -172,7 +169,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 .subscribe(object : Observer<GenreMovieResults?> {
 
                     override fun onSubscribe(disposable: Disposable) {
-                        compositeDisposable.add(disposable)
+                        MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -212,9 +209,5 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 }
             }
         }
-    }
-
-    override fun unSubscribe() {
-        compositeDisposable.clear()
     }
 }

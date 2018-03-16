@@ -11,6 +11,7 @@ import com.josiassena.core.Genre
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.movielist.R
 import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
+import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.movies.view.rec_view.MoviesAdapter
 import kotlinx.android.synthetic.main.content_movies.*
@@ -39,6 +40,8 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         getCurrentGenre()
 
         movieRefreshLayout.setOnRefreshListener { refreshMovies() }
+
+        lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
     }
 
     private fun getCurrentGenre() {

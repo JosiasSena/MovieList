@@ -13,5 +13,4 @@ interface MoviesPresenter : MvpPresenter<MoviesView> {
     fun checkDatabaseForMovies(id: Int?)
     fun saveMovieListToDatabase(results: GenreMovieResults?)
     fun checkRealmForMoviesPaginated(id: Int, page: Int)
-    fun unSubscribe()
 }
