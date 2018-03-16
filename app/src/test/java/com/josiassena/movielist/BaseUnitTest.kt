@@ -5,8 +5,7 @@ import com.josiassena.movielist.app_helpers.dependency_injection.DIComponent
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
-import com.josiassena.movielist.genres.presenter.GenrePresenterImplTest
-import com.josiassena.movielist.genres.view.GenreActivityTest
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
 import dagger.Component
 import org.mockito.Mockito
 import javax.inject.Singleton
@@ -19,12 +18,9 @@ open class BaseUnitTest {
     lateinit var component: TestComponent
 
     @Singleton
-    @Component(modules = arrayOf(ApiModule::class, NetworkManagerModule::class,
-            DatabaseModule::class))
-    interface TestComponent : DIComponent {
-        fun inject(genrePresenterImplTest: GenrePresenterImplTest)
-        fun inject(genreActivityTest: GenreActivityTest)
-    }
+    @Component(modules = [ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
+        ProvidersModule::class])
+    interface TestComponent : DIComponent
 
     @Throws(Exception::class)
     open fun setUp() {
@@ -32,8 +28,9 @@ open class BaseUnitTest {
 
         component = DaggerBaseUnitTest_TestComponent.builder()
                 .apiModule(ApiTestModule(context))
-                .netWorkManagerModule(NetworkManagerTestModule(context))
+                .networkManagerModule(NetworkManagerTestModule(context))
                 .databaseModule(DatabaseManagerTestModule(context))
+                .providersModule(ProvidersTestModule())
                 .build()
     }
 }

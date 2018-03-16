@@ -1,22 +1,21 @@
 package com.rapidsos.database.daos
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
 import com.josiassena.core.Genres
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * @author Josias Sena
  */
 @Dao
-interface GenresDao {
+interface GenresDao : DaoRepository<Genres> {
 
-    @Query("SELECT * FROM genres")
-    fun getGenres(): Maybe<Genres>
+    private companion object {
+        private const val TABLE_NAME = "genres"
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(genres: Genres)
-
-    @Delete
-    fun delete(genres: Genres)
+    @Query("SELECT * FROM $TABLE_NAME")
+    fun getGenres(): Single<Genres>
 
 }

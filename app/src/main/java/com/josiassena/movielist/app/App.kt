@@ -6,6 +6,7 @@ import com.josiassena.movielist.app_helpers.dependency_injection.DaggerDICompone
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
 
 /**
  * File created by josiassena on 7/5/17.
@@ -26,6 +27,7 @@ class App : Application() {
                 .apiModule(ApiModule(this))
                 .networkManagerModule(NetworkManagerModule(this))
                 .databaseModule(DatabaseModule(this))
+                .providersModule(ProvidersModule())
                 .build()
     }
 }

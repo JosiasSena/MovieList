@@ -5,15 +5,18 @@ import com.josiassena.core.Genres
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 import io.reactivex.Maybe
+import io.reactivex.Single
+import io.reactivex.SingleSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.warn
 
 /**
  * @author Josias Sena
  */
-class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
+open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
     private val genresDao = database.genresDao()
     private val genreMovieResultsDao = database.genreMovieResultsDao()
@@ -36,7 +39,7 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
         doAsync {
             genreMovieResults?.let {
                 genreMovieResultsDao.insert(it)
-                resultDao.insert(genreMovieResults.results)
+                resultDao.insertAll(genreMovieResults.results)
             }
         }
     }
@@ -48,9 +51,14 @@ class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getGenres(): Maybe<Genres> {
+    fun getGenres(): Single<Genres> {
         return genresDao.getGenres()
                 .subscribeOn(Schedulers.io())
+                .onErrorResumeNext { throwable: Throwable ->
+                    SingleSource {
+                        warn(throwable.message, throwable)
+                    }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 

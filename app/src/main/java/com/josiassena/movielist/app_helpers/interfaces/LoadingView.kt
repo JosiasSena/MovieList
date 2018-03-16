@@ -1,4 +1,4 @@
-package com.josiassena.movielist.app_helpers.view_interfaces
+package com.josiassena.movielist.app_helpers.interfaces
 
 /**
  * @author Josias Sena

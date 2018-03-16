@@ -11,6 +11,7 @@ import com.josiassena.core.Genre
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.movielist.R
 import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
+import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.movies.view.rec_view.MoviesAdapter
 import kotlinx.android.synthetic.main.content_movies.*
@@ -39,6 +40,8 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         getCurrentGenre()
 
         movieRefreshLayout.setOnRefreshListener { refreshMovies() }
+
+        lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
     }
 
     private fun getCurrentGenre() {
@@ -58,16 +61,14 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     }
 
     private fun getProperGridLayoutManager(): GridLayoutManager {
-        var layoutManager = GridLayoutManager(this, 2)
+        val currentDeviceScreenSize = resources.configuration.screenLayout and
+                Configuration.SCREENLAYOUT_SIZE_MASK
 
-        val screenSize = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-                screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            layoutManager = GridLayoutManager(this, 3)
+        return when (currentDeviceScreenSize) {
+            Configuration.SCREENLAYOUT_SIZE_LARGE,
+            Configuration.SCREENLAYOUT_SIZE_XLARGE -> GridLayoutManager(this, 3)
+            else -> GridLayoutManager(this, 2)
         }
-
-        return layoutManager
     }
 
     private fun enablePagination(layoutManager: GridLayoutManager) {
@@ -102,11 +103,6 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     override fun onPause() {
         super.onPause()
         hideLoading()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unSubscribe()
     }
 
     override fun showLoading() {

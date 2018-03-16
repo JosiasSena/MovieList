@@ -1,26 +1,18 @@
 package com.josiassena.movielist.genres.presenter
 
-import android.util.Log
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
-import com.josiassena.movielist.app_helpers.listener.SearchObservable
+import com.josiassena.movielist.app_helpers.data_providers.GenreProvider
 import com.josiassena.movielist.genres.view.GenreView
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.api.Api
 import com.rapidsos.helpers.network.NetworkManager
-import io.reactivex.Observable
+import io.reactivex.MaybeObserver
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
-import retrofit2.Response
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -28,41 +20,28 @@ import javax.inject.Inject
  */
 class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLogger {
 
-    private val compositeDisposable = CompositeDisposable()
-
-    @Inject
-    lateinit var api: Api
-
     @Inject
     lateinit var databaseManager: DatabaseManager
 
     @Inject
     lateinit var networkManager: NetworkManager
 
-    companion object {
-        private val TAG = GenrePresenterImpl::class.java.simpleName
-    }
+    @Inject
+    lateinit var genreProvider: GenreProvider
 
     init {
         App.component.inject(this)
 
         networkManager.subscribeToCurrentNetworkState(object : Observer<Connectivity> {
             override fun onSubscribe(disposable: Disposable) {
-                compositeDisposable.add(disposable)
+                GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
             }
 
-            override fun onError(e: Throwable) {
-                error(e.message, e)
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
             }
 
             override fun onNext(connectivity: Connectivity) {
-                if (networkManager.isInternetConnectionAvailable(connectivity)) {
-                    getGenres()
-                } else {
-                    if (isViewAttached) {
-                        view?.showNoInternetConnectionError()
-                    }
-                }
             }
 
             override fun onComplete() {
@@ -73,58 +52,34 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
     override fun getGenres() {
         showLoading()
 
-        val database = databaseManager.getGenres().toObservable()
+        genreProvider.getGenres(object : MaybeObserver<Genres?> {
 
-        val network = api.getMovieGenres()
-                .filter({ response ->
-                    if (response.isSuccessful.and(response.body() != null)) {
-                        return@filter true
-                    }
+            override fun onSubscribe(disposable: Disposable) {
+                GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
+            }
 
-                    Log.e(TAG, "getGenres filter error: ${response.errorBody()?.string()}")
-                    return@filter false
-                })
-                .map { response: Response<Genres> -> response.body() }
+            override fun onSuccess(genres: Genres) {
+                hideLoading()
 
-        Observable.merge(database, network)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Genres?> {
-                    private lateinit var genreDisposable: Disposable
+                if (isViewAttached) {
+                    view?.displayGenres(genres)
+                }
+            }
 
-                    override fun onSubscribe(disposable: Disposable) {
-                        this.genreDisposable = disposable
-                        compositeDisposable.add(disposable)
-                    }
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
 
-                    override fun onNext(genres: Genres) {
-                        databaseManager.saveGenres(genres)
+                hideLoading()
 
-                        if (isViewAttached) {
-                            view?.displayGenres(genres)
-                        }
-                    }
+                if (!isNetworkAvailable()) {
+                    view?.showEmptyStateView()
+                    view?.showNoInternetConnectionError()
+                }
+            }
 
-                    override fun onError(throwable: Throwable) {
-                        Log.e(TAG, "getGenres onError: ${throwable.message}", throwable)
-
-                        databaseManager.getGenres().subscribe { genres ->
-                            if (genres != null) {
-                                view?.displayGenres(genres)
-                            } else {
-                                if (!isNetworkAvailable()) {
-                                    view?.showEmptyStateView()
-                                    view?.showNoInternetConnectionError()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onComplete() {
-                        compositeDisposable.remove(genreDisposable)
-                        hideLoading()
-                    }
-                })
+            override fun onComplete() {
+            }
+        })
     }
 
     private fun showLoading() {
@@ -141,8 +96,6 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
 
     override fun isNetworkAvailable() = networkManager.isNetworkAvailable()
 
-    override fun unSubscribe() = compositeDisposable.clear()
-
     override fun checkIsNetworkAvailable() {
         if (isNetworkAvailable()) {
 
@@ -158,45 +111,19 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
         }
     }
 
-    override fun listenToSearchViewChanges(genreSearchView: MaterialSearchBar) {
-        SearchObservable.fromView(genreSearchView)
-                .subscribeOn(Schedulers.io())
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<String> {
-                    override fun onSubscribe(d: Disposable) {
-                        compositeDisposable.add(d)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        error(e.message, e)
-                    }
-
-                    override fun onNext(query: String) {
-                        if (query.isEmpty()) {
-                            getGenres()
-                        } else {
-                            getGenresFromQuery(query)
-                        }
-                    }
-
-                    override fun onComplete() {
-                    }
-                })
-    }
-
-    private fun getGenresFromQuery(query: String) {
+    override fun getGenresFromQuery(query: String) {
         databaseManager.getGenres()
-                .map { genres ->
-                    genres.genres.filter { genre ->
-                        genre.name.contains(query, ignoreCase = true)
+                .map {
+                    it.genres.filter {
+                        it.name?.contains(query, ignoreCase = true) as Boolean
                     }
                 }
                 .subscribe({
                     if (isViewAttached) {
                         view?.displayGenres(Genres(it))
                     }
+                }, { throwable: Throwable ->
+                    error(throwable.message, throwable)
                 })
     }
 }

@@ -27,8 +27,9 @@ class NetworkManager(val context: Context) {
                 .subscribe(observer)
     }
 
-    fun isInternetConnectionAvailable(connectivity: Connectivity) =
-            connectivity.isAvailable && connectivity.state == NetworkInfo.State.CONNECTED
+    fun isInternetConnectionAvailable(connectivity: Connectivity): Boolean {
+        return connectivity.isAvailable && connectivity.state == NetworkInfo.State.CONNECTED
+    }
 
     fun isNetworkAvailable() = isNetworkAvailable
 

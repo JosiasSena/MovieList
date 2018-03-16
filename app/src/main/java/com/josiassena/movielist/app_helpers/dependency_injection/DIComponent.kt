@@ -3,6 +3,7 @@ package com.josiassena.movielist.app_helpers.dependency_injection
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.DatabaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.NetworkManagerModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
 import com.josiassena.movielist.genres.view.GenreActivity
@@ -16,7 +17,8 @@ import javax.inject.Singleton
  * @author Josias Sena
  */
 @Singleton
-@Component(modules = arrayOf(ApiModule::class, NetworkManagerModule::class, DatabaseModule::class))
+@Component(modules = [ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
+    ProvidersModule::class])
 interface DIComponent {
     fun inject(mainPresenterImpl: GenrePresenterImpl)
     fun inject(moviesPresenterImpl: MoviesPresenterImpl)

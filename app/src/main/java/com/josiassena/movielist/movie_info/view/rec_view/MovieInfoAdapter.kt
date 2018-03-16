@@ -15,14 +15,14 @@ class MovieInfoAdapter(private val presenter: MovieInfoPresenterImpl) : Recycler
 
     private val previews = arrayListOf<MovieVideosResult>()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MovieInfoViewHolder {
-        val layoutInflater = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieInfoViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_movie_info_preview, parent, false)
         return MovieInfoViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MovieInfoViewHolder?, position: Int) {
-        val itemView = holder?.itemView
+    override fun onBindViewHolder(holder: MovieInfoViewHolder, position: Int) {
+        val itemView = holder.itemView
         val preview = previews[position]
 
         itemView?.findViewById<TextView>(R.id.tvPreviewTitle)?.text = preview.name

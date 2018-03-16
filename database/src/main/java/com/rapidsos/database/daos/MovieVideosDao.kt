@@ -1,7 +1,6 @@
 package com.rapidsos.database.daos
 
 import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Query
 import com.josiassena.core.MovieVideos
 
@@ -9,12 +8,13 @@ import com.josiassena.core.MovieVideos
  * @author Josias Sena
  */
 @Dao
-interface MovieVideosDao {
+interface MovieVideosDao : DaoRepository<MovieVideos> {
 
-    @Query("SELECT * FROM movie_videos")
+    private companion object {
+        private const val TABLE_NAME = "movie_videos"
+    }
+
+    @Query("SELECT * FROM $TABLE_NAME")
     fun getAll(): List<MovieVideos>
-
-    @Delete
-    fun delete(movieVideo: MovieVideos)
 
 }
