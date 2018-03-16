@@ -18,11 +18,9 @@ open class BaseUnitTest {
     lateinit var component: TestComponent
 
     @Singleton
-    @Component(modules = arrayOf(ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
-            ProvidersModule::class))
-    interface TestComponent : DIComponent {
-        fun inject(genreProviderTest: GenreProviderTest)
-    }
+    @Component(modules = [ApiModule::class, NetworkManagerModule::class, DatabaseModule::class,
+        ProvidersModule::class])
+    interface TestComponent : DIComponent
 
     @Throws(Exception::class)
     open fun setUp() {
