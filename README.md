@@ -10,5 +10,5 @@ This application is pretty much my playground to test new Android
 libraries, architectural patterns, best practices, etc.
 
 ## Screenshots
-| ![](screenshots/action_genre.png) | ![](screenshots/home_screen.png) | ![](screenshots/movie_sample.png)
+| ![](screenshots/home_screen.png) | ![](screenshots/action_genre.png) | ![](screenshots/movie_sample.png)
 |:---|:---|:---|
