@@ -37,6 +37,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core')
     implementation project(':helpers')
+    implementation project(':movieapi')
     implementation project(':database')
 
     implementation Deps.multidex

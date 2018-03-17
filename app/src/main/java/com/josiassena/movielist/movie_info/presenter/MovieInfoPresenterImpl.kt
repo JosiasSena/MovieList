@@ -5,10 +5,10 @@ import android.support.customtabs.CustomTabsIntent
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
+import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.movie_info.view.MovieInfoView
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.api.Api
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Observer

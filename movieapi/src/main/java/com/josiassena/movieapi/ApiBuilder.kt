@@ -1,4 +1,4 @@
-package com.rapidsos.helpers.api
+package com.josiassena.movieapi
 
 import android.content.Context
 import com.google.gson.FieldNamingPolicy

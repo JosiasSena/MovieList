@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Versions.compileSdkVersion
-    buildToolsVersion Versions.buildToolsVersion
 
     defaultConfig {
         minSdkVersion Versions.minSdkVersion
@@ -13,6 +12,7 @@ android {
         versionName Versions.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -21,26 +21,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core')
-    implementation project(':helpers')
+
+    implementation Deps.supportV7
+
+    implementation Deps.kotlin
+
+    implementation Deps.retrofit
+    implementation Deps.retrofitRxJavaAdapter
+    implementation Deps.retrofitGsonConverter
+    implementation Deps.okHttp
 
     implementation Deps.rxJava2
     implementation Deps.rxAndroid2
     implementation Deps.rxKotlin2
-
-    implementation Deps.kotlin
-    implementation Deps.anko
-    implementation Deps.ankoCoroutines
-
-    api Deps.room
-    api Deps.rxJavaForRoom
-    kapt Deps.roomCompiler
-
-    implementation Deps.gson
 
     implementation Deps.dagger
     kapt Deps.daggerCompiler
@@ -51,16 +50,10 @@ dependencies {
     testImplementation Deps.dagger
     kaptTest Deps.daggerCompiler
 
-    implementation Deps.mockito
-    testImplementation Deps.mockito
-
     testImplementation Deps.jUnit
-
-    testImplementation Deps.robolectric
-
-    testImplementation Deps.assertJCore
-
-    androidTestImplementation(Deps.espressoCore, {
-        exclude module: 'support-annotations'
-    })
+    androidTestImplementation Deps.androidTestRunner
+    androidTestImplementation Deps.espressoCore
+}
+repositories {
+    mavenCentral()
 }

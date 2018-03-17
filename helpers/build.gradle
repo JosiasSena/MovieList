@@ -47,6 +47,15 @@ dependencies {
     implementation Deps.anko
     implementation Deps.ankoCoroutines
 
+    implementation Deps.dagger
+    kapt Deps.daggerCompiler
+
+    androidTestImplementation Deps.dagger
+    kaptAndroidTest Deps.daggerCompiler
+
+    testImplementation Deps.dagger
+    kaptTest Deps.daggerCompiler
+
     implementation Deps.mockito
     testImplementation Deps.mockito
 

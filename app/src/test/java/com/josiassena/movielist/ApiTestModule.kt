@@ -1,15 +1,15 @@
 package com.josiassena.movielist
 
 import android.content.Context
-import com.josiassena.movielist.app_helpers.dependency_injection.modules.ApiModule
-import com.rapidsos.helpers.api.Api
-import com.rapidsos.helpers.api.ApiBuilder
+import com.josiassena.movieapi.Api
+import com.josiassena.movieapi.ApiBuilder
+import com.josiassena.movieapi.di_modules.MovieApiModule
 import org.mockito.Mockito
 
 /**
  * @author Josias Sena
  */
-class ApiTestModule(context: Context) : ApiModule(context) {
+class ApiTestModule(context: Context) : MovieApiModule(context) {
 
     override fun providesApiManager(): ApiBuilder = Mockito.mock(ApiBuilder::class.java)
 

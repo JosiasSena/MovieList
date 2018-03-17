@@ -1,7 +1,7 @@
-package com.josiassena.movielist.app_helpers.dependency_injection.modules
+package com.josiassena.movieapi.di_modules
 
 import android.content.Context
-import com.rapidsos.helpers.api.ApiBuilder
+import com.josiassena.movieapi.ApiBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -10,7 +10,7 @@ import javax.inject.Singleton
  * @author Josias Sena
  */
 @Module
-open class ApiModule(private val context: Context) {
+open class MovieApiModule(private val context: Context) {
 
     @Provides
     @Singleton

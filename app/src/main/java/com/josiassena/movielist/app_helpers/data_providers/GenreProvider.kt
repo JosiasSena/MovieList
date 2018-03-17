@@ -2,8 +2,8 @@ package com.josiassena.movielist.app_helpers.data_providers
 
 import android.support.annotation.VisibleForTesting
 import com.josiassena.core.Genres
+import com.josiassena.movieapi.Api
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.api.Api
 import io.reactivex.MaybeObserver
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

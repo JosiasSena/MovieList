@@ -1,4 +1,4 @@
-package com.josiassena.movielist.app_helpers.dependency_injection.modules
+package com.rapidsos.helpers.network.di_module
 
 import android.content.Context
 import com.rapidsos.helpers.network.NetworkManager

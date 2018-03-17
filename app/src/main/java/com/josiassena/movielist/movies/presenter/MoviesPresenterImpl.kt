@@ -4,10 +4,10 @@ import android.util.Log
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.GenreMovieResults
+import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.movies.view.MoviesView
 import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.api.Api
 import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers

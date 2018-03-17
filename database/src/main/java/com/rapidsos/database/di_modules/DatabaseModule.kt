@@ -1,4 +1,4 @@
-package com.josiassena.movielist.app_helpers.dependency_injection.modules
+package com.rapidsos.database.di_modules
 
 import android.content.Context
 import com.rapidsos.database.database.DatabaseManager

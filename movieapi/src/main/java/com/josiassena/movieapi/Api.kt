@@ -1,4 +1,4 @@
-package com.rapidsos.helpers.api
+package com.josiassena.movieapi
 
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.core.Genres

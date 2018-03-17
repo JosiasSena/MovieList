@@ -1,1 +1,1 @@
-include ':app', ':core', ':helpers', ':database'
+include ':app', ':core', ':helpers', ':database', ':movieapi'
