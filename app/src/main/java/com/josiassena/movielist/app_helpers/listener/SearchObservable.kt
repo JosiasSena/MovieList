@@ -6,7 +6,6 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-
 /**
  * @author Josias Sena
  */
