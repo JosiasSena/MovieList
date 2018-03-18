@@ -39,14 +39,15 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.component.inject(this)
+
+        savedInstanceState?.let { genresRetrieved = it.getParcelable(GENRES_KEY) }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre)
 
         lifecycle.addObserver(GenreLifeCycleObserver)
 
         initRecView()
-
-        savedInstanceState?.let { genresRetrieved = it.getParcelable(GENRES_KEY) }
 
         getGenres()
 
@@ -109,7 +110,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putParcelable(GENRES_KEY, genresRetrieved)
+        outState?.run { putParcelable(GENRES_KEY, genresRetrieved) }
         super.onSaveInstanceState(outState)
     }
 

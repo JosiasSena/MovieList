@@ -69,14 +69,14 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMoviesForGenre(id: Int?): Maybe<List<GenreMovieResults>> {
+    fun getMoviesForGenreId(id: Int?): Maybe<GenreMovieResults> {
         return database.genreMovieResultsDao()
-                .getMoviesForGenre(id)
+                .getMoviesForGenreId(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMoviesPaginated(id: Int?, page: Int?): Maybe<List<GenreMovieResults>> {
+    fun getMoviesPaginated(id: Int?, page: Int?): Maybe<GenreMovieResults> {
         return database.genreMovieResultsDao()
                 .getMoviesForGenrePaginated(id, page)
                 .subscribeOn(Schedulers.io())

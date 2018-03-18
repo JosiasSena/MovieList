@@ -25,7 +25,13 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     private var currentResults: GenreMovieResults? = null
     private var isLoading: Boolean = false
     private var isLastPage: Boolean = false
+
     private var currentGenre: Genre? = null
+
+    companion object {
+        private const val MOVIES_KEY = "movies_key"
+
+    }
 
     override fun createPresenter() = MoviesPresenterImpl()
 
@@ -35,18 +41,34 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         setSupportActionBar(toolbar)
         toolbar.transitionName = "genre_title"
 
+        lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
+
         initRecView()
+
+        savedInstanceState?.let {
+            currentResults = it.getParcelable(MOVIES_KEY)
+            rvMovies.layoutManager.onRestoreInstanceState(savedInstanceState)
+        }
 
         getCurrentGenre()
 
         movieRefreshLayout.setOnRefreshListener { refreshMovies() }
 
-        lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
+        refreshMovies()
     }
 
     private fun getCurrentGenre() {
         currentGenre = intent?.extras?.getParcelable(KEY_GENRE)
         supportActionBar?.title = currentGenre?.name
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.run {
+            putParcelable(MOVIES_KEY, currentResults)
+
+            rvMovies.layoutManager.onSaveInstanceState()
+        }
+        super.onSaveInstanceState(outState)
     }
 
     private fun initRecView() {
@@ -56,6 +78,8 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         rvMovies.layoutManager = layoutManager
         rvMovies.adapter = movieAdapter
         rvMovies.setItemViewCacheSize(100)
+
+        currentResults?.let { movieAdapter.addMovies(it.results) }
 
         enablePagination(layoutManager)
     }
@@ -120,7 +144,6 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     }
 
     override fun displayMovies(results: GenreMovieResults) {
-
         runOnUiThread {
             tvNoInternet.visibility = View.GONE
             rvMovies.visibility = View.VISIBLE

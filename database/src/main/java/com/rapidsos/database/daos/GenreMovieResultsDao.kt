@@ -15,12 +15,9 @@ interface GenreMovieResultsDao : DaoRepository<GenreMovieResults> {
         private const val TABLE_NAME = "genre_movie_results"
     }
 
-    @Query("SELECT * FROM $TABLE_NAME")
-    fun getAll(): List<GenreMovieResults>
-
-    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :id")
-    fun getMoviesForGenre(id: Int?): Maybe<List<GenreMovieResults>>
+    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :genreId LIMIT 1")
+    fun getMoviesForGenreId(genreId: Int?): Maybe<GenreMovieResults>
 
     @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :id AND page LIKE :page LIMIT 1")
-    fun getMoviesForGenrePaginated(id: Int?, page: Int?): Maybe<List<GenreMovieResults>>
+    fun getMoviesForGenrePaginated(id: Int?, page: Int?): Maybe<GenreMovieResults>
 }
