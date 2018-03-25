@@ -40,7 +40,6 @@ object Versions {
     const val androidSupportTestRunner = "1.0.1"
 
     const val wasabeefRecViewAnimator = "2.2.7"
-    const val rxNetwork2 = "0.12.1"
     const val materialSearchBar = "0.7.5"
     const val pinchToZoom = "0.1"
 }
@@ -109,7 +108,6 @@ object Deps {
 
     // Other
     val wasabeefRecViewAnimator = "jp.wasabeef:recyclerview-animators:${Versions.wasabeefRecViewAnimator}"
-    val rxNetwork2 = "com.github.pwittchen:reactivenetwork-rx2:${Versions.rxNetwork2}"
     val materialSearchBar = "com.github.mancj:MaterialSearchBar:${Versions.materialSearchBar}"
     val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
     val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"

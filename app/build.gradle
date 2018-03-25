@@ -65,8 +65,6 @@ dependencies {
     implementation Deps.picasso
     implementation Deps.wasabeefRecViewAnimator
 
-    implementation Deps.rxNetwork2
-
     implementation Deps.materialSearchBar
 
     implementation Deps.kotlin

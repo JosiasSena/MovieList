@@ -41,8 +41,6 @@ dependencies {
 
     implementation Deps.picasso
 
-    implementation Deps.rxNetwork2
-
     implementation Deps.kotlin
     implementation Deps.anko
     implementation Deps.ankoCoroutines
