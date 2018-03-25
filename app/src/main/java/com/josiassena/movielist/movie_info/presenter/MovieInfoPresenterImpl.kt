@@ -1,5 +1,6 @@
 package com.josiassena.movielist.movie_info.presenter
 
+import android.app.DownloadManager
 import android.graphics.Color
 import android.support.customtabs.CustomTabsIntent
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
@@ -9,6 +10,7 @@ import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.movie_info.view.MovieInfoView
 import com.rapidsos.database.database.DatabaseManager
+import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -32,6 +34,12 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
     @Inject
     lateinit var databaseManager: DatabaseManager
+
+    @Inject
+    lateinit var downloadManager: DownloadManager
+
+    @Inject
+    lateinit var networkManager: NetworkManager
 
     init {
         App.component.inject(this)
@@ -112,5 +120,15 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                 .setToolbarColor(Color.RED)
                 .setShowTitle(true)
                 .build()
+    }
+
+    override fun downloadMoviePoster(request: DownloadManager.Request) {
+        if (networkManager.isInternetConnectionAvailable()) {
+            downloadManager.enqueue(request)
+        } else {
+            if (isViewAttached) {
+                view?.showNoInternetConnectionError()
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.josiassena.movielist.movie_info.presenter
 
+import android.app.DownloadManager
 import android.support.customtabs.CustomTabsIntent
 import com.hannesdorfmann.mosby.mvp.MvpPresenter
 import com.josiassena.core.MovieVideosResult
@@ -16,4 +17,5 @@ interface MovieInfoPresenter : MvpPresenter<MovieInfoView> {
     fun unSubscribe()
     fun playVideoFromPreview(preview: MovieVideosResult)
     fun getCustomTabsIntent(): CustomTabsIntent
+    fun downloadMoviePoster(request: DownloadManager.Request)
 }

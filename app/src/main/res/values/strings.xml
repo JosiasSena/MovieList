@@ -12,10 +12,13 @@
     <string name="movie_preview">Movie Preview</string>
     <string name="overview">Overview</string>
     <string name="enlarge_poster">Enlarge poster</string>
-
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="movies">Movies</string>
     <string name="no_genres_available_please_try_again">No genres available, please try again.</string>
+    <string name="download_movie_poster">Download movie poster</string>
+    <string name="title_downloading_movie_poster">Downloading movie poster</string>
+    <string name="share">Share</string>
+    <string name="share_via">Share Via</string>
 </resources>

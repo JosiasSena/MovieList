@@ -1,10 +1,15 @@
 package com.josiassena.movielist.movie_info.view
 
+import android.app.DownloadManager
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.animation.AlphaAnimation
 import android.view.animation.LinearInterpolator
 import com.hannesdorfmann.mosby.mvp.MvpActivity
@@ -13,12 +18,14 @@ import com.josiassena.core.Result
 import com.josiassena.movielist.R
 import com.josiassena.movielist.full_screen_image.view.FullScreenImageActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
+import com.josiassena.movielist.movie_info.receiver.PosterDownloadBroadcastReceiver
 import com.josiassena.movielist.movie_info.view.rec_view.MovieInfoAdapter
 import com.josiassena.movielist.movies.view.rec_view.MOVIE_ID_KEY
 import com.josiassena.movielist.movies.view.rec_view.POSTER_BASE_URL
 import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrlOffLine
 import com.rapidsos.helpers.extensions.show
+import com.rapidsos.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movie_info.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
@@ -62,6 +69,48 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         }
 
         ivMoviePoster.setOnClickListener { goToFullScreenActivity(result) }
+
+        tvDownloadPoster.setOnClickListener { downloadMoviePosterForCurrentMovie() }
+
+        val receiver = PosterDownloadBroadcastReceiver()
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED))
+    }
+
+    private fun downloadMoviePosterForCurrentMovie() {
+        val uri = Uri.parse(POSTER_BASE_URL + result.posterPath)
+        val request = DownloadManager.Request(uri).apply {
+            setTitle(getString(R.string.title_downloading_movie_poster))
+            setDescription("Downloading movie poster for ${result.title}")
+            setDestinationInExternalFilesDir(this@MovieInfoActivity,
+                    Environment.DIRECTORY_DOWNLOADS, "${result.title}.jpg")
+        }
+
+        presenter.downloadMoviePoster(request)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_share, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_share -> {
+                val sharingIntent = Intent(android.content.Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TITLE, result.title)
+                    putExtra(Intent.EXTRA_SUBJECT, result.title)
+
+                    val body = "Release date: ${result.releaseDate}\n\nOverview: ${result.overview}"
+                    putExtra(Intent.EXTRA_TEXT, body)
+                }
+
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)))
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -128,6 +177,13 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
     override fun playVideo(url: String) {
         presenter.getCustomTabsIntent().launchUrl(this, Uri.parse(url))
+    }
+
+    override fun showNoInternetConnectionError() {
+        showLongSnackBar(tvDownloadPoster, R.string.no_internet_click_again)
+    }
+
+    override fun showEmptyStateView() {
     }
 
     override fun onPause() {

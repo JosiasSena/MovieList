@@ -39,11 +39,22 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tvDownloadPoster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="16dp"
+            android:drawableStart="@drawable/ic_file_download"
+            android:padding="10dp"
+            android:text="@string/download_movie_poster" />
+
+        <TextView
             android:id="@+id/tvReleaseDate"
             style="@style/MainTextStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
             android:gravity="center"
             tools:text="Release date: 2017-07-05" />
 
