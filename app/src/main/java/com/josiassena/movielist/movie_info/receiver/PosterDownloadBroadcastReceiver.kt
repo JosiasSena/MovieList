@@ -11,7 +11,6 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.longToast
 import javax.inject.Inject
 
-
 class PosterDownloadBroadcastReceiver : BroadcastReceiver(), AnkoLogger {
 
     @Inject
