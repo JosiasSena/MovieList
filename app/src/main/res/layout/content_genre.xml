@@ -18,22 +18,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvNoInternet"
+            android:id="@+id/tvNoGenres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/ic_no_internet"
-            android:text="@string/no_internet_click_again"
+            android:text="@string/no_genres_available_please_try_again"
             android:visibility="gone" />
-
-        <!--<com.mancj.materialsearchbar.MaterialSearchBar-->
-        <!--android:id="@+id/genreSearchView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:mt_hint="Search Genres"-->
-        <!--app:mt_maxSuggestionsCount="10"-->
-        <!--app:mt_menuIconDrawable="@mipmap/ic_launcher" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvGenre"
