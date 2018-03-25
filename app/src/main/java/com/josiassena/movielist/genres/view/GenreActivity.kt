@@ -53,7 +53,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
         refreshLayout.setOnRefreshListener { presenter.getGenres() }
 
-        tvNoInternet.setOnClickListener { presenter.checkIsNetworkAvailable() }
+        tvNoGenres.setOnClickListener { presenter.checkIsNetworkAvailable() }
 
         listenToSearchViewChanges()
     }
@@ -128,13 +128,13 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
     }
 
     override fun showRecyclerView() {
-        tvNoInternet.hide()
+        tvNoGenres.hide()
         rvGenre.show()
     }
 
     override fun showEmptyStateView() {
         rvGenre.hide()
-        tvNoInternet.show()
+        tvNoGenres.show()
     }
 
     override fun showLoading() {
