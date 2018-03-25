@@ -97,7 +97,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_share -> {
-                val sharingIntent = Intent(android.content.Intent.ACTION_SEND).apply {
+                val sharingIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TITLE, result.title)
                     putExtra(Intent.EXTRA_SUBJECT, result.title)
