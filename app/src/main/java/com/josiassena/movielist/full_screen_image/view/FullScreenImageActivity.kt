@@ -5,7 +5,7 @@ import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
-import com.josiassena.movielist.movie_info.view.POSTER_URI
+import com.josiassena.movielist.movie_info.view.MovieInfoActivity.Companion.POSTER_URI
 import com.rapidsos.helpers.extensions.setImageFromUrlOffLine
 import kotlinx.android.synthetic.main.activity_full_screen_image.*
 import org.jetbrains.anko.AnkoLogger

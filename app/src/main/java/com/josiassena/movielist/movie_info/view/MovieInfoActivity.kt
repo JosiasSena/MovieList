@@ -23,8 +23,6 @@ import kotlinx.android.synthetic.main.content_movie_info.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
 
-const val POSTER_URI = "poster_uri"
-
 class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), MovieInfoView,
         AnkoLogger {
 
@@ -36,6 +34,10 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     private lateinit var adapter: MovieInfoAdapter
     private lateinit var result: Result
     private var movieId: Int = 0
+
+    companion object {
+        const val POSTER_URI = "poster_uri"
+    }
 
     override fun createPresenter(): MovieInfoPresenterImpl = MovieInfoPresenterImpl()
 
@@ -124,7 +126,9 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         initPreviewAdapter()
     }
 
-    override fun playVideo(url: String) = presenter.getCustomTabsIntent().launchUrl(this, Uri.parse(url))
+    override fun playVideo(url: String) {
+        presenter.getCustomTabsIntent().launchUrl(this, Uri.parse(url))
+    }
 
     override fun onPause() {
         super.onPause()
