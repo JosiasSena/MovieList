@@ -1,6 +1,5 @@
 package com.josiassena.movielist.genres.presenter
 
-import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
@@ -9,7 +8,6 @@ import com.josiassena.movielist.genres.view.GenreView
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
-import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -31,22 +29,6 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
 
     init {
         App.component.inject(this)
-
-        networkManager.subscribeToCurrentNetworkState(object : Observer<Connectivity> {
-            override fun onSubscribe(disposable: Disposable) {
-                GenreLifeCycleObserver.getCompositeDisposable().add(disposable)
-            }
-
-            override fun onError(throwable: Throwable) {
-                error(throwable.message, throwable)
-            }
-
-            override fun onNext(connectivity: Connectivity) {
-            }
-
-            override fun onComplete() {
-            }
-        })
     }
 
     override fun getGenres() {
@@ -94,7 +76,7 @@ class GenrePresenterImpl : MvpBasePresenter<GenreView>(), GenrePresenter, AnkoLo
         }
     }
 
-    override fun isNetworkAvailable() = networkManager.isNetworkAvailable()
+    private fun isNetworkAvailable() = networkManager.isInternetConnectionAvailable()
 
     override fun checkIsNetworkAvailable() {
         if (isNetworkAvailable()) {

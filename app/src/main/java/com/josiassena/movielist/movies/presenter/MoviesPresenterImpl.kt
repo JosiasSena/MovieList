@@ -1,6 +1,5 @@
 package com.josiassena.movielist.movies.presenter
 
-import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.GenreMovieResults
 import com.josiassena.movieapi.Api
@@ -9,7 +8,6 @@ import com.josiassena.movielist.app_helpers.data_providers.MovieProvider
 import com.josiassena.movielist.movies.view.MoviesView
 import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
-import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -31,25 +29,6 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
 
     init {
         App.component.inject(this)
-
-        listenToNetworkChanges()
-    }
-
-    private fun listenToNetworkChanges() {
-        networkManager.subscribeToCurrentNetworkState(object : Observer<Connectivity> {
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onError(throwable: Throwable) {
-                error(throwable.message, throwable)
-            }
-
-            override fun onNext(connectivity: Connectivity) {
-            }
-
-            override fun onComplete() {
-            }
-        })
     }
 
     override fun getMoviesForGenreId(genreId: Int) {
@@ -68,6 +47,10 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
 
                 if (isViewAttached) {
                     view?.hideLoading()
+
+                    if (!networkManager.isInternetConnectionAvailable()) {
+                        view?.showEmptyStateView()
+                    }
                 }
             }
 
@@ -76,7 +59,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                     view?.hideLoading()
 
                     if (genreMovieResults.results.isEmpty()) {
-                        if (networkManager.isNetworkAvailable()) {
+                        if (!networkManager.isInternetConnectionAvailable()) {
                             view?.showEmptyStateView()
                         } else {
                             view?.showNoInternetConnectionError()
@@ -117,7 +100,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                     view?.hideLoading()
 
                     if (genreMovieResults.results.isEmpty()) {
-                        if (networkManager.isNetworkAvailable()) {
+                        if (networkManager.isInternetConnectionAvailable()) {
                             view?.showEmptyStateView()
                         } else {
                             view?.showNoInternetConnectionError()

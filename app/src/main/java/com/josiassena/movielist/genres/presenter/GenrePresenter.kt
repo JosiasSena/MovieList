@@ -8,7 +8,6 @@ import com.josiassena.movielist.genres.view.GenreView
  */
 interface GenrePresenter : MvpPresenter<GenreView> {
     fun getGenres()
-    fun isNetworkAvailable(): Boolean
     fun checkIsNetworkAvailable()
     fun getGenresFromQuery(query: String)
 }
