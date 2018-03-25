@@ -1,36 +1,25 @@
 package com.rapidsos.helpers.network
 
 import android.content.Context
-import android.net.NetworkInfo
-import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import android.net.ConnectivityManager
 
 /**
  * @author Josias Sena
  */
-class NetworkManager(val context: Context) {
+class NetworkManager(private val context: Context) {
+
+    private val connectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
     private var isNetworkAvailable: Boolean = false
 
-    fun subscribeToCurrentNetworkState(observer: Observer<Connectivity>) {
-        ReactiveNetwork.observeNetworkConnectivity(context)
-                .subscribeOn(Schedulers.io())
-                .doOnEach { notification ->
-                    notification.value?.let {
-                        isNetworkAvailable = isInternetConnectionAvailable(it)
-                    }
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer)
-    }
+    fun isInternetConnectionAvailable(): Boolean {
+        connectivityManager.activeNetworkInfo?.let {
+            isNetworkAvailable = it.isAvailable && it.isConnected
+        }
 
-    fun isInternetConnectionAvailable(connectivity: Connectivity): Boolean {
-        return connectivity.isAvailable && connectivity.state == NetworkInfo.State.CONNECTED
+        return isNetworkAvailable
     }
-
-    fun isNetworkAvailable() = isNetworkAvailable
 
 }
