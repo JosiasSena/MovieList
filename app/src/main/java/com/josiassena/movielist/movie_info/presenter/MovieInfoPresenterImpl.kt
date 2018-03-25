@@ -107,8 +107,10 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
         }
     }
 
-    override fun getCustomTabsIntent(): CustomTabsIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(Color.RED)
-            .setShowTitle(true)
-            .build()
+    override fun getCustomTabsIntent(): CustomTabsIntent {
+        return CustomTabsIntent.Builder()
+                .setToolbarColor(Color.RED)
+                .setShowTitle(true)
+                .build()
+    }
 }
