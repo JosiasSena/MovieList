@@ -145,7 +145,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
     override fun displayMovies(results: GenreMovieResults) {
         runOnUiThread {
-            tvNoInternet.visibility = View.GONE
+            tvNoMovies.visibility = View.GONE
             rvMovies.visibility = View.VISIBLE
 
             currentResults = results
@@ -157,7 +157,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     override fun showEmptyStateView() {
         runOnUiThread {
             rvMovies.visibility = View.GONE
-            tvNoInternet.visibility = View.VISIBLE
+            tvNoMovies.visibility = View.VISIBLE
         }
     }
 
@@ -170,7 +170,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     }
 
     override fun addMoreMovies(results: GenreMovieResults) {
-        tvNoInternet.visibility = View.GONE
+        tvNoMovies.visibility = View.GONE
         rvMovies.visibility = View.VISIBLE
 
         currentResults = results
