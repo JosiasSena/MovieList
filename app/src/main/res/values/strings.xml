@@ -8,7 +8,7 @@
     <string name="release_date">Release date: %s</string>
     <string name="no_internet">Internet unavailable</string>
     <string name="no_internet_available_image">No internet available image</string>
-    <string name="no_internet_click_again">Internet unavailable, click here to try again.</string>
+    <string name="no_internet_click_again">Internet unavailable, please try again.</string>
     <string name="movie_preview">Movie Preview</string>
     <string name="overview">Overview</string>
     <string name="enlarge_poster">Enlarge poster</string>
@@ -17,4 +17,5 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="movies">Movies</string>
+    <string name="no_genres_available_please_try_again">No genres available, please try again.</string>
 </resources>
