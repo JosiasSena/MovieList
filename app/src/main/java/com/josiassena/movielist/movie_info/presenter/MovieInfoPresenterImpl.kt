@@ -54,7 +54,8 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
     override fun getPreviewsForMovieFromId(movieId: Int) {
         Observable.merge(getMoviesFromDatabaseObservable(movieId), getMoviesFromNetworkObservable(movieId))
                 .subscribeOn(Schedulers.io())
-                .doOnEach { result -> savePreviewsToDatabase(result.value) }
+                .filter { !it.isEmpty() }
+                .doOnEach { savePreviewsToDatabase(it.value) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<List<MovieVideosResult>> {
 
@@ -67,14 +68,8 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                     }
 
                     override fun onNext(result: List<MovieVideosResult>) {
-                        if (result.isEmpty()) {
-                            if (isViewAttached) {
-                                view?.hidePreviews()
-                            }
-                        } else {
-                            if (isViewAttached) {
-                                view?.showPreviews(result)
-                            }
+                        if (isViewAttached) {
+                            view?.showPreviews(result)
                         }
                     }
 
