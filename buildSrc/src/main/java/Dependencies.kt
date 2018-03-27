@@ -47,68 +47,68 @@ object Versions {
 object Deps {
 
     // Multidex
-    val multidex = "com.android.support:multidex:${Versions.multidex}"
+    const val multidex = "com.android.support:multidex:${Versions.multidex}"
 
     // Support libraries
-    val supportV4 = "com.android.support:support-v4:${Versions.supportLibrary}"
-    val supportV7 = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
-    val supportDesign = "com.android.support:design:${Versions.supportLibrary}"
-    val supportCardviewV7 = "com.android.support:cardview-v7:${Versions.supportLibrary}"
-    val supportCustomtabs = "com.android.support:customtabs:${Versions.supportLibrary}"
+    const val supportV4 = "com.android.support:support-v4:${Versions.supportLibrary}"
+    const val supportV7 = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
+    const val supportDesign = "com.android.support:design:${Versions.supportLibrary}"
+    const val supportCardviewV7 = "com.android.support:cardview-v7:${Versions.supportLibrary}"
+    const val supportCustomtabs = "com.android.support:customtabs:${Versions.supportLibrary}"
 
     // Constraint layout
-    val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
+    const val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
 
     // Mosby MVP
-    val mosbyMvp = "com.hannesdorfmann.mosby:mvp:${Versions.mosby}"
+    const val mosbyMvp = "com.hannesdorfmann.mosby:mvp:${Versions.mosby}"
 
     // GSON
-    val gson = "com.google.code.gson:gson:${Versions.gson}"
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     // Retrofit
-    val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    val retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
-    val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    const val retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
+    const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
 
     // OkHttp
-    val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+    const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
 
     // RxJava 2
-    val rxJava2 = "io.reactivex.rxjava2:rxjava:${Versions.rxJava2}"
-    val rxAndroid2 = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid2}"
-    val rxKotlin2 = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
+    const val rxJava2 = "io.reactivex.rxjava2:rxjava:${Versions.rxJava2}"
+    const val rxAndroid2 = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid2}"
+    const val rxKotlin2 = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
 
     // Picasso
-    val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
+    const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
 
     // Kotlin
-    val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
-    val anko = "org.jetbrains.anko:anko-commons:${Versions.anko}"
-    val ankoCoroutines = "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
+    const val anko = "org.jetbrains.anko:anko-commons:${Versions.anko}"
+    const val ankoCoroutines = "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
 
     // Room
-    val room = "android.arch.persistence.room:runtime:${Versions.room}"
-    val rxJavaForRoom = "android.arch.persistence.room:rxjava2:${Versions.room}"
-    val roomCompiler = "android.arch.persistence.room:compiler:${Versions.room}"
+    const val room = "android.arch.persistence.room:runtime:${Versions.room}"
+    const val rxJavaForRoom = "android.arch.persistence.room:rxjava2:${Versions.room}"
+    const val roomCompiler = "android.arch.persistence.room:compiler:${Versions.room}"
 
     // Dagger
-    val dagger = "com.google.dagger:dagger:${Versions.dagger}"
-    val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+    const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
+    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
 
     // Mockito
-    val mockito = "org.mockito:mockito-inline:${Versions.mockito}"
-    val mockitoAndroid = "org.mockito:mockito-android:${Versions.mockito}"
+    const val mockito = "org.mockito:mockito-inline:${Versions.mockito}"
+    const val mockitoAndroid = "org.mockito:mockito-android:${Versions.mockito}"
 
     // Testing
-    val jUnit = "junit:junit:${Versions.jUnit}"
-    val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
-    val assertJCore = "org.assertj:assertj-core:${Versions.assertJCore}"
-    val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.espressoCore}"
-    val RESTMock = "com.github.andrzejchm.RESTMock:android:${Versions.RESTMock}"
+    const val jUnit = "junit:junit:${Versions.jUnit}"
+    const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
+    const val assertJCore = "org.assertj:assertj-core:${Versions.assertJCore}"
+    const val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.espressoCore}"
+    const val RESTMock = "com.github.andrzejchm.RESTMock:android:${Versions.RESTMock}"
 
     // Other
-    val wasabeefRecViewAnimator = "jp.wasabeef:recyclerview-animators:${Versions.wasabeefRecViewAnimator}"
-    val materialSearchBar = "com.github.mancj:MaterialSearchBar:${Versions.materialSearchBar}"
-    val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
-    val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
+    const val wasabeefRecViewAnimator = "jp.wasabeef:recyclerview-animators:${Versions.wasabeefRecViewAnimator}"
+    const val materialSearchBar = "com.github.mancj:MaterialSearchBar:${Versions.materialSearchBar}"
+    const val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
+    const val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
 }
