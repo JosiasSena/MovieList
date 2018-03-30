@@ -70,6 +70,7 @@ dependencies {
     implementation Deps.kotlin
     implementation Deps.anko
     implementation Deps.ankoCoroutines
+    implementation Deps.kotlinExgtensions
 
     implementation Deps.mockito
     testImplementation Deps.mockito
