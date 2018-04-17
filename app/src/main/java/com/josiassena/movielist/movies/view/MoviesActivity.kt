@@ -30,7 +30,6 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
     companion object {
         private const val MOVIES_KEY = "movies_key"
-
     }
 
     override fun createPresenter() = MoviesPresenterImpl()
