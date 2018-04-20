@@ -63,7 +63,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
             showRecyclerView()
 
             genresRetrieved?.let {
-                genresAdapter.updateGenres(it)
+                genresAdapter.submitList(it.genres)
             }
         } else {
             presenter.getGenres()
@@ -124,7 +124,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
         showRecyclerView()
 
-        genresAdapter.updateGenres(genres)
+        genresAdapter.submitList(genres.genres)
     }
 
     override fun showRecyclerView() {

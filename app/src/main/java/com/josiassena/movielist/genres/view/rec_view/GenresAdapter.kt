@@ -2,13 +2,14 @@ package com.josiassena.movielist.genres.view.rec_view
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.josiassena.core.Genre
-import com.josiassena.core.Genres
 import com.josiassena.movielist.R
 import com.josiassena.movielist.movies.view.MoviesActivity
 import kotlinx.android.synthetic.main.item_genres.view.*
@@ -17,9 +18,18 @@ const val KEY_GENRE = "key_genre_id"
 
 class GenresViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 
-class GenresAdapter : RecyclerView.Adapter<GenresViewHolder>() {
+class GenresDiffListener : DiffUtil.ItemCallback<Genre>() {
 
-    private val genres = arrayListOf<Genre>()
+    override fun areItemsTheSame(oldItem: Genre?, newItem: Genre?): Boolean {
+        return oldItem?.id == newItem?.id
+    }
+
+    override fun areContentsTheSame(oldItem: Genre?, newItem: Genre?): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class GenresAdapter : ListAdapter<Genre, GenresViewHolder>(GenresDiffListener()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,7 +38,7 @@ class GenresAdapter : RecyclerView.Adapter<GenresViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: GenresViewHolder, position: Int) {
-        val genre = genres[position]
+        val genre = getItem(position)
         val itemView = holder.itemView
         val tvGenreTitle = itemView?.tvGenreTitle
 
@@ -38,8 +48,6 @@ class GenresAdapter : RecyclerView.Adapter<GenresViewHolder>() {
             goToMoviesActivity(tvGenreTitle, genre)
         }
     }
-
-    override fun getItemCount() = genres.size
 
     private fun goToMoviesActivity(tvGenreTitle: TextView?, genre: Genre) {
         val context = tvGenreTitle?.context
@@ -55,13 +63,4 @@ class GenresAdapter : RecyclerView.Adapter<GenresViewHolder>() {
         }
     }
 
-    fun updateGenres(genre: Genres) {
-        val sizeBeforeChange = itemCount
-
-        genres.clear()
-        notifyItemRangeRemoved(0, sizeBeforeChange)
-
-        genres.addAll(genre.genres)
-        notifyItemRangeInserted(0, itemCount)
-    }
 }
