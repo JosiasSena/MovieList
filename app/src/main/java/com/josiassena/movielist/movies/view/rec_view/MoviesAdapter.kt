@@ -63,8 +63,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesViewHolder>(), AnkoLogger {
     }
 
     fun addMoreMovies(results: List<Result>) {
+        val startPosition = itemCount
         movies.addAll(itemCount, results)
 
-        notifyItemInserted(itemCount)
+        notifyItemRangeInserted(startPosition, itemCount)
     }
 }
