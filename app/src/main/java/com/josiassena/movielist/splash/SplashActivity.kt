@@ -3,7 +3,7 @@ package com.josiassena.movielist.splash
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.josiassena.movielist.R
-import com.josiassena.movielist.genres.view.GenreActivity
+import com.josiassena.movielist.main.MainActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.clearTask
@@ -21,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
         Observable.timer(300, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    startActivity(intentFor<GenreActivity>().clearTask().newTask())
+                    startActivity(intentFor<MainActivity>().clearTask().newTask())
                 })
     }
 }
