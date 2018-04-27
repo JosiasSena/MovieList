@@ -1,7 +1,7 @@
 package com.josiassena.movielist.movies.presenter
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
-import com.josiassena.core.GenreMovieResults
+import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.MovieProvider
@@ -36,7 +36,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
             view?.showLoading()
         }
 
-        movieProvider.getMovies(genreId, object : MaybeObserver<GenreMovieResults?> {
+        movieProvider.getMovies(genreId, object : MaybeObserver<MovieResults?> {
 
             override fun onSubscribe(disposable: Disposable) {
                 MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
@@ -54,18 +54,18 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 }
             }
 
-            override fun onSuccess(genreMovieResults: GenreMovieResults) {
+            override fun onSuccess(movieResults: MovieResults) {
                 if (isViewAttached) {
                     view?.hideLoading()
 
-                    if (genreMovieResults.results.isEmpty()) {
+                    if (movieResults.results.isEmpty()) {
                         if (!networkManager.isInternetConnectionAvailable()) {
                             view?.showEmptyStateView()
                         } else {
                             view?.showNoInternetConnectionError()
                         }
                     } else {
-                        view?.displayMovies(genreMovieResults)
+                        view?.displayMovies(movieResults)
                     }
                 }
             }
@@ -80,7 +80,7 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
             view?.showLoading()
         }
 
-        movieProvider.getMoviesPaginated(genreId, page, object : MaybeObserver<GenreMovieResults?> {
+        movieProvider.getMoviesPaginated(genreId, page, object : MaybeObserver<MovieResults?> {
 
             override fun onSubscribe(disposable: Disposable) {
                 MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
@@ -94,19 +94,19 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
                 }
             }
 
-            override fun onSuccess(genreMovieResults: GenreMovieResults) {
+            override fun onSuccess(movieResults: MovieResults) {
 
                 if (isViewAttached) {
                     view?.hideLoading()
 
-                    if (genreMovieResults.results.isEmpty()) {
+                    if (movieResults.results.isEmpty()) {
                         if (networkManager.isInternetConnectionAvailable()) {
                             view?.showEmptyStateView()
                         } else {
                             view?.showNoInternetConnectionError()
                         }
                     } else {
-                        view?.addMoreMovies(genreMovieResults)
+                        view?.addMoreMovies(movieResults)
                     }
                 }
             }

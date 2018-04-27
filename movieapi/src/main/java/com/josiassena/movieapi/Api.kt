@@ -1,7 +1,7 @@
 package com.josiassena.movieapi
 
-import com.josiassena.core.GenreMovieResults
 import com.josiassena.core.Genres
+import com.josiassena.core.MovieResults
 import com.josiassena.core.MovieVideos
 import io.reactivex.Observable
 import retrofit2.Response
@@ -14,17 +14,26 @@ import retrofit2.http.Query
  */
 interface Api {
 
-    @GET("genre/movie/list?api_key=0caee56a11a5a429c08fcb2adc042db5")
+    @GET("genre/movie/list?api_key=${BuildConfig.MOVIE_DB_API_KEY}")
     fun getMovieGenres(): Observable<Response<Genres>>
 
-    @GET("genre/{genre_id}/movies?api_key=0caee56a11a5a429c08fcb2adc042db5&include_adult=false")
-    fun getMovies(@Path("genre_id") genreId: Int): Observable<Response<GenreMovieResults>>
+    @GET("genre/{genre_id}/movies?api_key=${BuildConfig.MOVIE_DB_API_KEY}&include_adult=false")
+    fun getMovies(@Path("genre_id") genreId: Int): Observable<Response<MovieResults>>
 
-    @GET("genre/{genre_id}/movies?api_key=0caee56a11a5a429c08fcb2adc042db5&include_adult=false")
-    fun getMoviesByPage(@Path("genre_id") genreId: Int, @Query("page") page: Int):
-            Observable<Response<GenreMovieResults>>
+    @GET("genre/{genre_id}/movies?api_key=${BuildConfig.MOVIE_DB_API_KEY}&include_adult=false")
+    fun getMoviesByPage(@Path("genre_id") genreId: Int,
+                        @Query("page") page: Int): Observable<Response<MovieResults>>
 
-    @GET("movie/{movie_id}/videos?api_key=0caee56a11a5a429c08fcb2adc042db5")
-    fun getMoviePreviewsForMovieId(@Path("movie_id") movieId: Int) : Observable<Response<MovieVideos>>
+    @GET("movie/{movie_id}/videos?api_key=${BuildConfig.MOVIE_DB_API_KEY}")
+    fun getMoviePreviewsForMovieId(@Path("movie_id") movieId: Int): Observable<Response<MovieVideos>>
+
+    @GET("movie/top_rated?api_key=${BuildConfig.MOVIE_DB_API_KEY}")
+    fun getTopRatedMovies(): Observable<Response<MovieResults>>
+
+    @GET("movie/now_playing?api_key=${BuildConfig.MOVIE_DB_API_KEY}")
+    fun getMoviesNowPlaying(): Observable<Response<MovieResults>>
+
+    @GET("movie/upcoming?api_key=${BuildConfig.MOVIE_DB_API_KEY}&region=US")
+    fun getUpcomingMovies(): Observable<Response<MovieResults>>
 
 }

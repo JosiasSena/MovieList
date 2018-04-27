@@ -4,6 +4,7 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.Genres
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.GenreProvider
+import com.josiassena.movielist.app_helpers.observers.GenreLifeCycleObserver
 import com.josiassena.movielist.genres.view.GenreView
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.network.NetworkManager

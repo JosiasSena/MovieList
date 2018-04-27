@@ -10,13 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.josiassena.core.Result
 import com.josiassena.movielist.R
+import com.josiassena.movielist.app_helpers.constants.MOVIE_ID_KEY
+import com.josiassena.movielist.app_helpers.constants.POSTER_BASE_URL
 import com.josiassena.movielist.movie_info.view.MovieInfoActivity
 import com.rapidsos.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.item_movie.view.*
 import org.jetbrains.anko.AnkoLogger
-
-const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
-const val MOVIE_ID_KEY = "movie_id_key"
 
 class MoviesViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 

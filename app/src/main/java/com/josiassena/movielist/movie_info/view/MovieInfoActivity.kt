@@ -16,12 +16,12 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 import com.josiassena.movielist.R
+import com.josiassena.movielist.app_helpers.constants.MOVIE_ID_KEY
+import com.josiassena.movielist.app_helpers.constants.POSTER_BASE_URL
 import com.josiassena.movielist.full_screen_image.view.FullScreenImageActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
 import com.josiassena.movielist.movie_info.receiver.PosterDownloadBroadcastReceiver
 import com.josiassena.movielist.movie_info.view.rec_view.MovieInfoAdapter
-import com.josiassena.movielist.movies.view.rec_view.MOVIE_ID_KEY
-import com.josiassena.movielist.movies.view.rec_view.POSTER_BASE_URL
 import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrlOffLine
 import com.rapidsos.helpers.extensions.show

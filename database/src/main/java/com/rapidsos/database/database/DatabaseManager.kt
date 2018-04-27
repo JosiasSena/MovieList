@@ -1,7 +1,7 @@
 package com.rapidsos.database.database
 
-import com.josiassena.core.GenreMovieResults
 import com.josiassena.core.Genres
+import com.josiassena.core.MovieResults
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 import io.reactivex.Maybe
@@ -35,11 +35,11 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
         }
     }
 
-    fun saveMovieResults(genreMovieResults: GenreMovieResults?) {
+    fun saveMovieResults(movieResults: MovieResults?) {
         doAsync {
-            genreMovieResults?.let {
+            movieResults?.let {
                 genreMovieResultsDao.insert(it)
-                resultDao.insertAll(genreMovieResults.results)
+                resultDao.insertAll(movieResults.results)
             }
         }
     }
@@ -69,14 +69,14 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMoviesForGenreId(id: Int?): Maybe<GenreMovieResults> {
+    fun getMoviesForGenreId(id: Int?): Maybe<MovieResults> {
         return database.genreMovieResultsDao()
                 .getMoviesForGenreId(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMoviesPaginated(id: Int?, page: Int?): Maybe<GenreMovieResults> {
+    fun getMoviesPaginated(id: Int?, page: Int?): Maybe<MovieResults> {
         return database.genreMovieResultsDao()
                 .getMoviesForGenrePaginated(id, page)
                 .subscribeOn(Schedulers.io())

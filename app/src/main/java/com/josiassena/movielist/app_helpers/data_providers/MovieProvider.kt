@@ -1,14 +1,16 @@
 package com.josiassena.movielist.app_helpers.data_providers
 
-import com.josiassena.core.GenreMovieResults
+import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
 import com.rapidsos.database.database.DatabaseManager
 import io.reactivex.MaybeObserver
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -25,7 +27,7 @@ class MovieProvider @Inject constructor(private val api: Api,
      *
      * @param genreId the genre id to use to fetch the movies
      */
-    fun getMovies(genreId: Int, observer: MaybeObserver<GenreMovieResults?>) {
+    fun getMovies(genreId: Int, observer: MaybeObserver<MovieResults?>) {
         Observable.merge(getMoviesDatabaseObservable(genreId), getMoviesNetworkObservable(genreId, observer))
                 .subscribeOn(Schedulers.io())
                 .firstElement()
@@ -33,8 +35,8 @@ class MovieProvider @Inject constructor(private val api: Api,
                 .subscribe(observer)
     }
 
-    private fun getMoviesNetworkObservable(genreId: Int, observer: MaybeObserver<GenreMovieResults?>):
-            Observable<GenreMovieResults?> {
+    private fun getMoviesNetworkObservable(genreId: Int, observer: MaybeObserver<MovieResults?>):
+            Observable<MovieResults?> {
         return api.getMovies(genreId)
                 .filter({
                     when {
@@ -49,13 +51,13 @@ class MovieProvider @Inject constructor(private val api: Api,
                 .doOnNext { it?.let { databaseManager.saveMovieResults(it) } }
     }
 
-    private fun getMoviesDatabaseObservable(genreId: Int): Observable<GenreMovieResults> {
+    private fun getMoviesDatabaseObservable(genreId: Int): Observable<MovieResults> {
         return databaseManager.getMoviesForGenreId(genreId).toObservable()
     }
     //endregion
 
     //region Get movies paginated
-    fun getMoviesPaginated(genreId: Int, page: Int, observer: MaybeObserver<GenreMovieResults?>) {
+    fun getMoviesPaginated(genreId: Int, page: Int, observer: MaybeObserver<MovieResults?>) {
         Observable.merge(getMoviesPaginatedDatabaseObservable(genreId, page),
                 getMoviesPaginatedNetworkObservable(genreId, page, observer))
                 .subscribeOn(Schedulers.io())
@@ -66,8 +68,8 @@ class MovieProvider @Inject constructor(private val api: Api,
 
 
     private fun getMoviesPaginatedNetworkObservable(genreId: Int, page: Int,
-                                                    observer: MaybeObserver<GenreMovieResults?>):
-            Observable<GenreMovieResults?> {
+                                                    observer: MaybeObserver<MovieResults?>):
+            Observable<MovieResults?> {
         return api.getMoviesByPage(genreId, page)
                 .subscribeOn(Schedulers.io())
                 .filter(Predicate {
@@ -84,12 +86,32 @@ class MovieProvider @Inject constructor(private val api: Api,
     }
 
     private fun getMoviesPaginatedDatabaseObservable(genreId: Int, page: Int):
-            Observable<GenreMovieResults> {
+            Observable<MovieResults> {
         return databaseManager.getMoviesPaginated(genreId, page).toObservable()
     }
     //endregion
 
-    private fun getFormattedError(response: Response<GenreMovieResults>): String {
+    private fun getFormattedError(response: Response<MovieResults>): String {
         return "${response.message()}: \n ${response.errorBody()?.string()}"
     }
+
+    //region Get top rated movies
+    fun getTopRatedMovies(observer: Observer<MovieResults?>) {
+        api.getTopRatedMovies()
+                .subscribeOn(Schedulers.io())
+                .filter {
+                    if (it.isSuccessful) {
+                        return@filter true
+                    }
+
+                    error("Error: ${it.message()}: \n ${it.errorBody()?.string()}")
+                    return@filter false
+                }
+                .map {
+                    it.body()
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer)
+    }
+    //endregion
 }

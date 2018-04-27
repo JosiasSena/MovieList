@@ -1,6 +1,5 @@
-package com.josiassena.movielist.genres.presenter
+package com.josiassena.movielist.app_helpers.observers
 
-import com.josiassena.movielist.app_helpers.observers.DisposableLifeCycleObserver
 import io.reactivex.disposables.CompositeDisposable
 
 /**

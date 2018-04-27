@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.Genre
-import com.josiassena.core.GenreMovieResults
+import com.josiassena.core.MovieResults
 import com.josiassena.movielist.R
 import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
 import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
@@ -22,7 +22,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
     private lateinit var movieAdapter: MoviesAdapter
 
-    private var currentResults: GenreMovieResults? = null
+    private var currentResults: MovieResults? = null
     private var isLoading: Boolean = false
     private var isLastPage: Boolean = false
 
@@ -142,7 +142,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         }
     }
 
-    override fun displayMovies(results: GenreMovieResults) {
+    override fun displayMovies(results: MovieResults) {
         runOnUiThread {
             tvNoMovies.visibility = View.GONE
             rvMovies.visibility = View.VISIBLE
@@ -168,7 +168,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         currentGenre?.id?.let { presenter.getMoviesForGenreId(it) }
     }
 
-    override fun addMoreMovies(results: GenreMovieResults) {
+    override fun addMoreMovies(results: MovieResults) {
         tvNoMovies.visibility = View.GONE
         rvMovies.visibility = View.VISIBLE
 

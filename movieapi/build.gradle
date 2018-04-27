@@ -12,13 +12,16 @@ android {
         versionName Versions.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "MOVIE_DB_API_KEY", "\"${getMoviesDbApiKey()}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "MOVIE_DB_API_KEY", "\"${getMoviesDbApiKey()}\""
         }
     }
 
@@ -54,6 +57,11 @@ dependencies {
     androidTestImplementation Deps.androidTestRunner
     androidTestImplementation Deps.espressoCore
 }
+
 repositories {
     mavenCentral()
+}
+
+def getMoviesDbApiKey() {
+    return hasProperty('MOVIE_DATABASE_API_KEY') ? MOVIE_DATABASE_API_KEY : ""
 }

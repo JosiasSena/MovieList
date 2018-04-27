@@ -7,7 +7,7 @@ import com.josiassena.core.Genres
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.listener.SearchObservable
-import com.josiassena.movielist.genres.presenter.GenreLifeCycleObserver
+import com.josiassena.movielist.app_helpers.observers.GenreLifeCycleObserver
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
 import com.josiassena.movielist.genres.view.rec_view.GenresAdapter
 import com.rapidsos.helpers.extensions.hide

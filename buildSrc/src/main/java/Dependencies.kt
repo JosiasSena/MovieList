@@ -17,7 +17,7 @@ object Versions {
     const val room = "1.0.0"
 
     const val supportLibrary = "27.1.1"
-    const val constraintLayout = "1.0.2"
+    const val constraintLayout = "1.1.0"
 
     const val multidex = "1.0.3"
     const val mosby = "2.0.1"
@@ -83,7 +83,7 @@ object Deps {
     const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
 
     // Kotlin
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val anko = "org.jetbrains.anko:anko-commons:${Versions.anko}"
     const val ankoCoroutines = "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
     const val kotlinExgtensions = "androidx.core:core-ktx:${Versions.kotlinExtensions}"

@@ -4,7 +4,7 @@ import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.josiassena.core.Genre
-import com.josiassena.core.GenreMovieResults
+import com.josiassena.core.MovieResults
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 
@@ -38,9 +38,9 @@ class DatabaseConverter {
     fun toGenreList(json: String): List<@JvmSuppressWildcards Genre> = Gson().fromJson(json, object : TypeToken<List<Genre>>() {}.type)
 
     @TypeConverter
-    fun fromGenreMovieResultsList(list: List<@JvmSuppressWildcards GenreMovieResults>): String = Gson().toJson(list)
+    fun fromGenreMovieResultsList(list: List<@JvmSuppressWildcards MovieResults>): String = Gson().toJson(list)
 
     @TypeConverter
-    fun toGenreMovieResultsList(json: String): List<@JvmSuppressWildcards GenreMovieResults> = Gson().fromJson(json, object : TypeToken<List<GenreMovieResults>>() {}.type)
+    fun toGenreMovieResultsList(json: String): List<@JvmSuppressWildcards MovieResults> = Gson().fromJson(json, object : TypeToken<List<MovieResults>>() {}.type)
 
 }
