@@ -1,8 +1,9 @@
 package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
 import com.josiassena.movieapi.Api
-import com.josiassena.movielist.app_helpers.data_providers.GenreProvider
-import com.josiassena.movielist.app_helpers.data_providers.MovieProvider
+import com.josiassena.movielist.app_helpers.data_providers.genre.GenreProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.MovieProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
 import com.rapidsos.database.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,13 @@ open class ProvidersModule {
     @Singleton
     open fun providesMovieProvider(api: Api, databaseManager: DatabaseManager): MovieProvider {
         return MovieProvider(api, databaseManager)
+    }
+
+    @Provides
+    @Singleton
+    open fun providesTopRatedMovieProvider(api: Api, databaseManager: DatabaseManager):
+            TopRatedMoviesProvider {
+        return TopRatedMoviesProvider(api, databaseManager)
     }
 
 }

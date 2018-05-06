@@ -1,4 +1,4 @@
-package com.josiassena.movielist.app_helpers.data_providers
+package com.josiassena.movielist.app_helpers.data_providers.genre
 
 import android.support.annotation.VisibleForTesting
 import com.josiassena.core.Genres

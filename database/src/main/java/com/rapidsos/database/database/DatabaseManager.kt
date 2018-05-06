@@ -44,13 +44,6 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
         }
     }
 
-    fun getMovieFromId(movieId: Int): Maybe<Result> {
-        return database.resultDao()
-                .getMovieFromId(movieId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
     fun getGenres(): Single<Genres> {
         return genresDao.getGenres()
                 .subscribeOn(Schedulers.io())
@@ -59,6 +52,13 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                         warn(throwable.message, throwable)
                     }
                 }
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getMovieFromId(movieId: Int): Maybe<Result> {
+        return database.resultDao()
+                .getMovieFromId(movieId)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -82,4 +82,14 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun getTopRatedMovies(): Maybe<MovieResults> {
+        return database.resultDao()
+                .getAll()
+                .map { return@map it.sortedByDescending { it.voteAverage } }
+                .map { return@map MovieResults().apply { this.results = it } }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

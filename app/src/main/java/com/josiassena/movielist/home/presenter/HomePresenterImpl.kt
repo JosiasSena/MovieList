@@ -4,7 +4,7 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
-import com.josiassena.movielist.app_helpers.data_providers.MovieProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
 import com.josiassena.movielist.app_helpers.observers.HomeLifeCycleObserver
 import com.josiassena.movielist.home.view.HomeView
 import io.reactivex.Observer
@@ -24,14 +24,14 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
     lateinit var api: Api
 
     @Inject
-    lateinit var movieProvider: MovieProvider
+    lateinit var topRatedMoviesProvider: TopRatedMoviesProvider
 
     init {
         App.component.inject(this)
     }
 
     override fun getTopRatedMovies() {
-        movieProvider.getTopRatedMovies(object : Observer<MovieResults?> {
+        topRatedMoviesProvider.getTopRatedMovies(object : Observer<MovieResults?> {
 
             override fun onSubscribe(disposable: Disposable) {
                 HomeLifeCycleObserver.getCompositeDisposable().add(disposable)
