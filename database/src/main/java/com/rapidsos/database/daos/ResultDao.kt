@@ -13,15 +13,20 @@ import io.reactivex.Maybe
 @Dao
 interface ResultDao : DaoRepository<Result> {
 
-    private companion object {
-        private const val TABLE_NAME = "result"
-    }
-
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM result")
     fun getAll(): Maybe<List<Result>>
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :movieId LIMIT 1")
+    @Query("SELECT * FROM result WHERE id LIKE :movieId LIMIT 1")
     fun getMovieFromId(movieId: Int): Maybe<Result>
+
+    @Query("SELECT * FROM result ORDER BY vote_average DESC")
+    fun getTopRatedMovies(): Maybe<List<Result>>
+
+    @Query("SELECT * FROM result WHERE release_date >= date('now')")
+    fun getUpcomingMovies(): Maybe<List<Result>>
+
+    @Query("SELECT * FROM result WHERE release_date BETWEEN date('now', '-2 months') AND date('now') ORDER BY release_date DESC")
+    fun getMoviesNowPlaying(): Maybe<List<Result>>
 
     /**
      * Insert a list of results into the database.
