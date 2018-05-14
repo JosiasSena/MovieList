@@ -9,4 +9,7 @@ import com.josiassena.movielist.movies.view.MoviesView
 interface MoviesPresenter : MvpPresenter<MoviesView> {
     fun getMoviesForGenreId(genreId: Int)
     fun getMoreMoviesForGenreId(genreId: Int, page: Int)
+    fun getTopRatedMovies()
+    fun getUpcomingMovies()
+    fun getMoviesNowPlaying()
 }

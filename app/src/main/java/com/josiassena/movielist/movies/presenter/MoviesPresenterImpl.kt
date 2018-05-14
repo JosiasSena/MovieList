@@ -5,9 +5,13 @@ import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.movies.MovieProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayingProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.UpcomingMoviesProvider
 import com.josiassena.movielist.movies.view.MoviesView
 import com.rapidsos.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
+import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -18,6 +22,28 @@ import javax.inject.Inject
  */
 class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, AnkoLogger {
 
+    private val moviesObserver by lazy {
+        object : Observer<MovieResults?> {
+
+            override fun onSubscribe(disposable: Disposable) {
+                MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
+            }
+
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
+            }
+
+            override fun onNext(movies: MovieResults) {
+                if (isViewAttached) {
+                    view?.displayMovies(movies)
+                }
+            }
+
+            override fun onComplete() {
+            }
+        }
+    }
+
     @Inject
     lateinit var api: Api
 
@@ -26,6 +52,15 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
 
     @Inject
     lateinit var movieProvider: MovieProvider
+
+    @Inject
+    lateinit var topRatedMoviesProvider: TopRatedMoviesProvider
+
+    @Inject
+    lateinit var upcomingMoviesProvider: UpcomingMoviesProvider
+
+    @Inject
+    lateinit var moviesNowPlayingProvider: MoviesNowPlayingProvider
 
     init {
         App.component.inject(this)
@@ -115,4 +150,11 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
             }
         })
     }
+
+    override fun getTopRatedMovies() = topRatedMoviesProvider.getTopRatedMovies(moviesObserver)
+
+    override fun getUpcomingMovies() = upcomingMoviesProvider.getUpcomingMovies(moviesObserver)
+
+    override fun getMoviesNowPlaying() = moviesNowPlayingProvider.getMoviesNowPlaying(moviesObserver)
+
 }
