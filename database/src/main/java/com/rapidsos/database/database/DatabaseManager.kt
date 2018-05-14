@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.warn
+import java.util.*
 
 /**
  * @author Josias Sena
@@ -85,8 +86,7 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
     fun getTopRatedMovies(): Maybe<MovieResults> {
         return database.resultDao()
-                .getAll()
-                .map { return@map it.sortedByDescending { it.voteAverage } }
+                .getTopRatedMovies()
                 .map { return@map MovieResults().apply { this.results = it } }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
