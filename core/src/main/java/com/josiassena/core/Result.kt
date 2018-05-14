@@ -13,7 +13,12 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity
-data class Result(@SerializedName("adult")
+data class Result(@PrimaryKey
+                  @SerializedName("id")
+                  @Expose
+                  var id: Int? = null,
+
+                  @SerializedName("adult")
                   @Expose
                   var adult: Boolean? = null,
 
@@ -25,11 +30,6 @@ data class Result(@SerializedName("adult")
                   @SerializedName("genre_ids")
                   @Expose
                   var genreIds: List<@JvmSuppressWildcards Int>? = null,
-
-                  @PrimaryKey
-                  @SerializedName("id")
-                  @Expose
-                  var id: Int? = null,
 
                   @ColumnInfo(name = "original_language")
                   @SerializedName("original_language")
