@@ -10,6 +10,8 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.Genre
 import com.josiassena.core.MovieResults
 import com.josiassena.movielist.R
+import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
+import com.josiassena.movielist.app_helpers.constants.QueryTypes
 import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
 import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
@@ -20,12 +22,12 @@ import org.jetbrains.anko.AnkoLogger
 
 class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesView, AnkoLogger {
 
-    private lateinit var movieAdapter: MoviesAdapter
+    private val movieAdapter = MoviesAdapter()
+    private val currentQueryType by lazy { intent?.extras?.getString(QUERY_KEY) }
 
     private var currentResults: MovieResults? = null
     private var isLoading: Boolean = false
     private var isLastPage: Boolean = false
-
     private var currentGenre: Genre? = null
 
     companion object {
@@ -44,21 +46,29 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
         initRecView()
 
-        savedInstanceState?.let {
-            currentResults = it.getParcelable(MOVIES_KEY)
-            rvMovies.layoutManager.onRestoreInstanceState(savedInstanceState)
-        }
-
-        getCurrentGenre()
+        getMovies()
 
         movieRefreshLayout.setOnRefreshListener { refreshMovies() }
 
         refreshMovies()
     }
 
-    private fun getCurrentGenre() {
-        currentGenre = intent?.extras?.getParcelable(KEY_GENRE)
-        supportActionBar?.title = currentGenre?.name
+    private fun getMovies() {
+        when (currentQueryType) {
+            QueryTypes.GENRE.name -> {
+                currentGenre = intent?.extras?.getParcelable(KEY_GENRE)
+                supportActionBar?.title = currentGenre?.name
+            }
+            QueryTypes.TOP_MOVIES.name -> {
+                supportActionBar?.title = getString(R.string.top_movies)
+            }
+            QueryTypes.UPCOMING_MOVIES.name -> {
+                supportActionBar?.title = getString(R.string.upcoming_movies)
+            }
+            QueryTypes.NOW_PLAYING.name -> {
+                supportActionBar?.title = getString(R.string.now_playing)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -67,27 +77,37 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
             rvMovies.layoutManager.onSaveInstanceState()
         }
+
         super.onSaveInstanceState(outState)
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        currentResults = savedInstanceState?.getParcelable(MOVIES_KEY)
+
+        rvMovies.layoutManager.onRestoreInstanceState(savedInstanceState)
+
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
     private fun initRecView() {
-        val layoutManager = getProperGridLayoutManager()
-        movieAdapter = MoviesAdapter()
+        rvMovies.let {
+            it.apply {
+                layoutManager = getProperGridLayoutManager()
+                adapter = movieAdapter
+                setItemViewCacheSize(100)
+            }
 
-        rvMovies.layoutManager = layoutManager
-        rvMovies.adapter = movieAdapter
-        rvMovies.setItemViewCacheSize(100)
+            currentResults?.let { movieAdapter.addMovies(it.results) }
 
-        currentResults?.let { movieAdapter.addMovies(it.results) }
-
-        enablePagination(layoutManager)
+            enablePagination(it.layoutManager as GridLayoutManager)
+        }
     }
 
     private fun getProperGridLayoutManager(): GridLayoutManager {
-        val currentDeviceScreenSize = resources.configuration.screenLayout and
-                Configuration.SCREENLAYOUT_SIZE_MASK
+        val screenLayout = resources.configuration.screenLayout
+        val currentScreenSize = screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
 
-        return when (currentDeviceScreenSize) {
+        return when (currentScreenSize) {
             Configuration.SCREENLAYOUT_SIZE_LARGE,
             Configuration.SCREENLAYOUT_SIZE_XLARGE -> GridLayoutManager(this, 3)
             else -> GridLayoutManager(this, 2)
@@ -129,50 +149,59 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
     }
 
     override fun showLoading() {
-        runOnUiThread {
-            isLoading = true
-            movieRefreshLayout.isRefreshing = true
-        }
+        isLoading = true
+
+        runOnUiThread { movieRefreshLayout.isRefreshing = true }
     }
 
     override fun hideLoading() {
-        runOnUiThread {
-            isLoading = false
-            movieRefreshLayout.isRefreshing = false
-        }
+        isLoading = false
+
+        runOnUiThread { movieRefreshLayout.isRefreshing = false }
     }
 
     override fun displayMovies(results: MovieResults) {
-        runOnUiThread {
-            tvNoMovies.visibility = View.GONE
-            rvMovies.visibility = View.VISIBLE
+        showMovies()
 
-            currentResults = results
+        currentResults = results
 
-            movieAdapter.addMovies(results.results)
-        }
+        runOnUiThread { movieAdapter.addMovies(results.results) }
     }
 
-    override fun showEmptyStateView() {
-        runOnUiThread {
-            rvMovies.visibility = View.GONE
-            tvNoMovies.visibility = View.VISIBLE
-        }
-    }
+    override fun showEmptyStateView() = showMovies()
 
     override fun showNoInternetConnectionError() {
         Snackbar.make(toolbar, R.string.no_internet, Snackbar.LENGTH_LONG).show()
     }
 
     override fun refreshMovies() {
-        currentGenre?.id?.let { presenter.getMoviesForGenreId(it) }
+        when (currentQueryType) {
+            QueryTypes.GENRE.name -> {
+                currentGenre?.id?.let { presenter.getMoviesForGenreId(it) }
+            }
+            QueryTypes.TOP_MOVIES.name -> {
+                presenter.getTopRatedMovies()
+            }
+            QueryTypes.UPCOMING_MOVIES.name -> {
+                presenter.getUpcomingMovies()
+            }
+            QueryTypes.NOW_PLAYING.name -> {
+                presenter.getMoviesNowPlaying()
+            }
+        }
     }
 
     override fun addMoreMovies(results: MovieResults) {
-        tvNoMovies.visibility = View.GONE
-        rvMovies.visibility = View.VISIBLE
+        showMovies()
 
         currentResults = results
         movieAdapter.addMoreMovies(results.results)
+    }
+
+    private fun showMovies() {
+        runOnUiThread {
+            tvNoMovies.visibility = View.GONE
+            rvMovies.visibility = View.VISIBLE
+        }
     }
 }
