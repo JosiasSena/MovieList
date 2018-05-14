@@ -8,22 +8,22 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Home" />
+            android:title="@string/home" />
 
         <item
             android:id="@+id/nav_genres"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Genres" />
+            android:title="@string/genres" />
 
         <item
             android:id="@+id/nav_upcoming_movies"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Upcoming Movies" />
+            android:title="@string/upcoming_movies" />
 
         <item
             android:id="@+id/nav_now_playing"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Now playing" />
+            android:title="@string/now_playing" />
     </group>
 
 </menu>

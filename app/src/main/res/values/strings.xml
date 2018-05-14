@@ -29,4 +29,6 @@
     <string name="top_movies">Top Movies</string>
     <string name="upcoming_movies">Upcoming Movies</string>
     <string name="now_playing">Now Playing</string>
+    <string name="home">Home</string>
+    <string name="genres">Genres</string>
 </resources>
