@@ -11,7 +11,7 @@ import com.rapidsos.database.daos.*
 /**
  * @author Josias Sena
  */
-@Database(version = 1, entities = [Genre::class, MovieResults::class, Genres::class,
+@Database(version = 2, entities = [Genre::class, MovieResults::class, Genres::class,
     MovieVideos::class, MovieVideosResult::class, Result::class], exportSchema = false)
 @TypeConverters(DatabaseConverter::class)
 abstract class MLDatabase : RoomDatabase() {
