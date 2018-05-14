@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.josiassena.core.Genre
 import com.josiassena.movielist.R
+import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
+import com.josiassena.movielist.app_helpers.constants.QueryTypes
 import com.josiassena.movielist.movies.view.MoviesActivity
 import kotlinx.android.synthetic.main.item_genres.view.*
 
@@ -53,11 +55,14 @@ class GenresAdapter : ListAdapter<Genre, GenresViewHolder>(GenresDiffListener())
         val context = tvGenreTitle?.context
 
         context?.let {
-            val bundle = Bundle()
-            bundle.putParcelable(KEY_GENRE, genre)
+            val intent = Intent(it, MoviesActivity::class.java).apply {
+                val bundle = Bundle().apply {
+                    putString(QUERY_KEY, QueryTypes.GENRE.name)
+                    putParcelable(KEY_GENRE, genre)
+                }
 
-            val intent = Intent(it, MoviesActivity::class.java)
-            intent.putExtras(bundle)
+                putExtras(bundle)
+            }
 
             it.startActivity(intent)
         }
