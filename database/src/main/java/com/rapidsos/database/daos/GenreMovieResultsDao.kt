@@ -11,13 +11,9 @@ import io.reactivex.Maybe
 @Dao
 interface GenreMovieResultsDao : DaoRepository<MovieResults> {
 
-    private companion object {
-        private const val TABLE_NAME = "genre_movie_results"
-    }
-
-    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :genreId LIMIT 1")
+    @Query("SELECT * FROM genre_movie_results WHERE id LIKE :genreId LIMIT 1")
     fun getMoviesForGenreId(genreId: Int?): Maybe<MovieResults>
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :id AND page LIKE :page LIMIT 1")
+    @Query("SELECT * FROM genre_movie_results WHERE id LIKE :id AND page LIKE :page LIMIT 1")
     fun getMoviesForGenrePaginated(id: Int?, page: Int?): Maybe<MovieResults>
 }

@@ -11,11 +11,7 @@ import io.reactivex.Single
 @Dao
 interface GenresDao : DaoRepository<Genres> {
 
-    private companion object {
-        private const val TABLE_NAME = "genres"
-    }
-
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM genres")
     fun getGenres(): Single<Genres>
 
 }

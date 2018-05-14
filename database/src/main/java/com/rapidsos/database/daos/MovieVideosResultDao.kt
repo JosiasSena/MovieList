@@ -13,11 +13,7 @@ import io.reactivex.Maybe
 @Dao
 interface MovieVideosResultDao : DaoRepository<MovieVideosResult> {
 
-    private companion object {
-        private const val TABLE_NAME = "movie_videos_result"
-    }
-
-    @Query("SELECT * FROM $TABLE_NAME WHERE id LIKE :id")
+    @Query("SELECT * FROM movie_videos_result WHERE id LIKE :id")
     fun getMoviePreviewsForMovieId(id: Int): Maybe<List<MovieVideosResult>>
 
     /**

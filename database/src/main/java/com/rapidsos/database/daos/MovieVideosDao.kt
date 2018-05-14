@@ -10,11 +10,7 @@ import com.josiassena.core.MovieVideos
 @Dao
 interface MovieVideosDao : DaoRepository<MovieVideos> {
 
-    private companion object {
-        private const val TABLE_NAME = "movie_videos"
-    }
-
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM movie_videos")
     fun getAll(): List<MovieVideos>
 
 }
