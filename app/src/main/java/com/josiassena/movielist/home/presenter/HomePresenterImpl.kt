@@ -4,13 +4,13 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
+import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayingProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
+import com.josiassena.movielist.app_helpers.data_providers.movies.UpcomingMoviesProvider
 import com.josiassena.movielist.app_helpers.observers.HomeLifeCycleObserver
 import com.josiassena.movielist.home.view.HomeView
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import javax.inject.Inject
@@ -26,11 +26,17 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
     @Inject
     lateinit var topRatedMoviesProvider: TopRatedMoviesProvider
 
+    @Inject
+    lateinit var upcomingMoviesProvider: UpcomingMoviesProvider
+
+    @Inject
+    lateinit var moviesNowPlayingProvider: MoviesNowPlayingProvider
+
     init {
         App.component.inject(this)
     }
 
-    override fun getTopRatedMovies() {
+    override fun getTop5RatedMovies() {
         topRatedMoviesProvider.getTopRatedMovies(object : Observer<MovieResults?> {
 
             override fun onSubscribe(disposable: Disposable) {
@@ -42,7 +48,7 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
             }
 
             override fun onNext(topRatedMovies: MovieResults) {
-                if (isViewAttached) {
+                if (isViewAttached && topRatedMovies.results.isNotEmpty()) {
                     val top5 = topRatedMovies.results.subList(0, 5)
                     view?.onGotTopRatedMovies(top5)
                 }
@@ -53,77 +59,49 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
         })
     }
 
-    override fun getNowPlayingMovies() {
-        api.getMoviesNowPlaying()
-                .subscribeOn(Schedulers.io())
-                .filter {
-                    if (it.isSuccessful) {
-                        return@filter true
-                    }
+    override fun get5UpcomingMovies() {
+        upcomingMoviesProvider.getUpcomingMovies(object : Observer<MovieResults?> {
 
-                    error("Error: ${it.message()}: \n ${it.errorBody()?.string()}")
-                    return@filter false
+            override fun onSubscribe(disposable: Disposable) {
+                HomeLifeCycleObserver.getCompositeDisposable().add(disposable)
+            }
+
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
+            }
+
+            override fun onNext(upcomingMovies: MovieResults) {
+                if (isViewAttached && upcomingMovies.results.isNotEmpty()) {
+                    val top5 = upcomingMovies.results.subList(0, 5)
+                    view?.onGotUpcomingMovies(top5)
                 }
-                .map {
-                    it.body()
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<MovieResults?> {
+            }
 
-                    override fun onSubscribe(disposable: Disposable) {
-                        HomeLifeCycleObserver.getCompositeDisposable().add(disposable)
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        error(throwable.message, throwable)
-                    }
-
-                    override fun onNext(nowPlayingMovies: MovieResults) {
-                        if (isViewAttached) {
-                            val top5 = nowPlayingMovies.results.subList(0, 5)
-                            view?.onGotNowPlayingMovies(top5)
-                        }
-                    }
-
-                    override fun onComplete() {
-                    }
-                })
+            override fun onComplete() {
+            }
+        })
     }
 
-    override fun getUpcomingMovies() {
-        api.getUpcomingMovies()
-                .subscribeOn(Schedulers.io())
-                .filter {
-                    if (it.isSuccessful) {
-                        return@filter true
-                    }
+    override fun get5NowPlayingMovies() {
+        moviesNowPlayingProvider.getMoviesNowPlaying(object : Observer<MovieResults?> {
 
-                    error("Error: ${it.message()}: \n ${it.errorBody()?.string()}")
-                    return@filter false
+            override fun onSubscribe(disposable: Disposable) {
+                HomeLifeCycleObserver.getCompositeDisposable().add(disposable)
+            }
+
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
+            }
+
+            override fun onNext(nowPlayingMovies: MovieResults) {
+                if (isViewAttached && nowPlayingMovies.results.isNotEmpty()) {
+                    val top5 = nowPlayingMovies.results.subList(0, 5)
+                    view?.onGotNowPlayingMovies(top5)
                 }
-                .map {
-                    it.body()
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<MovieResults?> {
+            }
 
-                    override fun onSubscribe(disposable: Disposable) {
-                        HomeLifeCycleObserver.getCompositeDisposable().add(disposable)
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        error(throwable.message, throwable)
-                    }
-
-                    override fun onNext(upcomingMovies: MovieResults) {
-                        if (isViewAttached) {
-                            val top5 = upcomingMovies.results.subList(0, 5)
-                            view?.onGotUpcomingMovies(top5)
-                        }
-                    }
-
-                    override fun onComplete() {
-                    }
-                })
+            override fun onComplete() {
+            }
+        })
     }
 }

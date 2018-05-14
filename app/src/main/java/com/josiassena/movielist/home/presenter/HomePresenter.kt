@@ -7,7 +7,7 @@ import com.josiassena.movielist.home.view.HomeView
  * @author Josias Sena
  */
 interface HomePresenter : MvpPresenter<HomeView> {
-    fun getTopRatedMovies()
-    fun getNowPlayingMovies()
-    fun getUpcomingMovies()
+    fun getTop5RatedMovies()
+    fun get5NowPlayingMovies()
+    fun get5UpcomingMovies()
 }
