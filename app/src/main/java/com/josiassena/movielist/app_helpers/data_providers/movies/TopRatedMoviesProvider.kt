@@ -18,7 +18,10 @@ class TopRatedMoviesProvider @Inject constructor(private val api: Api,
         AnkoLogger, ApiErrorFormatter {
 
     fun getTopRatedMovies(observer: Observer<MovieResults?>) {
-        Observable.merge(getTopRatedMoviesNetworkObservable(observer), getTopRatedMoviesDatabaseObservable())
+        val apiObservable = getTopRatedMoviesNetworkObservable(observer)
+        val databaseObservable = getTopRatedMoviesDatabaseObservable()
+
+        Observable.merge(apiObservable, databaseObservable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)
