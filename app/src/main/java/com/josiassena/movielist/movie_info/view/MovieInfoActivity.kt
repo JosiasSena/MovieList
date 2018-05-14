@@ -37,6 +37,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         duration = 500
         interpolator = LinearInterpolator()
     }
+    private val downloadReceiver = PosterDownloadBroadcastReceiver()
 
     private lateinit var adapter: MovieInfoAdapter
     private lateinit var result: Result
@@ -72,9 +73,8 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
         tvDownloadPoster.setOnClickListener { downloadMoviePosterForCurrentMovie() }
 
-        val receiver = PosterDownloadBroadcastReceiver()
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED))
+        registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED))
     }
 
     private fun downloadMoviePosterForCurrentMovie() {
@@ -198,7 +198,10 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterReceiver(downloadReceiver)
+
         animation.cancel()
+
         presenter.unSubscribe()
     }
 }
