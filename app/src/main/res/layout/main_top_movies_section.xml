@@ -13,15 +13,16 @@
         android:layout_height="wrap_content"
         app:header_title="@string/top_movies" />
 
+    <include
+        android:id="@+id/emptyStateTop5"
+        layout="@layout/home_no_movies_empty_state_view" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTopMovies"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:orientation="horizontal"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_section_header"
         tools:listitem="@layout/item_main_list_view" />
 
 </LinearLayout>

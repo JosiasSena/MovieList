@@ -15,9 +15,11 @@ import com.josiassena.movielist.app_helpers.observers.HomeLifeCycleObserver
 import com.josiassena.movielist.home.presenter.HomePresenterImpl
 import com.josiassena.movielist.home.view.rec_views.movies.HomeMoviesAdapter
 import com.josiassena.movielist.movies.view.MoviesActivity
+import com.rapidsos.helpers.extensions.hide
+import com.rapidsos.helpers.extensions.show
 import kotlinx.android.synthetic.main.main_now_playing_section.*
 import kotlinx.android.synthetic.main.main_top_movies_section.*
-import kotlinx.android.synthetic.main.main_top_tv_shows_section.*
+import kotlinx.android.synthetic.main.main_upcoming_movies_section.*
 import org.jetbrains.anko.AnkoLogger
 
 class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoLogger {
@@ -98,5 +100,35 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
     override fun onGotNowPlayingMovies(top5: List<Result>) = nowPlayingAdapter.submitList(top5)
 
     override fun onGotUpcomingMovies(top5: List<Result>) = upcomingMoviesAdapter.submitList(top5)
+
+    override fun displayTop5EmptyStateView() {
+        rvTopMovies.hide()
+        emptyStateTop5.show()
+    }
+
+    override fun displayUpcomingEmptyStateView() {
+        rvUpcomingMovies.hide()
+        emptyStateUpcomingMovies.show()
+    }
+
+    override fun displayNowPlayingEmptyStateView() {
+        rvNowPlaying.hide()
+        emptyStateNowPlaying.show()
+    }
+
+    override fun dismissTop5EmptyStateView() {
+        emptyStateTop5.hide()
+        rvTopMovies.show()
+    }
+
+    override fun dismissUpcomingEmptyStateView() {
+        emptyStateUpcomingMovies.hide()
+        rvUpcomingMovies.show()
+    }
+
+    override fun dismissNowPlayingEmptyStateView() {
+        emptyStateNowPlaying.hide()
+        rvNowPlaying.show()
+    }
 
 }

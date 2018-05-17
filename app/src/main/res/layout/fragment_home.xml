@@ -12,7 +12,7 @@
 
         <include layout="@layout/main_top_movies_section" />
 
-        <include layout="@layout/main_top_tv_shows_section" />
+        <include layout="@layout/main_upcoming_movies_section" />
 
         <include layout="@layout/main_now_playing_section" />
 

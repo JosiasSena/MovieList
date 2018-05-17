@@ -31,4 +31,6 @@
     <string name="now_playing">Now Playing</string>
     <string name="home">Home</string>
     <string name="genres">Genres</string>
+    <string name="no_movies">No movies</string>
+    <string name="please_try_again_later">Please try again later</string>
 </resources>

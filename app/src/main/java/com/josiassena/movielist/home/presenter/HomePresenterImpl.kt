@@ -45,10 +45,16 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
 
             override fun onError(throwable: Throwable) {
                 error(throwable.message, throwable)
+
+                if (isViewAttached) {
+                    view?.displayTop5EmptyStateView()
+                }
             }
 
             override fun onNext(topRatedMovies: MovieResults) {
                 if (isViewAttached && topRatedMovies.results.isNotEmpty()) {
+                    view?.dismissTop5EmptyStateView()
+
                     val top5 = topRatedMovies.results.subList(0, 5)
                     view?.onGotTopRatedMovies(top5)
                 }
@@ -68,10 +74,16 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
 
             override fun onError(throwable: Throwable) {
                 error(throwable.message, throwable)
+
+                if (isViewAttached) {
+                    view?.displayUpcomingEmptyStateView()
+                }
             }
 
             override fun onNext(upcomingMovies: MovieResults) {
                 if (isViewAttached && upcomingMovies.results.isNotEmpty()) {
+                    view?.dismissUpcomingEmptyStateView()
+
                     val top5 = upcomingMovies.results.subList(0, 5)
                     view?.onGotUpcomingMovies(top5)
                 }
@@ -91,10 +103,16 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
 
             override fun onError(throwable: Throwable) {
                 error(throwable.message, throwable)
+
+                if (isViewAttached) {
+                    view?.displayNowPlayingEmptyStateView()
+                }
             }
 
             override fun onNext(nowPlayingMovies: MovieResults) {
                 if (isViewAttached && nowPlayingMovies.results.isNotEmpty()) {
+                    view?.dismissNowPlayingEmptyStateView()
+
                     val top5 = nowPlayingMovies.results.subList(0, 5)
                     view?.onGotNowPlayingMovies(top5)
                 }
