@@ -60,6 +60,17 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        getMovies()
+    }
+
+    private fun getMovies() {
+        presenter.getTop5RatedMovies()
+        presenter.get5UpcomingMovies()
+        presenter.get5NowPlayingMovies()
+    }
+
     private fun goToMoviesActivity(queryType: String) {
         context?.let {
             val bundle = Bundle().apply {
@@ -77,22 +88,16 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
     private fun initTopMoviesRecView() {
         rvTopMovies.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvTopMovies.adapter = topMoviesAdapter
-
-        presenter.getTop5RatedMovies()
     }
 
     private fun initUpcomingMoviesRecView() {
         rvUpcomingMovies.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvUpcomingMovies.adapter = upcomingMoviesAdapter
-
-        presenter.get5UpcomingMovies()
     }
 
     private fun initNowPlayingRecView() {
         rvNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvNowPlaying.adapter = nowPlayingAdapter
-
-        presenter.get5NowPlayingMovies()
     }
 
     override fun onGotTopRatedMovies(top5: List<Result>) = topMoviesAdapter.submitList(top5)
