@@ -73,7 +73,7 @@ dependencies {
     implementation Deps.kotlinExgtensions
 
     implementation Deps.mockito
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation Deps.supportV4
     testImplementation Deps.mockito
     androidTestImplementation Deps.mockitoAndroid
 
