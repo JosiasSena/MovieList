@@ -43,6 +43,10 @@ object Versions {
     const val wasabeefRecViewAnimator = "2.2.7"
     const val materialSearchBar = "0.7.5"
     const val pinchToZoom = "0.1"
+
+    const val firebaseCore = "15.0.2"
+    const val firebaseAuth = "15.1.0"
+    const val firebaseUiAuth = "3.3.1"
 }
 
 object Deps {
@@ -107,6 +111,11 @@ object Deps {
     const val assertJCore = "org.assertj:assertj-core:${Versions.assertJCore}"
     const val espressoCore = "com.android.support.test.espresso:espresso-core:${Versions.espressoCore}"
     const val RESTMock = "com.github.andrzejchm.RESTMock:android:${Versions.RESTMock}"
+
+    // Firebase
+    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+    const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebaseAuth}"
+    const val firebaseUiAuth = "com.firebaseui:firebase-ui-auth:${Versions.firebaseUiAuth}"
 
     // Other
     const val wasabeefRecViewAnimator = "jp.wasabeef:recyclerview-animators:${Versions.wasabeefRecViewAnimator}"

@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+kapt {
+    generateStubs = true
+}
+
 android {
     compileSdkVersion Versions.compileSdkVersion
     buildToolsVersion Versions.buildToolsVersion
@@ -48,6 +52,10 @@ dependencies {
     implementation Deps.supportCardviewV7
     implementation Deps.supportCustomtabs
     implementation Deps.constraintLayout
+
+    implementation Deps.firebaseCore
+    implementation Deps.firebaseAuth
+    implementation Deps.firebaseUiAuth
 
     implementation Deps.mosbyMvp
 
@@ -100,3 +108,5 @@ dependencies {
 
     androidTestImplementation Deps.RESTMock
 }
+
+apply plugin: 'com.google.gms.google-services'
