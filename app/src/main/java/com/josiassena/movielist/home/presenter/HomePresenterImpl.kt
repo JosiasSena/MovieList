@@ -2,6 +2,7 @@ package com.josiassena.movielist.home.presenter
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieResults
+import com.josiassena.core.Result
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayingProvider
@@ -55,7 +56,11 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
                 if (isViewAttached && topRatedMovies.results.isNotEmpty()) {
                     view?.dismissTop5EmptyStateView()
 
-                    val top5 = topRatedMovies.results.subList(0, 5)
+                    val validMovies = topRatedMovies.results.filter {
+                        return@filter filterOutMoviesWithoutPoster(it)
+                    }
+
+                    val top5 = validMovies.subList(0, 5)
                     view?.onGotTopRatedMovies(top5)
                 }
             }
@@ -84,7 +89,11 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
                 if (isViewAttached && upcomingMovies.results.isNotEmpty()) {
                     view?.dismissUpcomingEmptyStateView()
 
-                    val top5 = upcomingMovies.results.subList(0, 5)
+                    val validMovies = upcomingMovies.results.filter {
+                        return@filter filterOutMoviesWithoutPoster(it)
+                    }
+
+                    val top5 = validMovies.subList(0, 5)
                     view?.onGotUpcomingMovies(top5)
                 }
             }
@@ -113,7 +122,11 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
                 if (isViewAttached && nowPlayingMovies.results.isNotEmpty()) {
                     view?.dismissNowPlayingEmptyStateView()
 
-                    val top5 = nowPlayingMovies.results.subList(0, 5)
+                    val validMovies = nowPlayingMovies.results.filter {
+                        return@filter filterOutMoviesWithoutPoster(it)
+                    }
+
+                    val top5 = validMovies.subList(0, 5)
                     view?.onGotNowPlayingMovies(top5)
                 }
             }
@@ -121,5 +134,9 @@ class HomePresenterImpl : MvpBasePresenter<HomeView>(), HomePresenter, AnkoLogge
             override fun onComplete() {
             }
         })
+    }
+
+    private fun filterOutMoviesWithoutPoster(it: Result): Boolean {
+        return it.posterPath != null && it.posterPath?.isNotEmpty() as Boolean
     }
 }

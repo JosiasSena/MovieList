@@ -1,21 +1,33 @@
-package com.josiassena.movielist.main
+package com.josiassena.movielist.main.view
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
+import com.josiassena.movielist.app.App
 import com.josiassena.movielist.genres.view.GenreActivity
 import com.josiassena.movielist.home.view.HomeFragment
+import com.josiassena.movielist.main.presenter.MainPresenter
+import com.josiassena.movielist.settings.view.SettingsActivity
+import com.rapidsos.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.jetbrains.anko.intentFor
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : MvpActivity<View, MainPresenter>(),
+        NavigationView.OnNavigationItemSelectedListener, View {
+
+    private lateinit var header: android.view.View
+
+    override fun createPresenter() = MainPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        App.component.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -31,7 +43,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
+        navView.setNavigationItemSelectedListener(this)
+
+        handleNavigationDrawerHeader()
+    }
+
+    private fun handleNavigationDrawerHeader() {
+        header = navView.getHeaderView(0)
+
+        presenter.getCurrentUser()?.let {
+            header.tvFullName.text = it.displayName
+            header.tvEmail.text = it.email
+            header.ivProfilePic.setImageFromUrl(it.photoUrl?.toString() as String)
+        }
     }
 
     private fun goHome() {
@@ -55,6 +79,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_now_playing -> {
 
+            }
+            R.id.nav_settings -> {
+                startActivity(intentFor<SettingsActivity>())
             }
         }
 
