@@ -28,6 +28,10 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
     private val nowPlayingAdapter = HomeMoviesAdapter()
     private val upcomingMoviesAdapter = HomeMoviesAdapter()
 
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
+
     override fun createPresenter() = HomePresenterImpl()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
