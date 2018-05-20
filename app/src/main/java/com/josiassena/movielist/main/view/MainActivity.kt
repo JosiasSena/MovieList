@@ -8,9 +8,12 @@ import android.view.MenuItem
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
+import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
+import com.josiassena.movielist.app_helpers.constants.QueryTypes
 import com.josiassena.movielist.genres.view.GenreActivity
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
+import com.josiassena.movielist.movies.view.MoviesActivity
 import com.josiassena.movielist.settings.view.SettingsActivity
 import com.rapidsos.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,11 +77,8 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
             R.id.nav_genres -> {
                 startActivity(intentFor<GenreActivity>())
             }
-            R.id.nav_upcoming_movies -> {
-
-            }
-            R.id.nav_now_playing -> {
-
+            R.id.nav_all_movies -> {
+                startActivity(intentFor<MoviesActivity>(QUERY_KEY to QueryTypes.ALL_MOVIES))
             }
             R.id.nav_settings -> {
                 startActivity(intentFor<SettingsActivity>())
