@@ -36,6 +36,8 @@ class GenreFragment : MvpFragment<GenreView, GenrePresenterImpl>(), GenreView, A
 
     companion object {
         private const val GENRES_KEY = "genres_key"
+
+        fun newInstance() = GenreFragment()
     }
 
     override fun createPresenter() = GenrePresenterImpl()
