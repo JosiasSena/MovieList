@@ -77,6 +77,7 @@ object Deps {
 
     // OkHttp
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+    const val okHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
 
     // RxJava 2
     const val rxJava2 = "io.reactivex.rxjava2:rxjava:${Versions.rxJava2}"
