@@ -16,7 +16,19 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/genreSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:mt_hint="Search Genres"
+                app:mt_maxSuggestionsCount="10"
+                app:mt_placeholder="Search Genres" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

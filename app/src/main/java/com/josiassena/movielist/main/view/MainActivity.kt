@@ -10,12 +10,14 @@ import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
 import com.josiassena.movielist.app_helpers.constants.QueryTypes
-import com.josiassena.movielist.genres.view.GenreActivity
+import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
 import com.josiassena.movielist.movies.view.MoviesActivity
 import com.josiassena.movielist.settings.view.SettingsActivity
+import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrl
+import com.rapidsos.helpers.extensions.show
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -72,10 +74,17 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
+                genreSearchView.hide()
+
                 goHome()
             }
             R.id.nav_genres -> {
-                startActivity(intentFor<GenreActivity>())
+                genreSearchView.show()
+
+                supportFragmentManager
+                        ?.beginTransaction()
+                        ?.replace(R.id.content_main, GenreFragment())
+                        ?.commit()
             }
             R.id.nav_all_movies -> {
                 startActivity(intentFor<MoviesActivity>(QUERY_KEY to QueryTypes.ALL_MOVIES))

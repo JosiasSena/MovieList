@@ -2,7 +2,10 @@ package com.josiassena.movielist.genres.view
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import com.hannesdorfmann.mosby.mvp.MvpActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.hannesdorfmann.mosby.mvp.MvpFragment
 import com.josiassena.core.Genres
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
@@ -18,13 +21,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.recyclerview.animators.LandingAnimator
-import kotlinx.android.synthetic.main.activity_genre.*
-import kotlinx.android.synthetic.main.content_genre.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_genre.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import java.util.concurrent.TimeUnit
 
-class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, AnkoLogger {
+class GenreFragment : MvpFragment<GenreView, GenrePresenterImpl>(), GenreView, AnkoLogger {
 
     private val genresAdapter = GenresAdapter()
 
@@ -37,13 +40,17 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
     override fun createPresenter() = GenrePresenterImpl()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_genre, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         App.component.inject(this)
 
         savedInstanceState?.let { genresRetrieved = it.getParcelable(GENRES_KEY) }
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_genre)
+        super.onViewCreated(view, savedInstanceState)
 
         lifecycle.addObserver(GenreLifeCycleObserver)
 
@@ -71,7 +78,7 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
     }
 
     private fun listenToSearchViewChanges() {
-        SearchObservable.fromView(genreSearchView)
+        SearchObservable.fromView(activity?.genreSearchView)
                 .subscribeOn(Schedulers.io())
                 .filter {
                     if (isShouldExecuteGenreSearchQuery) {
@@ -104,13 +111,13 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
 
     private fun initRecView() {
         rvGenre.adapter = genresAdapter
-        rvGenre.layoutManager = GridLayoutManager(this, 2)
+        rvGenre.layoutManager = GridLayoutManager(context, 2)
         rvGenre.itemAnimator = LandingAnimator()
         rvGenre.setItemViewCacheSize(50)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.run { putParcelable(GENRES_KEY, genresRetrieved) }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.run { putParcelable(GENRES_KEY, genresRetrieved) }
         super.onSaveInstanceState(outState)
     }
 
@@ -146,6 +153,6 @@ class GenreActivity : MvpActivity<GenreView, GenrePresenterImpl>(), GenreView, A
     }
 
     override fun showNoInternetConnectionError() {
-        showLongSnackBar(rvGenre, R.string.no_internet)
+        context?.showLongSnackBar(rvGenre, R.string.no_internet)
     }
 }

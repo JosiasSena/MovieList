@@ -13,9 +13,12 @@ object SearchObservable : MaterialSearchBar.OnSearchActionListener, TextWatcher 
 
     private var subject = PublishSubject.create<String>()
 
-    fun fromView(searchBar: MaterialSearchBar): Observable<String> {
-        searchBar.setOnSearchActionListener(this)
-        searchBar.addTextChangeListener(this)
+    fun fromView(searchBar: MaterialSearchBar?): Observable<String> {
+        searchBar?.let {
+            it.setOnSearchActionListener(this)
+            it.addTextChangeListener(this)
+        }
+
         return subject
     }
 

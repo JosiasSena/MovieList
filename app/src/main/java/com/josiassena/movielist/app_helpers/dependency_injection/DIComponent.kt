@@ -6,7 +6,7 @@ import com.josiassena.movielist.app_helpers.dependency_injection.modules.MoviesP
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
-import com.josiassena.movielist.genres.view.GenreActivity
+import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.presenter.HomePresenterImpl
 import com.josiassena.movielist.main.view.MainActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
@@ -31,7 +31,7 @@ import javax.inject.Singleton
 interface DIComponent {
     fun inject(mainPresenterImpl: GenrePresenterImpl)
     fun inject(moviesPresenterImpl: MoviesPresenterImpl)
-    fun inject(genreActivity: GenreActivity)
+    fun inject(genreFragment: GenreFragment)
     fun inject(movieInfoPresenterImpl: MovieInfoPresenterImpl)
     fun inject(fullScreenPresenterImpl: FullScreenPresenterImpl)
     fun inject(databaseManager: DatabaseManager)

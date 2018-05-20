@@ -26,7 +26,7 @@ class MovieProvider @Inject constructor(private val api: Api,
      * @param genreId The genre id to use to fetch the movies
      * @param observer The observer to notify of success or error
      */
-    fun getMovies(genreId: Int, observer: MaybeObserver<MovieResults?>) {
+    fun getMovies(genreId: Int = -1, observer: MaybeObserver<MovieResults?>) {
         Observable.merge(getMoviesDatabaseObservable(genreId),
                 getMoviesNetworkObservable(genreId, observer))
                 .subscribeOn(Schedulers.io())
@@ -67,7 +67,7 @@ class MovieProvider @Inject constructor(private val api: Api,
      * @param page The page to get
      * @param observer The observer to notify of success or error
      */
-    fun getMoviesPaginated(genreId: Int, page: Int, observer: MaybeObserver<MovieResults?>) {
+    fun getMoviesPaginated(genreId: Int = -1, page: Int, observer: MaybeObserver<MovieResults?>) {
         Observable.merge(getMoviesPaginatedDatabaseObservable(genreId, page),
                 getMoviesPaginatedNetworkObservable(genreId, page, observer))
                 .subscribeOn(Schedulers.io())

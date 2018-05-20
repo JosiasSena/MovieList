@@ -1,2 +1,2 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.josiassena.movielist.genres.view.GenreActivity" />
+    tools:context="com.josiassena.movielist.genres.view.GenreFragment" />
