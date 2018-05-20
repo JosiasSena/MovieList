@@ -6,6 +6,7 @@ const val QUERY_KEY = "query"
 
 enum class QueryTypes {
     GENRE,
+    ALL_MOVIES,
     TOP_MOVIES,
     UPCOMING_MOVIES,
     NOW_PLAYING
