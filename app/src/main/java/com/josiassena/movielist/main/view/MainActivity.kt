@@ -60,13 +60,6 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
         }
     }
 
-    private fun goHome() {
-        supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.content_main, HomeFragment())
-                ?.commit()
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -78,10 +71,7 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
             R.id.nav_genres -> {
                 genreSearchView.show()
 
-                supportFragmentManager
-                        ?.beginTransaction()
-                        ?.replace(R.id.content_main, GenreFragment())
-                        ?.commit()
+                goToGenresFragment()
             }
             R.id.nav_settings -> {
                 startActivity(intentFor<SettingsActivity>())
@@ -90,6 +80,20 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun goHome() {
+        supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.content_main, HomeFragment.newInstance())
+                ?.commit()
+    }
+
+    private fun goToGenresFragment() {
+        supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.content_main, GenreFragment.newInstance())
+                ?.commit()
     }
 
     override fun onBackPressed() {
