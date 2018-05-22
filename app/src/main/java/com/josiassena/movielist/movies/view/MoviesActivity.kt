@@ -41,6 +41,7 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         setContentView(R.layout.activity_movies)
         setSupportActionBar(toolbar)
         toolbar.transitionName = "genre_title"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
 
