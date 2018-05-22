@@ -47,14 +47,14 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
 
         initRecView()
 
-        getMovies()
+        updateActionBarUi()
 
         movieRefreshLayout.setOnRefreshListener { refreshMovies() }
 
         refreshMovies()
     }
 
-    private fun getMovies() {
+    private fun updateActionBarUi() {
         when (currentQueryType) {
             QueryTypes.GENRE.name -> {
                 currentGenre = intent?.extras?.getParcelable(KEY_GENRE)
