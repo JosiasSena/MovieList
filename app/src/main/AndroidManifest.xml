@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+
         <activity
             android:name=".splash.SplashActivity"
             android:label="@string/app_name"
@@ -27,18 +28,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".main.view.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".movies.view.MoviesActivity"
             android:label="@string/title_activity_movies"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.josiassena.movielist.main.view.MainActivity" />
+        </activity>
+
         <activity
             android:name=".movie_info.view.MovieInfoActivity"
             android:label="@string/title_activity_movie_info"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".full_screen_image.view.FullScreenImageActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
