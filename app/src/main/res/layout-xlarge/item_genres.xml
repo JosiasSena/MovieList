@@ -16,7 +16,7 @@
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvGenreTitle"
         style="@style/MainTextStyle"
         android:layout_width="match_parent"
