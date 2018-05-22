@@ -7,8 +7,9 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvHeaderTitle"
+        style="@style/MainTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -16,8 +17,9 @@
         android:textAllCaps="true"
         android:textColor="@color/white" />
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvSeeAll"
+        style="@style/MainTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
