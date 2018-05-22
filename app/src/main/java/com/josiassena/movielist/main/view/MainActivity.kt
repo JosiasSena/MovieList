@@ -8,12 +8,9 @@ import android.view.MenuItem
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
-import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
-import com.josiassena.movielist.app_helpers.constants.QueryTypes
 import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
-import com.josiassena.movielist.movies.view.MoviesActivity
 import com.josiassena.movielist.settings.view.SettingsActivity
 import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrl
@@ -85,9 +82,6 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
                         ?.beginTransaction()
                         ?.replace(R.id.content_main, GenreFragment())
                         ?.commit()
-            }
-            R.id.nav_all_movies -> {
-                startActivity(intentFor<MoviesActivity>(QUERY_KEY to QueryTypes.ALL_MOVIES))
             }
             R.id.nav_settings -> {
                 startActivity(intentFor<SettingsActivity>())

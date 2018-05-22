@@ -14,11 +14,6 @@
             android:id="@+id/nav_genres"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/genres" />
-
-        <item
-            android:id="@+id/nav_all_movies"
-            android:icon="@drawable/ic_movies"
-            android:title="@string/all_movies" />
     </group>
 
     <item android:title="@string/more">
