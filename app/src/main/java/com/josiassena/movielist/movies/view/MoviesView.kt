@@ -12,4 +12,6 @@ interface MoviesView : MvpView, LoadingView, NoInternetView {
     fun displayMovies(results: MovieResults)
     fun refreshMovies()
     fun addMoreMovies(results: MovieResults)
+    fun hideMovies()
+    fun showMovies()
 }

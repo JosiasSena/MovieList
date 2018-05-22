@@ -2,10 +2,8 @@ package com.josiassena.movielist.movies.view
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.Genre
 import com.josiassena.core.MovieResults
@@ -16,6 +14,9 @@ import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
 import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.movies.view.rec_view.MoviesAdapter
+import com.rapidsos.helpers.extensions.hide
+import com.rapidsos.helpers.extensions.show
+import com.rapidsos.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movies.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
@@ -169,11 +170,16 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         runOnUiThread { movieAdapter.addMovies(results.results) }
     }
 
-    override fun showEmptyStateView() = showMovies()
+    override fun showEmptyStateView() = hideMovies()
 
-    override fun showNoInternetConnectionError() {
-        Snackbar.make(toolbar, R.string.no_internet, Snackbar.LENGTH_LONG).show()
+    override fun hideMovies() {
+        runOnUiThread {
+            tvNoMovies.show()
+            rvMovies.hide()
+        }
     }
+
+    override fun showNoInternetConnectionError() = showLongSnackBar(toolbar, R.string.no_internet)
 
     override fun refreshMovies() {
         when (currentQueryType) {
@@ -199,10 +205,10 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         movieAdapter.addMoreMovies(results.results)
     }
 
-    private fun showMovies() {
+    override fun showMovies() {
         runOnUiThread {
-            tvNoMovies.visibility = View.GONE
-            rvMovies.visibility = View.VISIBLE
+            tvNoMovies.hide()
+            rvMovies.show()
         }
     }
 }
