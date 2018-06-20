@@ -8,7 +8,7 @@ import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayingProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.UpcomingMoviesProvider
-import com.josiassena.movielist.app_helpers.observers.HomeLifeCycleObserver
+import com.josiassena.movielist.app_helpers.observers.fragment.HomeLifeCycleObserver
 import com.josiassena.movielist.home.view.HomeView
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

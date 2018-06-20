@@ -11,7 +11,7 @@ import com.josiassena.core.Result
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
 import com.josiassena.movielist.app_helpers.constants.QueryTypes
-import com.josiassena.movielist.app_helpers.observers.HomeLifeCycleObserver
+import com.josiassena.movielist.app_helpers.observers.fragment.HomeLifeCycleObserver
 import com.josiassena.movielist.home.presenter.HomePresenterImpl
 import com.josiassena.movielist.home.view.rec_views.movies.HomeMoviesAdapter
 import com.josiassena.movielist.movies.view.MoviesActivity
@@ -104,11 +104,11 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
         rvNowPlaying.adapter = nowPlayingAdapter
     }
 
-    override fun onGotTopRatedMovies(top5: List<Result>) = topMoviesAdapter.submitList(top5)
+    override fun onGotTopRatedMovies(top5: List<Result>) = topMoviesAdapter.addItems(top5)
 
-    override fun onGotNowPlayingMovies(top5: List<Result>) = nowPlayingAdapter.submitList(top5)
+    override fun onGotUpcomingMovies(top5: List<Result>) = upcomingMoviesAdapter.addItems(top5)
 
-    override fun onGotUpcomingMovies(top5: List<Result>) = upcomingMoviesAdapter.submitList(top5)
+    override fun onGotNowPlayingMovies(top5: List<Result>) = nowPlayingAdapter.addItems(top5)
 
     override fun displayTop5EmptyStateView() {
         rvTopMovies.hide()
