@@ -14,5 +14,5 @@ This application is not meant to be used as a guide to developers of
 any kind, as to how your applications should be built.
 
 ## Screenshots
-| ![](screenshots/home_screen.png) | ![](screenshots/action_genre.png) | ![](screenshots/movie_sample.png)
-|:---|:---|:---|
+| ![](screenshots/home_screen.png) | ![](screenshots/genre_screen.png) | ![](screenshots/action_genre.png) | ![](screenshots/movie_sample.png)
+|:---|:---|:---|:---|
