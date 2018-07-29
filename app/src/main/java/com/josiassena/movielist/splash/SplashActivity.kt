@@ -20,8 +20,8 @@ class SplashActivity : AppCompatActivity() {
 
         Observable.timer(300, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     startActivity(intentFor<MainActivity>().clearTask().newTask())
-                })
+                }
     }
 }
