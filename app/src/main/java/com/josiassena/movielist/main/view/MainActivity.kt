@@ -113,7 +113,6 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
         supportFragmentManager
                 ?.beginTransaction()
                 ?.replace(R.id.content_main, fragment)
-                ?.addToBackStack(null)
                 ?.commit()
     }
 
