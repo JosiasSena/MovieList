@@ -1,27 +1,27 @@
 package com.josiassena.movielist.settings.view
 
-import android.content.Context
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseUser
-import com.hannesdorfmann.mosby.mvp.MvpActivity
+import com.hannesdorfmann.mosby.mvp.MvpFragment
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.settings.presenter.SettingsPresenter
 import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrl
 import com.rapidsos.helpers.extensions.show
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.content_settings.*
-import org.jetbrains.anko.longToast
+import kotlinx.android.synthetic.main.fragment_settings.*
 import java.util.*
 import javax.inject.Inject
 
-class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
+class SettingsFragment : MvpFragment<View, SettingsPresenter>(), View {
 
     private val authUi by lazy { AuthUI.getInstance() }
     private val providers = Arrays.asList(AuthUI.IdpConfig.GoogleBuilder().build())
@@ -30,24 +30,22 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
     lateinit var settingsPresenter: SettingsPresenter
 
     companion object {
-        private const val TAG = "SettingsActivity"
+        private const val TAG = "SettingsFragment"
         private const val RC_SIGN_IN = 5124
 
-        @JvmStatic
-        fun start(context: Context) {
-            context.startActivity(Intent(context, SettingsActivity::class.java))
-        }
+        fun newInstance() = SettingsFragment()
     }
 
     override fun createPresenter() = settingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.component.inject(this)
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        App.component.inject(this)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): android.view.View? {
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onStart() {
@@ -80,8 +78,6 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
                     // Google Sign In was successful, authenticate with Firebase
                     val currentUser = presenter.getCurrentUser()
 
-                    longToast("Signed in successfully. Welcome ${currentUser?.displayName}")
-
                     presenter.updateCurrentUserData(currentUser)
 
                     showSignOutButton()
@@ -104,13 +100,15 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
     }
 
     private fun signOut() {
-        authUi.signOut(this)
-                .addOnCompleteListener {
+        context?.let {
+            authUi.signOut(it)
+                    .addOnCompleteListener {
 
-                    showSignInButton()
+                        showSignInButton()
 
-                    presenter.onSignedOut()
-                }
+                        presenter.onSignedOut()
+                    }
+        }
     }
 
     override fun displayUserData(currentUser: FirebaseUser) {

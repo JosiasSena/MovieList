@@ -2,7 +2,9 @@ package com.josiassena.movielist.main.view
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import com.hannesdorfmann.mosby.mvp.MvpActivity
@@ -11,7 +13,7 @@ import com.josiassena.movielist.app.App
 import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
-import com.josiassena.movielist.settings.view.SettingsActivity
+import com.josiassena.movielist.settings.view.SettingsFragment
 import com.rapidsos.helpers.extensions.hide
 import com.rapidsos.helpers.extensions.setImageFromUrl
 import com.rapidsos.helpers.extensions.show
@@ -34,19 +36,19 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
         setSupportActionBar(toolbar)
 
         initNavigationDrawer()
-
-        goHome()
     }
 
     private fun initNavigationDrawer() {
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
 
         handleNavigationDrawerHeader()
+
+        goHome()
     }
 
     private fun handleNavigationDrawerHeader() {
@@ -60,42 +62,64 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+        item.isChecked = true
+
+        var fragmentToGoTo: Fragment? = null
+
+        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+
+            override fun onDrawerSlide(drawerView: android.view.View, slideOffset: Float) {
+            }
+
+            override fun onDrawerOpened(drawerView: android.view.View) {
+            }
+
+            override fun onDrawerClosed(drawerView: android.view.View) {
+                fragmentToGoTo?.let {
+                    goToFragment(it)
+
+                    fragmentToGoTo = null
+                }
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+        })
+
         when (item.itemId) {
             R.id.nav_home -> {
                 genreSearchView.hide()
-
-                goHome()
+                fragmentToGoTo = HomeFragment.newInstance()
             }
             R.id.nav_genres -> {
                 genreSearchView.show()
-
-                goToGenresFragment()
+                fragmentToGoTo = GenreFragment.newInstance()
             }
-            R.id.nav_settings -> SettingsActivity.start(this)
+            R.id.nav_settings -> {
+                genreSearchView.hide()
+                fragmentToGoTo = SettingsFragment.newInstance()
+            }
         }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
     private fun goHome() {
-        supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.content_main, HomeFragment.newInstance())
-                ?.commit()
+        goToFragment(HomeFragment.newInstance())
     }
 
-    private fun goToGenresFragment() {
+    private fun goToFragment(fragment: Fragment) {
         supportFragmentManager
                 ?.beginTransaction()
-                ?.replace(R.id.content_main, GenreFragment.newInstance())
+                ?.replace(R.id.content_main, fragment)
+                ?.addToBackStack(null)
                 ?.commit()
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }

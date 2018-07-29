@@ -57,16 +57,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity
-            android:name=".settings.view.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".main.view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.josiassena.movielist.main.view.MainActivity" />
-        </activity>
-
     </application>
 
 </manifest>
