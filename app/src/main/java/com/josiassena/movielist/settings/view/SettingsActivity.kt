@@ -1,16 +1,19 @@
 package com.josiassena.movielist.settings.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseUser
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.settings.presenter.SettingsPresenter
 import com.rapidsos.helpers.extensions.hide
+import com.rapidsos.helpers.extensions.setImageFromUrl
 import com.rapidsos.helpers.extensions.show
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.content_settings.*
@@ -29,11 +32,14 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
     companion object {
         private const val TAG = "SettingsActivity"
         private const val RC_SIGN_IN = 5124
+
+        @JvmStatic
+        fun start(context: Context) {
+            context.startActivity(Intent(context, SettingsActivity::class.java))
+        }
     }
 
-    override fun createPresenter(): SettingsPresenter {
-        return settingsPresenter
-    }
+    override fun createPresenter() = settingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.component.inject(this)
@@ -47,7 +53,8 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
     override fun onStart() {
         super.onStart()
 
-        presenter.updateCurrentUserData(presenter.getCurrentUser())
+        val currentUser = presenter.getCurrentUser()
+        presenter.updateCurrentUserData(currentUser)
 
         btnGoogleSignIn.setOnClickListener { signIn() }
         btnSignOut.setOnClickListener { signOut() }
@@ -104,6 +111,18 @@ class SettingsActivity : MvpActivity<View, SettingsPresenter>(), View {
 
                     presenter.onSignedOut()
                 }
+    }
+
+    override fun displayUserData(currentUser: FirebaseUser) {
+        cvProfileInformation.show()
+
+        ivProfilePicture.setImageFromUrl(currentUser.photoUrl?.toString() as String)
+        tvFullName.text = currentUser.displayName
+        tvEmailAddress.text = currentUser.email
+    }
+
+    override fun hideUserData() {
+        cvProfileInformation.hide()
     }
 
     override fun showSignOutButton() {

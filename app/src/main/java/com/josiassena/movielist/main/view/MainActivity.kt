@@ -18,7 +18,6 @@ import com.rapidsos.helpers.extensions.show
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import org.jetbrains.anko.intentFor
 
 class MainActivity : MvpActivity<View, MainPresenter>(),
         NavigationView.OnNavigationItemSelectedListener, View {
@@ -73,9 +72,7 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
 
                 goToGenresFragment()
             }
-            R.id.nav_settings -> {
-                startActivity(intentFor<SettingsActivity>())
-            }
+            R.id.nav_settings -> SettingsActivity.start(this)
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

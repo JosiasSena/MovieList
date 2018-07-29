@@ -19,6 +19,7 @@ class SettingsPresenter @Inject constructor(private val preferences: MoviesPrefe
     override fun updateCurrentUserData(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             if (isViewAttached) {
+                view?.displayUserData(currentUser)
                 view?.showSignOutButton()
             }
         }
@@ -27,6 +28,7 @@ class SettingsPresenter @Inject constructor(private val preferences: MoviesPrefe
     override fun onSignedOut() {
         if (isViewAttached) {
             view?.showSignInButton()
+            view?.hideUserData()
         }
     }
 
