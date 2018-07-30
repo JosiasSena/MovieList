@@ -116,7 +116,6 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
                 ?.commit()
     }
 
-
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
