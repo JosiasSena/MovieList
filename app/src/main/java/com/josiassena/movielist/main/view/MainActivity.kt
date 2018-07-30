@@ -62,8 +62,6 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.isChecked = true
-
         var fragmentToGoTo: Fragment? = null
 
         drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -106,15 +104,18 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
     }
 
     private fun goHome() {
+        navView.menu.getItem(0).isChecked = true
         goToFragment(HomeFragment.newInstance())
     }
 
     private fun goToFragment(fragment: Fragment) {
         supportFragmentManager
                 ?.beginTransaction()
+                ?.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ?.replace(R.id.content_main, fragment)
                 ?.commit()
     }
+
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
