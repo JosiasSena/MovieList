@@ -87,24 +87,24 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
     fun getTopRatedMovies(): Maybe<MovieResults> {
         return database.resultDao()
                 .getTopRatedMovies()
-                .map { return@map MovieResults().apply { this.results = it } }
                 .subscribeOn(Schedulers.io())
+                .map { return@map MovieResults().apply { this.results = it } }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getUpcomingMovies(): Maybe<MovieResults> {
         return database.resultDao()
                 .getUpcomingMovies()
-                .map { return@map MovieResults().apply { this.results = it } }
                 .subscribeOn(Schedulers.io())
+                .map { return@map MovieResults().apply { this.results = it } }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getMoviesNowPlaying(): Maybe<MovieResults> {
         return database.resultDao()
                 .getMoviesNowPlaying()
-                .map { return@map MovieResults().apply { this.results = it } }
                 .subscribeOn(Schedulers.io())
+                .map { return@map MovieResults().apply { this.results = it } }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
