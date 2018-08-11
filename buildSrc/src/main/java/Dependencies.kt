@@ -10,9 +10,9 @@ object Versions {
     const val versionCode = 1
     const val versionName = "1.0"
 
-    const val kotlin = "1.2.50"
+    const val kotlin = "1.2.60"
     const val anko = "0.10.5"
-    const val kotlinExtensions = "0.2"
+    const val kotlinExtensions = "0.3"
 
     const val room = "1.1.0"
 
