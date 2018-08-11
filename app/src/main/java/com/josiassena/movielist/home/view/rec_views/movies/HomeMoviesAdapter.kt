@@ -57,12 +57,16 @@ class HomeMoviesAdapter : RecyclerView.Adapter<HomeMoviesViewHolder>() {
 
     fun addItems(items: List<Result>) {
         if (results.isNotEmpty()) {
+            val previousCount = itemCount
+
             results.clear()
+
+            notifyItemRangeRemoved(0, previousCount)
         }
 
         results.addAll(items)
 
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, itemCount)
     }
 
 }
