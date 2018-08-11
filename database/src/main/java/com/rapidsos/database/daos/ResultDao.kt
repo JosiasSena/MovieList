@@ -19,7 +19,7 @@ interface ResultDao : DaoRepository<Result> {
     @Query("SELECT * FROM result WHERE id LIKE :movieId LIMIT 1")
     fun getMovieFromId(movieId: Int): Maybe<Result>
 
-    @Query("SELECT * FROM result ORDER BY vote_average DESC")
+    @Query("SELECT * FROM result ORDER BY vote_average ASC")
     fun getTopRatedMovies(): Maybe<List<Result>>
 
     @Query("SELECT * FROM result WHERE release_date >= date('now')")
