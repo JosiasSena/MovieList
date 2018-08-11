@@ -30,7 +30,8 @@ class TopRatedMoviesProvider @Inject constructor(private val api: Api,
     private fun getTopRatedMoviesNetworkObservable(observer: Observer<MovieResults?>):
             Observable<MovieResults?> {
         return api.getTopRatedMovies()
-                .filter({
+                .subscribeOn(Schedulers.io())
+                .filter {
                     when {
                         it.isSuccessful.and(it.body() != null) -> return@filter true
                         else -> {
@@ -39,7 +40,7 @@ class TopRatedMoviesProvider @Inject constructor(private val api: Api,
                             return@filter false
                         }
                     }
-                })
+                }
                 .map { return@map it.body() }
                 .doOnNext { it?.let { databaseManager.saveMovieResults(it) } }
     }

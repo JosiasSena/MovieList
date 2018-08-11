@@ -28,7 +28,7 @@ class UpcomingMoviesProvider @Inject constructor(private val api: Api,
     }
 
     private fun getUpcomingMoviesNetworkObservable(observer: Observer<MovieResults?>):
-            Observable<MovieResults?>? {
+            Observable<MovieResults?> {
         return api.getUpcomingMovies()
                 .subscribeOn(Schedulers.io())
                 .filter {
