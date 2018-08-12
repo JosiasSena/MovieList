@@ -38,7 +38,7 @@ class GenreProvider @Inject constructor(private val api: Api,
     @VisibleForTesting()
     fun getGenresNetworkObservable(): Observable<Genres?> {
         return api.getMovieGenres()
-                .filter({ response ->
+                .filter { response ->
                     if (response.isSuccessful.and(response.body() != null)) {
                         return@filter true
                     }
@@ -46,7 +46,7 @@ class GenreProvider @Inject constructor(private val api: Api,
                     error("getGenres error: ${response.errorBody()?.string()}")
                     observer.onError(Throwable(response.message()))
                     return@filter false
-                })
+                }
                 .map { return@map it.body() }
                 .doOnNext { it?.let { databaseManager.saveGenres(it) } }
     }
