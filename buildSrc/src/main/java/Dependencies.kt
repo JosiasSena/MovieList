@@ -47,6 +47,8 @@ object Versions {
     const val firebaseCore = "15.0.2"
     const val firebaseAuth = "15.1.0"
     const val firebaseUiAuth = "3.3.1"
+    const val firebaseDatabase = "16.0.1"
+    const val firebaseFireStore = "17.0.4"
 }
 
 object Deps {
@@ -117,6 +119,8 @@ object Deps {
     const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
     const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebaseAuth}"
     const val firebaseUiAuth = "com.firebaseui:firebase-ui-auth:${Versions.firebaseUiAuth}"
+    const val firebaseDatabase = "com.google.firebase:firebase-database:${Versions.firebaseDatabase}"
+    const val firebaseFireStore = "com.google.firebase:firebase-firestore:${Versions.firebaseFireStore}"
 
     // Other
     const val wasabeefRecViewAnimator = "jp.wasabeef:recyclerview-animators:${Versions.wasabeefRecViewAnimator}"
