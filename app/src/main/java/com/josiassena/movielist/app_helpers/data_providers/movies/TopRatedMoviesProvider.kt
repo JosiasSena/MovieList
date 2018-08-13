@@ -42,7 +42,7 @@ class TopRatedMoviesProvider @Inject constructor(private val api: Api,
                     }
                 }
                 .map { return@map it.body() }
-                .doOnNext { it?.let { databaseManager.saveMovieResults(it) } }
+                .doOnNext { results -> results?.let { databaseManager.saveMovieResults(it) } }
     }
 
     private fun getTopRatedMoviesDatabaseObservable(): Observable<MovieResults> {
