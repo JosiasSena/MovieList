@@ -38,7 +38,10 @@ open class DatabaseManager(private val database: MLDatabase) : AnkoLogger {
 
     fun saveMovieResults(movieResults: MovieResults?) {
         doAsync {
-            movieResults?.let { genreMovieResultsDao.insert(it) }
+            movieResults?.let {
+                genreMovieResultsDao.insert(it)
+                resultDao.insertAll(it.results)
+            }
         }
     }
 
