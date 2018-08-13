@@ -62,10 +62,7 @@ class HomeFragment : MvpFragment<HomeView, HomePresenterImpl>(), HomeView, AnkoL
         headerNowPlaying.setOnClickListener {
             goToMoviesActivity(QueryTypes.NOW_PLAYING.name)
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
         getMovies()
     }
 
