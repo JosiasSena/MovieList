@@ -21,7 +21,7 @@ class TopRatedMoviesProvider @Inject constructor(private val api: Api,
         val apiObservable = getTopRatedMoviesNetworkObservable(observer)
         val databaseObservable = getTopRatedMoviesDatabaseObservable()
 
-        Observable.merge(apiObservable, databaseObservable)
+        Observable.merge(databaseObservable, apiObservable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)
