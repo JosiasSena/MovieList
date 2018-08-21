@@ -4,9 +4,10 @@
     android:layout_height="300dp">
 
     <ImageView
-        android:id="@+id/iv_movie_poster"
+        android:id="@+id/ivHomeMoviePoster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/movie_poster_image"
         android:scaleType="fitXY"
         android:src="@drawable/poster_place_holder"
         android:transitionName="ivMoviePoster" />

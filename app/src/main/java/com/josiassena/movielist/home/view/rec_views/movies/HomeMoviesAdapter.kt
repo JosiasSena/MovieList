@@ -32,14 +32,14 @@ class HomeMoviesAdapter : RecyclerView.Adapter<HomeMoviesViewHolder>() {
         val movie = results[position]
 
         holder.itemView?.let {itemView ->
-            itemView.iv_movie_poster.setImageFromUrl(POSTER_BASE_URL + movie.posterPath)
+            itemView.ivHomeMoviePoster.setImageFromUrl(POSTER_BASE_URL + movie.posterPath)
             itemView.setOnClickListener { goToMovieInformationActivity(itemView, movie) }
         }
     }
 
     private fun goToMovieInformationActivity(itemView: View, movie: Result) {
         val context = itemView.context
-        val ivMoviePoster = itemView.iv_movie_poster
+        val ivMoviePoster = itemView.ivHomeMoviePoster
 
         val transitionName = ivMoviePoster?.transitionName as String
         val options = ActivityOptionsCompat
