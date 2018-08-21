@@ -42,9 +42,11 @@ class FavoritesFragment : MvpFragment<FavoritesView, FavoritesPresenterImpl>(), 
     }
 
     override fun goToLogInScreen() {
+        // TODO
     }
 
     override fun showEmptyListView() {
+        // TODO
     }
 
     override fun showFavoriteMovies(movies: ArrayList<Result>) {
