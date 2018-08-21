@@ -5,4 +5,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView
 /**
  * @author Josias Sena
  */
-interface FavoritesView : MvpView
+interface FavoritesView : MvpView {
+    fun goToLogInScreen()
+    fun showEmptyListView()
+}
