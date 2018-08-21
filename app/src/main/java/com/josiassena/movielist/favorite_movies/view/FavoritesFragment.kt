@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hannesdorfmann.mosby.mvp.MvpFragment
+import com.josiassena.core.Result
 import com.josiassena.movielist.R
 import com.josiassena.movielist.favorite_movies.presenter.FavoritesPresenterImpl
 import com.josiassena.movielist.favorite_movies.view.rec_view.FavoriteMoviesAdapter
@@ -44,6 +45,10 @@ class FavoritesFragment : MvpFragment<FavoritesView, FavoritesPresenterImpl>(), 
     }
 
     override fun showEmptyListView() {
+    }
+
+    override fun showFavoriteMovies(movies: ArrayList<Result>) {
+        recViewAdapter.addFavoriteMovies(movies)
     }
 
 }
