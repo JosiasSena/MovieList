@@ -44,11 +44,11 @@ object Versions {
     const val materialSearchBar = "0.7.5"
     const val pinchToZoom = "0.1"
 
-    const val firebaseCore = "15.0.2"
-    const val firebaseAuth = "15.1.0"
-    const val firebaseUiAuth = "3.3.1"
+    const val firebaseCore = "16.0.1"
+    const val firebaseAuth = "16.0.3"
+    const val firebaseUiAuth = "4.0.0"
     const val firebaseDatabase = "16.0.1"
-    const val firebaseFireStore = "17.0.4"
+    const val firebaseFireStore = "17.1.0"
 }
 
 object Deps {
