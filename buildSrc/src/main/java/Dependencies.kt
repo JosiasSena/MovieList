@@ -28,7 +28,7 @@ object Versions {
     const val okHttp = "3.8.0"
 
     const val rxJava2 = "2.1.10"
-    const val rxAndroid2 = "2.0.2"
+    const val rxAndroid2 = "2.1.0"
     const val rxKotlin = "2.2.0"
 
     const val picasso = "2.5.2"
