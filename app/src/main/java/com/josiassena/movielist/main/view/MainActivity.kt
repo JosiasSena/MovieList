@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
+import com.josiassena.movielist.favorite_movies.view.FavoritesFragment
 import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
@@ -92,6 +93,10 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
             R.id.nav_genres -> {
                 genreSearchView.show()
                 fragmentToGoTo = GenreFragment.newInstance()
+            }
+            R.id.nav_favorites -> {
+                genreSearchView.hide()
+                fragmentToGoTo = FavoritesFragment.newInstance()
             }
             R.id.nav_settings -> {
                 genreSearchView.hide()

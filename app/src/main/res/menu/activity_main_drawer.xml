@@ -8,16 +8,25 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_gallery"
+            android:orderInCategory="1"
             android:title="@string/home" />
 
         <item
             android:id="@+id/nav_genres"
             android:icon="@drawable/ic_menu_camera"
+            android:orderInCategory="2"
             android:title="@string/genres" />
+
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_menu_star"
+            android:orderInCategory="3"
+            android:title="@string/favorite_movies" />
 
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
+            android:orderInCategory="4"
             android:title="@string/settings" />
     </group>
 
