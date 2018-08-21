@@ -2,7 +2,6 @@ package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
 import android.app.DownloadManager
 import android.content.Context
-import androidx.content.systemService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -16,7 +15,7 @@ open class AndroidServicesModule(private val context: Context) {
     @Provides
     @Singleton
     fun providesDownloadManager(): DownloadManager {
-        return context.systemService<DownloadManager>()
+        return context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     }
 
 }
