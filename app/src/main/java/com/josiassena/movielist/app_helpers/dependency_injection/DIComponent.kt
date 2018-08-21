@@ -2,6 +2,7 @@ package com.josiassena.movielist.app_helpers.dependency_injection
 
 import com.josiassena.movieapi.di_modules.MovieApiModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.AndroidServicesModule
+import com.josiassena.movielist.app_helpers.dependency_injection.modules.FirebaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.MoviesPreferenceModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
@@ -27,7 +28,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [NetworkManagerModule::class, DatabaseModule::class,
     ProvidersModule::class, MovieApiModule::class, AndroidServicesModule::class,
-    MoviesPreferenceModule::class])
+    MoviesPreferenceModule::class, FirebaseModule::class])
 interface DIComponent {
     fun inject(mainPresenterImpl: GenrePresenterImpl)
     fun inject(moviesPresenterImpl: MoviesPresenterImpl)
