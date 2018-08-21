@@ -39,4 +39,5 @@
     <string name="all_movies">All movies</string>
     <string name="search_genres">Search Genres</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

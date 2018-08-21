@@ -3,11 +3,18 @@ package com.josiassena.movielist.movie_info.presenter
 import android.app.DownloadManager
 import android.graphics.Color
 import android.support.customtabs.CustomTabsIntent
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
+import com.josiassena.movielist.app_helpers.exceptions.MovieException
+import com.josiassena.movielist.app_helpers.preferences.MoviesPreferences
+import com.josiassena.movielist.firebase.FirebaseDatabase
+import com.josiassena.movielist.firebase.OnMovieAddedToFavoritesListener
+import com.josiassena.movielist.firebase.OnMovieRemovedFromFavoritesListener
 import com.josiassena.movielist.movie_info.view.MovieInfoView
 import com.rapidsos.database.database.DatabaseManager
 import com.rapidsos.helpers.network.NetworkManager
@@ -41,11 +48,28 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
     @Inject
     lateinit var networkManager: NetworkManager
 
+    @Inject
+    lateinit var preferences: MoviesPreferences
+
+    @Inject
+    lateinit var firebaseDatabase: FirebaseDatabase
+
     init {
         App.component.inject(this)
+
+        if (preferences.isSignedIn()) {
+            if (isViewAttached) {
+                view?.showAddToFavorites()
+            }
+        } else {
+            if (isViewAttached) {
+                view?.hideAddToFavorites()
+            }
+        }
     }
 
     companion object {
+        private const val TAG = "MovieInfoPresenterImpl"
         private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
     }
 
@@ -82,9 +106,9 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
     private fun getMoviesFromDatabaseObservable(movieId: Int):
             Observable<ArrayList<MovieVideosResult>> {
         return databaseManager.getMoviePreviewsForMovieId(movieId).toObservable()
-                .collectInto(arrayListOf<MovieVideosResult>(), { list, item ->
+                .collectInto(arrayListOf<MovieVideosResult>()) { list, item ->
                     list.addAll(item)
-                }).toObservable()
+                }.toObservable()
     }
 
     private fun getMoviesFromNetworkObservable(movieId: Int):
@@ -93,9 +117,9 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                 .filter { response -> response.isSuccessful }
                 .map { response -> response.body()?.results }
                 .filter { results -> results.isNotEmpty() }
-                .collectInto(arrayListOf<MovieVideosResult>(), { list, collector ->
+                .collectInto(arrayListOf<MovieVideosResult>()) { list, collector ->
                     collector?.let { list.addAll(it) }
-                }).toObservable()
+                }.toObservable()
     }
 
     override fun unSubscribe() = compositeDisposable.clear()
@@ -125,5 +149,69 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                 view?.showNoInternetConnectionError()
             }
         }
+    }
+
+    override fun checkIfIsFavoriteMovie(movieId: Int) {
+        firebaseDatabase.getFavoriteMovies()
+                .getAll(OnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                        val favorites = task.result.data?.get("favorites") as List<Long>?
+
+                        if (favorites != null && !favorites.isEmpty()) {
+                            if (favorites.contains(movieId.toLong())) {
+                                if (isViewAttached) {
+                                    view?.showMovieIsFavoriteView()
+                                }
+                            } else {
+                                if (isViewAttached) {
+                                    view?.showMovieIsNotFavoriteView()
+                                }
+                            }
+                        } else {
+                            if (isViewAttached) {
+                                view?.showMovieIsNotFavoriteView()
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "Error getting favorite movies.", task.exception)
+                    }
+                })
+    }
+
+    override fun addMovieToFavorites(movieId: Int) {
+        firebaseDatabase.getFavoriteMovies()
+                .add(movieId.toLong(), object : OnMovieAddedToFavoritesListener {
+
+                    override fun onSuccess() {
+                        Log.d(TAG, "Added movie to favorites successfully")
+
+                        if (isViewAttached) {
+                            view?.showMovieIsFavoriteView()
+                        }
+                    }
+
+                    override fun onError(exception: MovieException?) {
+                        Log.e(TAG, "Error adding movie to favorites", exception)
+                    }
+                })
+    }
+
+    override fun removeMovieFromFavorites(movieId: Int) {
+        firebaseDatabase.getFavoriteMovies()
+                .remove(movieId.toLong(), object : OnMovieRemovedFromFavoritesListener {
+
+                    override fun onSuccess() {
+                        Log.d(TAG, "Removed movie from favorites successfully")
+
+                        if (isViewAttached) {
+                            view?.showMovieIsNotFavoriteView()
+                        }
+                    }
+
+                    override fun onError(exception: MovieException?) {
+                        Log.e(TAG, "Error removing movie from favorites", exception)
+                    }
+                })
     }
 }

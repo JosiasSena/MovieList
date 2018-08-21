@@ -18,4 +18,7 @@ interface MovieInfoPresenter : MvpPresenter<MovieInfoView> {
     fun playVideoFromPreview(preview: MovieVideosResult)
     fun getCustomTabsIntent(): CustomTabsIntent
     fun downloadMoviePoster(request: DownloadManager.Request)
+    fun addMovieToFavorites(movieId: Int)
+    fun checkIfIsFavoriteMovie(movieId: Int)
+    fun removeMovieFromFavorites(movieId: Int)
 }

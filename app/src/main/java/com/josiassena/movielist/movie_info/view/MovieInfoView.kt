@@ -14,4 +14,8 @@ interface MovieInfoView : MvpView, NoInternetView {
     fun hidePreviews()
     fun showPreviews(result: List<MovieVideosResult>)
     fun playVideo(url: String)
+    fun showAddToFavorites()
+    fun hideAddToFavorites()
+    fun showMovieIsFavoriteView()
+    fun showMovieIsNotFavoriteView()
 }

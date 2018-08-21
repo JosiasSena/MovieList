@@ -42,6 +42,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     private lateinit var adapter: MovieInfoAdapter
     private lateinit var result: Result
     private var movieId: Int = 0
+    private var isFavorite: Boolean = false
 
     companion object {
         const val POSTER_URI = "poster_uri"
@@ -75,6 +76,16 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED))
+
+        llAddToFavorite.setOnClickListener {
+            if (isFavorite) {
+                presenter.removeMovieFromFavorites(movieId)
+            } else {
+                presenter.addMovieToFavorites(movieId)
+            }
+        }
+
+        presenter.checkIfIsFavoriteMovie(movieId)
     }
 
     private fun downloadMoviePosterForCurrentMovie() {
@@ -88,6 +99,10 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
         presenter.downloadMoviePoster(request)
     }
+
+    override fun showAddToFavorites() = llAddToFavorite.show()
+
+    override fun hideAddToFavorites() = llAddToFavorite.hide()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_share, menu)
@@ -203,5 +218,15 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         animation.cancel()
 
         presenter.unSubscribe()
+    }
+
+    override fun showMovieIsFavoriteView() {
+        isFavorite = true
+        ivFavorite.setImageResource(R.drawable.ic_star_filled)
+    }
+
+    override fun showMovieIsNotFavoriteView() {
+        isFavorite = false
+        ivFavorite.setImageResource(R.drawable.ic_star_unfilled)
     }
 }
