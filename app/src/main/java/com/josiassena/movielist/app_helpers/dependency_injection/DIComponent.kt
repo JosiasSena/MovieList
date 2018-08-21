@@ -5,6 +5,7 @@ import com.josiassena.movielist.app_helpers.dependency_injection.modules.Android
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.FirebaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.MoviesPreferenceModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
+import com.josiassena.movielist.favorite_movies.presenter.FavoritesPresenterImpl
 import com.josiassena.movielist.full_screen_image.presenter.FullScreenPresenterImpl
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
 import com.josiassena.movielist.genres.view.GenreFragment
@@ -42,4 +43,5 @@ interface DIComponent {
     fun inject(homePresenterImpl: HomePresenterImpl)
     fun inject(settingsFragment: SettingsFragment)
     fun inject(mainActivity: MainActivity)
+    fun inject(favoritesPresenterImpl: FavoritesPresenterImpl)
 }

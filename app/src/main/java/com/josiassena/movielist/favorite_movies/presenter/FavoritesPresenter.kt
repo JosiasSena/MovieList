@@ -6,4 +6,6 @@ import com.josiassena.movielist.favorite_movies.view.FavoritesView
 /**
  * @author Josias Sena
  */
-interface FavoritesPresenter : MvpPresenter<FavoritesView>
+interface FavoritesPresenter : MvpPresenter<FavoritesView> {
+    fun getFavoriteMovies()
+}
