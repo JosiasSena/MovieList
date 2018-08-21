@@ -3,11 +3,11 @@ package com.josiassena.movielist.favorite_movies.presenter
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
+import com.josiassena.database.database.DatabaseManager
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.preferences.MoviesPreferences
 import com.josiassena.movielist.favorite_movies.view.FavoritesView
 import com.josiassena.movielist.firebase.FirebaseDatabase
-import com.josiassena.database.database.DatabaseManager
 import javax.inject.Inject
 
 /**
