@@ -2,7 +2,7 @@ package com.josiassena.movielist
 
 import com.josiassena.movielist.app_helpers.data_providers.genre.GenreProvider
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.database.database.DatabaseManager
 import org.mockito.Mockito
 
 /**

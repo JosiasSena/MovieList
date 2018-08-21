@@ -16,8 +16,8 @@ import com.josiassena.movielist.firebase.FirebaseDatabase
 import com.josiassena.movielist.firebase.OnMovieAddedToFavoritesListener
 import com.josiassena.movielist.firebase.OnMovieRemovedFromFavoritesListener
 import com.josiassena.movielist.movie_info.view.MovieInfoView
-import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.network.NetworkManager
+import com.josiassena.database.database.DatabaseManager
+import com.josiassena.helpers.network.NetworkManager
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Observer

@@ -9,7 +9,7 @@ import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayi
 import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.UpcomingMoviesProvider
 import com.josiassena.movielist.movies.view.MoviesView
-import com.rapidsos.helpers.network.NetworkManager
+import com.josiassena.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

@@ -17,9 +17,9 @@ import com.josiassena.movielist.movie_info.view.MovieInfoActivity
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.settings.view.SettingsFragment
 import com.josiassena.movielist.top_rated_movies.presenter.TopRatedMoviesPresenterImpl
-import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.database.di_modules.DatabaseModule
-import com.rapidsos.helpers.network.di_module.NetworkManagerModule
+import com.josiassena.database.database.DatabaseManager
+import com.josiassena.database.di_modules.DatabaseModule
+import com.josiassena.helpers.network.di_module.NetworkManagerModule
 import dagger.Component
 import javax.inject.Singleton
 

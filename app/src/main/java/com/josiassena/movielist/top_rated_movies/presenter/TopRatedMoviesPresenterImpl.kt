@@ -6,7 +6,7 @@ import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.movies.MovieProvider
 import com.josiassena.movielist.top_rated_movies.view.TopRatedMoviesView
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.database.database.DatabaseManager
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

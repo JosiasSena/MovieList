@@ -14,9 +14,9 @@ import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
 import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.movies.view.rec_view.MoviesAdapter
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.show
-import com.rapidsos.helpers.extensions.showLongSnackBar
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movies.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger

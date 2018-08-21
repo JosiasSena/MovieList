@@ -6,8 +6,8 @@ import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.genre.GenreProvider
 import com.josiassena.movielist.app_helpers.observers.fragment.GenreLifeCycleObserver
 import com.josiassena.movielist.genres.view.GenreView
-import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.helpers.network.NetworkManager
+import com.josiassena.database.database.DatabaseManager
+import com.josiassena.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger

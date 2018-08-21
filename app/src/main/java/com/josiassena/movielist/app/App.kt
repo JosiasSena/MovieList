@@ -8,8 +8,8 @@ import com.josiassena.movielist.app_helpers.dependency_injection.modules.Android
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.FirebaseModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.MoviesPreferenceModule
 import com.josiassena.movielist.app_helpers.dependency_injection.modules.ProvidersModule
-import com.rapidsos.database.di_modules.DatabaseModule
-import com.rapidsos.helpers.network.di_module.NetworkManagerModule
+import com.josiassena.database.di_modules.DatabaseModule
+import com.josiassena.helpers.network.di_module.NetworkManagerModule
 
 /**
  * File created by josiassena on 7/5/17.

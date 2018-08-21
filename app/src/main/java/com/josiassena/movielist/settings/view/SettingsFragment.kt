@@ -14,9 +14,9 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.settings.presenter.SettingsPresenter
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.setImageFromUrl
-import com.rapidsos.helpers.extensions.show
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.setImageFromUrl
+import com.josiassena.helpers.extensions.show
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.util.*
 import javax.inject.Inject

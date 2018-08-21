@@ -4,7 +4,7 @@ import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app_helpers.data_providers.genre.GenreProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.MovieProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.database.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

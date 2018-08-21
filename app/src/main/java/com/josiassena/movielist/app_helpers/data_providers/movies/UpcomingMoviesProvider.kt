@@ -2,7 +2,7 @@ package com.josiassena.movielist.app_helpers.data_providers.movies
 
 import com.josiassena.core.MovieResults
 import com.josiassena.movieapi.Api
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.database.database.DatabaseManager
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers

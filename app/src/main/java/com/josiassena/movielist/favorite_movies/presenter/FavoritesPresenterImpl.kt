@@ -7,7 +7,7 @@ import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.preferences.MoviesPreferences
 import com.josiassena.movielist.favorite_movies.view.FavoritesView
 import com.josiassena.movielist.firebase.FirebaseDatabase
-import com.rapidsos.database.database.DatabaseManager
+import com.josiassena.database.database.DatabaseManager
 import javax.inject.Inject
 
 /**

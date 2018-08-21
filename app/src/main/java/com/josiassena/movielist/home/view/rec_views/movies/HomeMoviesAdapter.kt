@@ -13,7 +13,7 @@ import com.josiassena.movielist.R
 import com.josiassena.movielist.app_helpers.constants.MOVIE_ID_KEY
 import com.josiassena.movielist.app_helpers.constants.POSTER_BASE_URL
 import com.josiassena.movielist.movie_info.view.MovieInfoActivity
-import com.rapidsos.helpers.extensions.setImageFromUrl
+import com.josiassena.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.item_main_list_view.view.*
 
 class HomeMoviesViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)

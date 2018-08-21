@@ -15,8 +15,8 @@ import com.josiassena.movielist.app_helpers.observers.fragment.HomeLifeCycleObse
 import com.josiassena.movielist.home.presenter.HomePresenterImpl
 import com.josiassena.movielist.home.view.rec_views.movies.HomeMoviesAdapter
 import com.josiassena.movielist.movies.view.MoviesActivity
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.show
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.show
 import kotlinx.android.synthetic.main.main_now_playing_section.*
 import kotlinx.android.synthetic.main.main_top_movies_section.*
 import kotlinx.android.synthetic.main.main_upcoming_movies_section.*

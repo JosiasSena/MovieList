@@ -13,9 +13,9 @@ import com.josiassena.movielist.app_helpers.listener.SearchObservable
 import com.josiassena.movielist.app_helpers.observers.fragment.GenreLifeCycleObserver
 import com.josiassena.movielist.genres.presenter.GenrePresenterImpl
 import com.josiassena.movielist.genres.view.rec_view.GenresAdapter
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.show
-import com.rapidsos.helpers.extensions.showLongSnackBar
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

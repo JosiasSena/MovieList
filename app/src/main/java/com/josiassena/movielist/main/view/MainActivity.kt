@@ -15,9 +15,9 @@ import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
 import com.josiassena.movielist.settings.view.SettingsFragment
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.setImageFromUrl
-import com.rapidsos.helpers.extensions.show
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.setImageFromUrl
+import com.josiassena.helpers.extensions.show
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*

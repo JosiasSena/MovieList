@@ -1,8 +1,8 @@
 package com.josiassena.movielist
 
 import android.content.Context
-import com.rapidsos.database.database.DatabaseManager
-import com.rapidsos.database.database.MLDatabase
+import com.josiassena.database.database.DatabaseManager
+import com.josiassena.database.database.MLDatabase
 import org.mockito.Mockito
 
 /**

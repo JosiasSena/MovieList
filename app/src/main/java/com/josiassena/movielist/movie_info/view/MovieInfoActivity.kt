@@ -22,10 +22,10 @@ import com.josiassena.movielist.full_screen_image.view.FullScreenImageActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
 import com.josiassena.movielist.movie_info.receiver.PosterDownloadBroadcastReceiver
 import com.josiassena.movielist.movie_info.view.rec_view.MovieInfoAdapter
-import com.rapidsos.helpers.extensions.hide
-import com.rapidsos.helpers.extensions.setImageFromUrlOffLine
-import com.rapidsos.helpers.extensions.show
-import com.rapidsos.helpers.extensions.showLongSnackBar
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.setImageFromUrlOffLine
+import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movie_info.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
