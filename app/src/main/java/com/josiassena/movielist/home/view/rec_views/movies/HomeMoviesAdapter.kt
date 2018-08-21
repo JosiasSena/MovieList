@@ -9,11 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.josiassena.core.Result
+import com.josiassena.helpers.extensions.setImageFromUrl
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app_helpers.constants.MOVIE_ID_KEY
 import com.josiassena.movielist.app_helpers.constants.POSTER_BASE_URL
 import com.josiassena.movielist.movie_info.view.MovieInfoActivity
-import com.josiassena.helpers.extensions.setImageFromUrl
 import kotlinx.android.synthetic.main.item_main_list_view.view.*
 
 class HomeMoviesViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
@@ -31,9 +31,9 @@ class HomeMoviesAdapter : RecyclerView.Adapter<HomeMoviesViewHolder>() {
     override fun onBindViewHolder(holder: HomeMoviesViewHolder, position: Int) {
         val movie = results[position]
 
-        holder.itemView?.let {
-            it.iv_movie_poster.setImageFromUrl(POSTER_BASE_URL + movie.posterPath)
-            it.setOnClickListener { goToMovieInformationActivity(it, movie) }
+        holder.itemView?.let {itemView ->
+            itemView.iv_movie_poster.setImageFromUrl(POSTER_BASE_URL + movie.posterPath)
+            itemView.setOnClickListener { goToMovieInformationActivity(itemView, movie) }
         }
     }
 
