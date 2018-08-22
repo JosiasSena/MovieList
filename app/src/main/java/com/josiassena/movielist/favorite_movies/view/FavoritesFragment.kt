@@ -32,7 +32,10 @@ class FavoritesFragment : MvpFragment<FavoritesView, FavoritesPresenterImpl>(), 
         super.onViewCreated(view, savedInstanceState)
 
         initRecView()
+    }
 
+    override fun onStart() {
+        super.onStart()
         presenter.getFavoriteMovies()
     }
 
