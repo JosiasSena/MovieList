@@ -16,7 +16,7 @@ class ChromeTabLauncher(private val context: Context) {
     private var customTabsClient: CustomTabsClient? = null
     private var customTabsSession: CustomTabsSession? = null
 
-    fun init() {
+    fun initialize() {
         CustomTabsClient.bindCustomTabsService(context, "com.android.chrome",
                 object : CustomTabsServiceConnection() {
 
