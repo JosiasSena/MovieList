@@ -89,6 +89,8 @@ dependencies {
 
     implementation Deps.pinchToZoom
 
+    implementation Deps.exoplayer
+
     testImplementation Deps.jUnit
 
     testImplementation Deps.robolectric

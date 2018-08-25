@@ -49,6 +49,8 @@ object Versions {
     const val firebaseUiAuth = "4.0.0"
     const val firebaseDatabase = "16.0.1"
     const val firebaseFireStore = "17.1.0"
+
+    const val exoplayer = "r2.5.1"
 }
 
 object Deps {
@@ -127,4 +129,6 @@ object Deps {
     const val materialSearchBar = "com.github.mancj:MaterialSearchBar:${Versions.materialSearchBar}"
     const val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
     const val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
+
+    const val exoplayer = "com.google.android.exoplayer:exoplayer:${Versions.exoplayer}"
 }
