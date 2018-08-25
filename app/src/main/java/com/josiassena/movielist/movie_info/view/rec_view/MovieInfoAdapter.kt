@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.josiassena.core.MovieVideosResult
+import com.josiassena.helpers.extensions.toYoutubeUrl
 import com.josiassena.movielist.R
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
 
@@ -35,5 +36,11 @@ class MovieInfoAdapter(private val presenter: MovieInfoPresenterImpl) : Recycler
         previews.clear()
         previews.addAll(result)
         notifyDataSetChanged()
+    }
+
+    fun getAllPreviewUrls() : List<String> {
+        return previews.map {
+            it.key?.toYoutubeUrl().toString()
+        }
     }
 }
