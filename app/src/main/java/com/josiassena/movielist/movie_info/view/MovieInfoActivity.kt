@@ -15,6 +15,10 @@ import android.view.animation.LinearInterpolator
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.setImageFromUrlOffLine
+import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app_helpers.constants.MOVIE_ID_KEY
 import com.josiassena.movielist.app_helpers.constants.POSTER_BASE_URL
@@ -22,10 +26,6 @@ import com.josiassena.movielist.full_screen_image.view.FullScreenImageActivity
 import com.josiassena.movielist.movie_info.presenter.MovieInfoPresenterImpl
 import com.josiassena.movielist.movie_info.receiver.PosterDownloadBroadcastReceiver
 import com.josiassena.movielist.movie_info.view.rec_view.MovieInfoAdapter
-import com.josiassena.helpers.extensions.hide
-import com.josiassena.helpers.extensions.setImageFromUrlOffLine
-import com.josiassena.helpers.extensions.show
-import com.josiassena.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movie_info.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
@@ -43,6 +43,8 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     private lateinit var result: Result
     private var movieId: Int = 0
     private var isFavorite: Boolean = false
+
+    private lateinit var chromeTabLauncher: ChromeTabLauncher
 
     companion object {
         const val POSTER_URI = "poster_uri"
@@ -86,6 +88,13 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         }
 
         presenter.checkIfIsFavoriteMovie(movieId)
+
+        chromeTabLauncher = ChromeTabLauncher(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        chromeTabLauncher.initialize()
     }
 
     private fun downloadMoviePosterForCurrentMovie() {
@@ -188,10 +197,13 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         adapter.setPreviews(result)
 
         initPreviewAdapter()
+
+        val previewUrls = adapter.getAllPreviewUrls()
+        chromeTabLauncher.mayLaunchUrl(previewUrls[0], previewUrls)
     }
 
     override fun playVideo(url: String) {
-        presenter.getCustomTabsIntent().launchUrl(this, Uri.parse(url))
+        chromeTabLauncher.launchUrl(url)
     }
 
     override fun showNoInternetConnectionError() {

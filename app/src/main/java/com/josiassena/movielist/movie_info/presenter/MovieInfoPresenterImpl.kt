@@ -1,13 +1,14 @@
 package com.josiassena.movielist.movie_info.presenter
 
 import android.app.DownloadManager
-import android.graphics.Color
-import android.support.customtabs.CustomTabsIntent
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieVideosResult
 import com.josiassena.core.Result
+import com.josiassena.database.database.DatabaseManager
+import com.josiassena.helpers.extensions.toYoutubeUrl
+import com.josiassena.helpers.network.NetworkManager
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.exceptions.MovieException
@@ -16,8 +17,6 @@ import com.josiassena.movielist.firebase.FirebaseDatabase
 import com.josiassena.movielist.firebase.OnMovieAddedToFavoritesListener
 import com.josiassena.movielist.firebase.OnMovieRemovedFromFavoritesListener
 import com.josiassena.movielist.movie_info.view.MovieInfoView
-import com.josiassena.database.database.DatabaseManager
-import com.josiassena.helpers.network.NetworkManager
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -70,7 +69,6 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
     companion object {
         private const val TAG = "MovieInfoPresenterImpl"
-        private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
     }
 
     override fun getMovieFromId(movieId: Int): Maybe<Result> = databaseManager.getMovieFromId(movieId)
@@ -130,15 +128,8 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
 
     override fun playVideoFromPreview(preview: MovieVideosResult) {
         if (isViewAttached) {
-            view?.playVideo(YOUTUBE_BASE_URL + preview.key)
+            view?.playVideo(preview.key?.toYoutubeUrl().toString())
         }
-    }
-
-    override fun getCustomTabsIntent(): CustomTabsIntent {
-        return CustomTabsIntent.Builder()
-                .setToolbarColor(Color.RED)
-                .setShowTitle(true)
-                .build()
     }
 
     override fun downloadMoviePoster(request: DownloadManager.Request) {
