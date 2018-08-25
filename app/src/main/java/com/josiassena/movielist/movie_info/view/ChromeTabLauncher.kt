@@ -13,17 +13,15 @@ import com.josiassena.movielist.R
  */
 class ChromeTabLauncher(private val context: Context) {
 
-    private var customTabsClient: CustomTabsClient? = null
     private var customTabsSession: CustomTabsSession? = null
 
     fun initialize() {
         CustomTabsClient.bindCustomTabsService(context, "com.android.chrome",
                 object : CustomTabsServiceConnection() {
 
-                    override fun onCustomTabsServiceConnected(name: ComponentName?, client: CustomTabsClient?) {
-                        this@ChromeTabLauncher.customTabsClient = client
-                        this@ChromeTabLauncher.customTabsClient?.warmup(0)
-                        customTabsSession = this@ChromeTabLauncher.customTabsClient?.newSession(null)
+                    override fun onCustomTabsServiceConnected(name: ComponentName?, customTabsClient: CustomTabsClient?) {
+                        customTabsClient?.warmup(0)
+                        customTabsSession = customTabsClient?.newSession(null)
                     }
 
                     override fun onServiceDisconnected(name: ComponentName?) {
