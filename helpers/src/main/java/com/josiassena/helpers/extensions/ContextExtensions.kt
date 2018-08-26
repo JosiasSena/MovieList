@@ -11,3 +11,7 @@ import android.view.View
 fun Context.showLongSnackBar(view: View, @StringRes message: Int) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 }
+
+fun Context.showLongSnackBar(view: View, message: String) {
+    Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+}
