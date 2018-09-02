@@ -17,7 +17,7 @@ object Versions {
     const val room = "1.1.0"
 
     const val supportLibrary = "27.1.1"
-    const val constraintLayout = "1.1.2"
+    const val constraintLayout = "1.1.3"
 
     const val multidex = "1.0.3"
     const val mosby = "2.0.1"
