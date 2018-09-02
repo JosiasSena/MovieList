@@ -5,4 +5,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView
 /**
  * @author Josias Sena
  */
-interface View : MvpView
+interface View : MvpView {
+    fun populateNavDrawerHeader()
+    fun resetNavDrawerHeader()
+}

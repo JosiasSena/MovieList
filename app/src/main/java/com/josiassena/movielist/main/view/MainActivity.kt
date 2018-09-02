@@ -8,6 +8,9 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import com.hannesdorfmann.mosby.mvp.MvpActivity
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.setImageFromUrl
+import com.josiassena.helpers.extensions.show
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.favorite_movies.view.FavoritesFragment
@@ -15,9 +18,6 @@ import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
 import com.josiassena.movielist.settings.view.SettingsFragment
-import com.josiassena.helpers.extensions.hide
-import com.josiassena.helpers.extensions.setImageFromUrl
-import com.josiassena.helpers.extensions.show
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -47,19 +47,29 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
 
         navView.setNavigationItemSelectedListener(this)
 
-        handleNavigationDrawerHeader()
+        initNavigationDrawerHeader()
 
         goHome()
     }
 
-    private fun handleNavigationDrawerHeader() {
+    private fun initNavigationDrawerHeader() {
         header = navView.getHeaderView(0)
 
+        populateNavDrawerHeader()
+    }
+
+    override fun populateNavDrawerHeader() {
         presenter.getCurrentUser()?.let {
             header.tvFullName.text = it.displayName
             header.tvEmail.text = it.email
             header.ivProfilePic.setImageFromUrl(it.photoUrl?.toString() as String)
         }
+    }
+
+    override fun resetNavDrawerHeader() {
+        header.tvFullName.text = resources.getString(R.string.nav_header_title)
+        header.tvEmail.text = resources.getString(R.string.nav_header_subtitle)
+        header.ivProfilePic.setImageResource(R.mipmap.ic_launcher)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
