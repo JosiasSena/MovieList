@@ -129,6 +129,7 @@ object Deps {
     const val materialSearchBar = "com.github.mancj:MaterialSearchBar:${Versions.materialSearchBar}"
     const val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
     const val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
+    const val circularImageView = "de.hdodenhof:circleimageview:2.2.0"
 
     const val exoplayer = "com.google.android.exoplayer:exoplayer:${Versions.exoplayer}"
 }

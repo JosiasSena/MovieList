@@ -82,6 +82,8 @@ dependencies {
     implementation Deps.ankoCoroutines
     implementation Deps.kotlinExgtensions
 
+    implementation Deps.circularImageView
+
     implementation Deps.mockito
     implementation Deps.supportV4
     testImplementation Deps.mockito

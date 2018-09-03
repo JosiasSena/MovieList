@@ -15,9 +15,11 @@
         android:layout_margin="16dp"
         android:elevation="3dp"
         android:visibility="gone"
+        app:contentPadding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +27,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProfilePicture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -33,6 +35,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:contentDescription="@string/profile_picture"
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="2dp"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
