@@ -7,10 +7,12 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import android.view.View
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.helpers.extensions.hide
 import com.josiassena.helpers.extensions.setImageFromUrl
 import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.favorite_movies.view.FavoritesFragment
@@ -21,13 +23,17 @@ import com.josiassena.movielist.settings.view.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import javax.inject.Inject
 
-class MainActivity : MvpActivity<View, MainPresenter>(),
-        NavigationView.OnNavigationItemSelectedListener, View {
+class MainActivity : MvpActivity<MainView, MainPresenter>(),
+        NavigationView.OnNavigationItemSelectedListener, MainView {
 
-    private lateinit var header: android.view.View
+    @Inject
+    lateinit var mainPresenter: MainPresenter
 
-    override fun createPresenter() = MainPresenter()
+    private lateinit var navigationDrawerHeader: View
+
+    override fun createPresenter() = mainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.component.inject(this)
@@ -53,23 +59,23 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
     }
 
     private fun initNavigationDrawerHeader() {
-        header = navView.getHeaderView(0)
+        navigationDrawerHeader = navView.getHeaderView(0)
 
         populateNavDrawerHeader()
     }
 
     override fun populateNavDrawerHeader() {
         presenter.getCurrentUser()?.let {
-            header.tvFullName.text = it.displayName
-            header.tvEmail.text = it.email
-            header.ivProfilePic.setImageFromUrl(it.photoUrl?.toString() as String)
+            navigationDrawerHeader.tvFullName.text = it.displayName
+            navigationDrawerHeader.tvEmail.text = it.email
+            navigationDrawerHeader.ivProfilePic.setImageFromUrl(it.photoUrl?.toString() as String)
         }
     }
 
     override fun resetNavDrawerHeader() {
-        header.tvFullName.text = resources.getString(R.string.nav_header_title)
-        header.tvEmail.text = resources.getString(R.string.nav_header_subtitle)
-        header.ivProfilePic.setImageResource(R.mipmap.ic_launcher)
+        navigationDrawerHeader.tvFullName.text = resources.getString(R.string.nav_header_title)
+        navigationDrawerHeader.tvEmail.text = resources.getString(R.string.nav_header_subtitle)
+        navigationDrawerHeader.ivProfilePic.setImageResource(R.mipmap.ic_launcher)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -77,13 +83,13 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
 
         drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
 
-            override fun onDrawerSlide(drawerView: android.view.View, slideOffset: Float) {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
             }
 
-            override fun onDrawerOpened(drawerView: android.view.View) {
+            override fun onDrawerOpened(drawerView: View) {
             }
 
-            override fun onDrawerClosed(drawerView: android.view.View) {
+            override fun onDrawerClosed(drawerView: View) {
                 fragmentToGoTo?.let {
                     goToFragment(it)
 
@@ -106,7 +112,13 @@ class MainActivity : MvpActivity<View, MainPresenter>(),
             }
             R.id.nav_favorites -> {
                 genreSearchView.hide()
-                fragmentToGoTo = FavoritesFragment.newInstance()
+
+                fragmentToGoTo = if (presenter.isSignedIn()) {
+                    FavoritesFragment.newInstance()
+                } else {
+                    showLongSnackBar(navigationDrawerHeader, R.string.favorites_you_must_sign_in)
+                    SettingsFragment.newInstance()
+                }
             }
             R.id.nav_settings -> {
                 genreSearchView.hide()

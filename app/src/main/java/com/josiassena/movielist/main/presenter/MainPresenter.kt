@@ -4,12 +4,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.movielist.app_helpers.bus.SignInBus
-import com.josiassena.movielist.main.view.View
+import com.josiassena.movielist.app_helpers.preferences.MoviesPreferences
+import com.josiassena.movielist.main.view.MainView
+import javax.inject.Inject
 
 /**
  * @author Josias Sena
  */
-class MainPresenter : MvpBasePresenter<View>(), Presenter {
+class MainPresenter @Inject constructor(private val preferences: MoviesPreferences) :
+        MvpBasePresenter<MainView>(), Presenter {
 
     private val fireBaseAuth by lazy { FirebaseAuth.getInstance() }
 
@@ -27,4 +30,5 @@ class MainPresenter : MvpBasePresenter<View>(), Presenter {
         return fireBaseAuth.currentUser
     }
 
+    override fun isSignedIn(): Boolean = preferences.isSignedIn()
 }
