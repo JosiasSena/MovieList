@@ -74,7 +74,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
         ivMoviePoster.setOnClickListener { goToFullScreenActivity(result) }
 
-        tvDownloadPoster.setOnClickListener { downloadMoviePosterForCurrentMovie() }
+        ivDownloadPoster.setOnClickListener { downloadMoviePosterForCurrentMovie() }
 
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED))
@@ -214,7 +214,7 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     }
 
     override fun showNoInternetConnectionError() {
-        showLongSnackBar(tvDownloadPoster, R.string.no_internet_click_again)
+        showLongSnackBar(ivDownloadPoster, R.string.no_internet_click_again)
     }
 
     override fun showEmptyStateView() {

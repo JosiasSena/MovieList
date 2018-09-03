@@ -10,20 +10,22 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.josiassena.movielist.movie_info.view.MovieInfoActivity">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/ivMoviePoster"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:contentDescription="@string/movie_poster_image"
                 android:transitionName="ivMoviePoster"
                 tools:src="@drawable/spiderman_homecoming" />
@@ -32,22 +34,22 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="bottom|end"
+                android:layout_marginBottom="5dp"
                 android:contentDescription="@string/enlarge_poster"
                 android:src="@drawable/ic_zoom_in"
                 android:tint="@android:color/white" />
 
-        </FrameLayout>
+            <ImageView
+                android:id="@+id/ivDownloadPoster"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|start"
+                android:layout_marginBottom="5dp"
+                android:contentDescription="@string/enlarge_poster"
+                android:src="@drawable/ic_file_download"
+                android:tint="@android:color/white" />
 
-        <TextView
-            android:id="@+id/ivDownloadPoster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:drawablePadding="16dp"
-            android:drawableStart="@drawable/ic_file_download"
-            android:padding="10dp"
-            android:text="@string/download_movie_poster" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tvReleaseDate"
@@ -55,7 +57,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/tvOverview"
             tools:text="Release date: 2017-07-05" />
 
         <LinearLayout
@@ -63,13 +69,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
             android:clickable="true"
             android:focusable="true"
-            android:padding="8dp"
             android:foreground="?selectableItemBackground"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tvReleaseDate"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/ivFavorite"
@@ -88,28 +96,44 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvPreviews"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tvOverview"
             style="@style/MainTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
             android:text="@string/overview"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvDescription"
             style="@style/MainTextStyle"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toTopOf="@+id/rvPreviews"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/llAddToFavorite"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="@tools:sample/lorem/random" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
