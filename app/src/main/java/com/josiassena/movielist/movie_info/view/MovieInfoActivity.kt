@@ -126,8 +126,15 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
                     putExtra(Intent.EXTRA_TITLE, result.title)
                     putExtra(Intent.EXTRA_SUBJECT, result.title)
 
-                    val body = "Release date: ${result.releaseDate}\n\nOverview: ${result.overview}"
-                    putExtra(Intent.EXTRA_TEXT, body)
+                    val bodyStringBuilder = StringBuilder().apply {
+                        append("Release date: ${result.releaseDate}")
+                        append("\n\n")
+                        append("Overview: ${result.overview}")
+                        append("\n\n")
+                        append(adapter.getAllPreviewUrls().joinToString())
+                    }
+
+                    putExtra(Intent.EXTRA_TEXT, bodyStringBuilder.toString())
                 }
 
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)))
