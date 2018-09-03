@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.josiassena.core.Genre
 import com.josiassena.core.MovieResults
+import com.josiassena.helpers.extensions.hide
+import com.josiassena.helpers.extensions.show
+import com.josiassena.helpers.extensions.showLongSnackBar
 import com.josiassena.movielist.R
 import com.josiassena.movielist.app_helpers.constants.QUERY_KEY
 import com.josiassena.movielist.app_helpers.constants.QueryTypes
@@ -14,9 +17,6 @@ import com.josiassena.movielist.genres.view.rec_view.KEY_GENRE
 import com.josiassena.movielist.movies.presenter.MoviesDisposableLifeCycleObserver
 import com.josiassena.movielist.movies.presenter.MoviesPresenterImpl
 import com.josiassena.movielist.movies.view.rec_view.MoviesAdapter
-import com.josiassena.helpers.extensions.hide
-import com.josiassena.helpers.extensions.show
-import com.josiassena.helpers.extensions.showLongSnackBar
 import kotlinx.android.synthetic.main.content_movies.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.AnkoLogger
@@ -42,7 +42,6 @@ class MoviesActivity : MvpActivity<MoviesView, MoviesPresenterImpl>(), MoviesVie
         setContentView(R.layout.activity_movies)
         setSupportActionBar(toolbar)
         toolbar.transitionName = "genre_title"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         lifecycle.addObserver(MoviesDisposableLifeCycleObserver)
 
