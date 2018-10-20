@@ -2,6 +2,7 @@ package com.josiassena.movielist
 
 import android.content.Context
 import com.josiassena.helpers.network.NetworkManager
+import com.josiassena.helpers.network.di_module.NetworkManagerModule
 import org.mockito.Mockito
 
 /**

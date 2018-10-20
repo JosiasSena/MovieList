@@ -3,6 +3,7 @@ package com.josiassena.movielist
 import android.content.Context
 import com.josiassena.database.database.DatabaseManager
 import com.josiassena.database.database.MLDatabase
+import com.josiassena.database.di_modules.DatabaseModule
 import org.mockito.Mockito
 
 /**
