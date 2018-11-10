@@ -11,7 +11,7 @@ import org.mockito.Mockito
  */
 class DatabaseManagerTestModule(context: Context) : DatabaseModule(context) {
 
-    override fun providesBeaconDatabase(): MLDatabase = Mockito.mock(MLDatabase::class.java)
+    override fun providesDatabase(): MLDatabase = Mockito.mock(MLDatabase::class.java)
 
     override fun providesDatabaseManager(database: MLDatabase): DatabaseManager =
             Mockito.mock(DatabaseManager::class.java)

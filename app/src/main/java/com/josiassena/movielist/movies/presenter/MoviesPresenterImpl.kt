@@ -2,6 +2,7 @@ package com.josiassena.movielist.movies.presenter
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.josiassena.core.MovieResults
+import com.josiassena.helpers.network.NetworkManager
 import com.josiassena.movieapi.Api
 import com.josiassena.movielist.app.App
 import com.josiassena.movielist.app_helpers.data_providers.movies.MovieProvider
@@ -9,7 +10,6 @@ import com.josiassena.movielist.app_helpers.data_providers.movies.MoviesNowPlayi
 import com.josiassena.movielist.app_helpers.data_providers.movies.TopRatedMoviesProvider
 import com.josiassena.movielist.app_helpers.data_providers.movies.UpcomingMoviesProvider
 import com.josiassena.movielist.movies.view.MoviesView
-import com.josiassena.helpers.network.NetworkManager
 import io.reactivex.MaybeObserver
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -22,27 +22,7 @@ import javax.inject.Inject
  */
 class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, AnkoLogger {
 
-    private val moviesObserver by lazy {
-        object : Observer<MovieResults?> {
-
-            override fun onSubscribe(disposable: Disposable) {
-                MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
-            }
-
-            override fun onError(throwable: Throwable) {
-                error(throwable.message, throwable)
-            }
-
-            override fun onNext(movies: MovieResults) {
-                if (isViewAttached) {
-                    view?.displayMovies(movies)
-                }
-            }
-
-            override fun onComplete() {
-            }
-        }
-    }
+    private lateinit var moviesObserver: Observer<MovieResults?>
 
     @Inject
     lateinit var api: Api
@@ -64,6 +44,26 @@ class MoviesPresenterImpl : MvpBasePresenter<MoviesView>(), MoviesPresenter, Ank
 
     init {
         App.component.inject(this)
+
+        moviesObserver = object : Observer<MovieResults?> {
+
+            override fun onSubscribe(disposable: Disposable) {
+                MoviesDisposableLifeCycleObserver.getCompositeDisposable().add(disposable)
+            }
+
+            override fun onError(throwable: Throwable) {
+                error(throwable.message, throwable)
+            }
+
+            override fun onNext(movies: MovieResults) {
+                if (isViewAttached) {
+                    view?.displayMovies(movies)
+                }
+            }
+
+            override fun onComplete() {
+            }
+        }
     }
 
     override fun getMoviesForGenreId(genreId: Int) {

@@ -10,7 +10,7 @@ object Versions {
     const val versionCode = 1
     const val versionName = "1.0"
 
-    const val kotlin = "1.2.60"
+    const val kotlin = "1.3.0"
     const val anko = "0.10.5"
     const val kotlinExtensions = "0.3"
 
@@ -95,7 +95,7 @@ object Deps {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val anko = "org.jetbrains.anko:anko-commons:${Versions.anko}"
     const val ankoCoroutines = "org.jetbrains.anko:anko-coroutines:${Versions.anko}"
-    const val kotlinExgtensions = "androidx.core:core-ktx:${Versions.kotlinExtensions}"
+    const val kotlinExtensions = "androidx.core:core-ktx:${Versions.kotlinExtensions}"
 
     // Room
     const val room = "android.arch.persistence.room:runtime:${Versions.room}"

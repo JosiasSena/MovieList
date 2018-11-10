@@ -80,7 +80,7 @@ dependencies {
     implementation Deps.kotlin
     implementation Deps.anko
     implementation Deps.ankoCoroutines
-    implementation Deps.kotlinExgtensions
+    implementation Deps.kotlinExtensions
 
     implementation Deps.circularImageView
 

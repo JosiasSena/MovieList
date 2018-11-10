@@ -15,7 +15,7 @@ open class DatabaseModule(val context: Context) {
 
     @Provides
     @Singleton
-    open fun providesBeaconDatabase(): MLDatabase = MLDatabase.getDatabase(context)
+    open fun providesDatabase(): MLDatabase = MLDatabase.getDatabase(context)
 
     @Provides
     @Singleton
