@@ -11,12 +11,19 @@ import com.josiassena.movielist.R
 /**
  * @author Josias Sena
  */
-class ChromeTabLauncher(private val context: Context) {
+class ChromeTabLauncher {
 
     private var customTabsSession: CustomTabsSession? = null
+    private var context: Context? = null
 
-    fun initialize() {
-        CustomTabsClient.bindCustomTabsService(context, "com.android.chrome",
+    companion object {
+        private const val CHROME_PACKAGE_NAME = "com.android.chrome"
+    }
+
+    fun initialize(context: Context?) {
+        this.context = context
+
+        CustomTabsClient.bindCustomTabsService(context, CHROME_PACKAGE_NAME,
                 object : CustomTabsServiceConnection() {
 
                     override fun onCustomTabsServiceConnected(name: ComponentName?, customTabsClient: CustomTabsClient?) {
@@ -41,13 +48,21 @@ class ChromeTabLauncher(private val context: Context) {
     }
 
     fun launchUrl(url: String) {
-        val tabsIntent = CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-                .setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left)
-                .setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right)
-                .build()
+        context?.let {
+            val tabsIntent = CustomTabsIntent.Builder()
+                    .setToolbarColor(ContextCompat.getColor(it, R.color.colorPrimary))
+                    .setSecondaryToolbarColor(ContextCompat.getColor(it, R.color.colorPrimaryDark))
+                    .setStartAnimations(it, R.anim.slide_in_right, R.anim.slide_out_left)
+                    .setExitAnimations(it, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .build()
 
-        tabsIntent.launchUrl(context, Uri.parse(url))
+            tabsIntent.launchUrl(context, Uri.parse(url))
+        }
+
+    }
+
+    fun terminate() {
+        context = null
+        customTabsSession = null
     }
 }

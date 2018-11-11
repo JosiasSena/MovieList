@@ -89,12 +89,24 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
 
         presenter.checkIfIsFavoriteMovie(movieId)
 
-        chromeTabLauncher = ChromeTabLauncher(this)
+        chromeTabLauncher = ChromeTabLauncher()
     }
 
     override fun onStart() {
         super.onStart()
-        chromeTabLauncher.initialize()
+        chromeTabLauncher.initialize(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        animation.cancel()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        animation.cancel()
+
+        chromeTabLauncher.terminate()
     }
 
     private fun downloadMoviePosterForCurrentMovie() {
@@ -220,14 +232,14 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
     override fun showEmptyStateView() {
     }
 
-    override fun onPause() {
-        super.onPause()
-        animation.cancel()
+    override fun showMovieIsFavoriteView() {
+        isFavorite = true
+        ivFavorite.setImageResource(R.drawable.ic_star_filled)
     }
 
-    override fun onStop() {
-        super.onStop()
-        animation.cancel()
+    override fun showMovieIsNotFavoriteView() {
+        isFavorite = false
+        ivFavorite.setImageResource(R.drawable.ic_star_unfilled)
     }
 
     override fun onDestroy() {
@@ -237,15 +249,5 @@ class MovieInfoActivity : MvpActivity<MovieInfoView, MovieInfoPresenterImpl>(), 
         animation.cancel()
 
         presenter.unSubscribe()
-    }
-
-    override fun showMovieIsFavoriteView() {
-        isFavorite = true
-        ivFavorite.setImageResource(R.drawable.ic_star_filled)
-    }
-
-    override fun showMovieIsNotFavoriteView() {
-        isFavorite = false
-        ivFavorite.setImageResource(R.drawable.ic_star_unfilled)
     }
 }
