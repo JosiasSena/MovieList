@@ -87,6 +87,8 @@ dependencies {
     implementation Deps.leakCanary
     implementation Deps.leakCanarySupportFragments
 
+    implementation Deps.googleMaps
+
     implementation Deps.mockito
     implementation Deps.supportV4
     testImplementation Deps.mockito
@@ -119,3 +121,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
