@@ -84,6 +84,9 @@ dependencies {
 
     implementation Deps.circularImageView
 
+    implementation Deps.leakCanary
+    implementation Deps.leakCanarySupportFragments
+
     implementation Deps.mockito
     implementation Deps.supportV4
     testImplementation Deps.mockito

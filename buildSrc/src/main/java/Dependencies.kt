@@ -51,6 +51,8 @@ object Versions {
     const val firebaseFireStore = "17.1.0"
 
     const val exoplayer = "r2.5.1"
+
+    const val leakCanary = "1.6.2"
 }
 
 object Deps {
@@ -130,6 +132,10 @@ object Deps {
     const val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
     const val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
     const val circularImageView = "de.hdodenhof:circleimageview:2.2.0"
+
+    // Leak Canary
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+    const val leakCanarySupportFragments = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
 
     const val exoplayer = "com.google.android.exoplayer:exoplayer:${Versions.exoplayer}"
 }
