@@ -52,5 +52,5 @@ class ApiBuilder(private val context: Context) {
                 .build()
     }
 
-    private fun getCache(context: Context) = Cache(context.cacheDir, 12 * 1024 * 102)
+    private fun getCache(context: Context) = Cache(context.cacheDir, 12 * 1024 * 1024)
 }
