@@ -14,4 +14,5 @@ interface NearbyTheatersPresenter : MvpPresenter<NearbyTheatersView> {
     fun getMapsLooper(): Looper
     fun terminate()
     fun unSubscribe()
+    fun getAddressFromLocation(location: Location)
 }
