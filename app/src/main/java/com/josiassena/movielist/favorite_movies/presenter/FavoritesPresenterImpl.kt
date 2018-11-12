@@ -11,6 +11,7 @@ import com.josiassena.movielist.favorite_movies.view.FavoritesView
 import com.josiassena.movielist.firebase.FirebaseDatabase
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -18,6 +19,8 @@ import javax.inject.Inject
  * @author Josias Sena
  */
 class FavoritesPresenterImpl : MvpBasePresenter<FavoritesView>(), FavoritesPresenter {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     lateinit var preferences: MoviesPreferences
@@ -42,7 +45,7 @@ class FavoritesPresenterImpl : MvpBasePresenter<FavoritesView>(), FavoritesPrese
             firebaseDatabase.getFavoriteMovies().getAll(OnCompleteListener { task ->
                 if (task.isSuccessful) {
 
-                    val favoritesIds = task.result.data?.get("favorites") as List<Long>?
+                    val favoritesIds = task.result?.data?.get("favorites") as List<Long>?
 
                     if (favoritesIds != null && !favoritesIds.isEmpty()) {
                         displayFavoriteMovies(favoritesIds)
@@ -66,7 +69,7 @@ class FavoritesPresenterImpl : MvpBasePresenter<FavoritesView>(), FavoritesPrese
     private fun displayFavoriteMovies(favoritesIds: List<Long>?) {
         val movies = arrayListOf<Result>()
 
-        Observable.fromArray(favoritesIds)
+        compositeDisposable.add(Observable.fromArray(favoritesIds)
                 .subscribeOn(Schedulers.io())
                 .flatMapIterable { ids -> ids }
                 .flatMap { id ->
@@ -79,6 +82,14 @@ class FavoritesPresenterImpl : MvpBasePresenter<FavoritesView>(), FavoritesPrese
                     Log.e(TAG, "getFavoriteMovies() : ${it.message}", it)
                 }, {
                     view?.showFavoriteMovies(movies)
-                })
+                }))
+    }
+
+    override fun unsubscribe() {
+        compositeDisposable.clear()
+
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+        }
     }
 }

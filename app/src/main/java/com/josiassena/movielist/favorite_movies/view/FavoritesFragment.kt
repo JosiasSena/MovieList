@@ -56,4 +56,9 @@ class FavoritesFragment : MvpFragment<FavoritesView, FavoritesPresenterImpl>(), 
         recViewAdapter.addFavoriteMovies(movies)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsubscribe()
+    }
+
 }
