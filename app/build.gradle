@@ -43,6 +43,7 @@ dependencies {
     implementation project(':helpers')
     implementation project(':movieapi')
     implementation project(':database')
+    implementation project(':googleplacesapi')
 
     implementation Deps.multidex
 
@@ -88,6 +89,8 @@ dependencies {
     implementation Deps.leakCanarySupportFragments
 
     implementation Deps.googleMaps
+    implementation Deps.googlePlaces
+    implementation Deps.googleLocation
 
     implementation Deps.mockito
     implementation Deps.supportV4
