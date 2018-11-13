@@ -24,6 +24,12 @@
             android:title="@string/favorite_movies" />
 
         <item
+            android:id="@+id/nav_nearby_theaters"
+            android:icon="@drawable/ic_near_me"
+            android:orderInCategory="3"
+            android:title="@string/nearby_theaters" />
+
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:orderInCategory="4"
