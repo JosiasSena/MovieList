@@ -53,7 +53,11 @@ object Versions {
     const val exoplayer = "r2.5.1"
 
     const val leakCanary = "1.6.2"
+
     const val googleMaps = "16.0.0"
+    const val googlePlaces = "16.0.0"
+    const val googleLocation = "16.0.0"
+
 }
 
 object Deps {
@@ -133,7 +137,11 @@ object Deps {
     const val pinchToZoom = "com.bogdwellers:pinchtozoom:${Versions.pinchToZoom}"
     const val androidTestRunner = "com.android.support.test:runner:${Versions.androidSupportTestRunner}"
     const val circularImageView = "de.hdodenhof:circleimageview:2.2.0"
+
+    // Location
     const val googleMaps = "com.google.android.gms:play-services-maps:${Versions.googleMaps}"
+    const val googlePlaces = "com.google.android.gms:play-services-places:${Versions.googlePlaces}"
+    const val googleLocation = "com.google.android.gms:play-services-location:${Versions.googleLocation}"
 
     // Leak Canary
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
