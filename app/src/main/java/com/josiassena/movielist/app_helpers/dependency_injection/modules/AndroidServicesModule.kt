@@ -2,10 +2,9 @@ package com.josiassena.movielist.app_helpers.dependency_injection.modules
 
 import android.app.DownloadManager
 import android.content.Context
-import android.location.Geocoder
+import com.josiassena.movielist.app_helpers.geocoder.RxGeocoder
 import dagger.Module
 import dagger.Provides
-import java.util.*
 import javax.inject.Singleton
 
 /**
@@ -22,6 +21,6 @@ open class AndroidServicesModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providesGeoCoder() = Geocoder(context, Locale.getDefault())
+    fun providesRxGeoCoder() = RxGeocoder(context)
 
 }
