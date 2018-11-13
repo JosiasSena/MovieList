@@ -147,7 +147,7 @@ class MovieInfoPresenterImpl : MvpBasePresenter<MovieInfoView>(), MovieInfoPrese
                 .getAll(OnCompleteListener { task ->
                     if (task.isSuccessful) {
 
-                        val favorites = task.result.data?.get("favorites") as List<Long>?
+                        val favorites = task.result?.data?.get("favorites") as List<Long>?
 
                         if (favorites != null && !favorites.isEmpty()) {
                             if (favorites.contains(movieId.toLong())) {

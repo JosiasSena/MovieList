@@ -19,6 +19,7 @@ import com.josiassena.movielist.favorite_movies.view.FavoritesFragment
 import com.josiassena.movielist.genres.view.GenreFragment
 import com.josiassena.movielist.home.view.HomeFragment
 import com.josiassena.movielist.main.presenter.MainPresenter
+import com.josiassena.movielist.nearby_theaters.view.NearbyTheatersFragment
 import com.josiassena.movielist.settings.view.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -119,6 +120,11 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(),
                     showLongSnackBar(navigationDrawerHeader, R.string.favorites_you_must_sign_in)
                     SettingsFragment.newInstance()
                 }
+            }
+            R.id.nav_nearby_theaters -> {
+                genreSearchView.hide()
+
+                fragmentToGoTo = NearbyTheatersFragment.newInstance()
             }
             R.id.nav_settings -> {
                 genreSearchView.hide()
