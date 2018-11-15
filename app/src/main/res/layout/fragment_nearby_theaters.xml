@@ -14,6 +14,7 @@
         android:background="@color/map_info_bg_color"
         android:gravity="center"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:padding="16dp">
 
         <ImageView
