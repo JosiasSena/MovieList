@@ -11,10 +11,10 @@
         android:id="@+id/llMyAddressInfoExpanded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@color/map_info_bg_color"
         android:gravity="center"
         android:orientation="vertical"
-        android:animateLayoutChanges="true"
         android:padding="16dp">
 
         <ImageView
