@@ -31,7 +31,6 @@ import com.josiassena.movielist.nearby_theaters.presenter.NearbyTheatersPresente
 import kotlinx.android.synthetic.main.fragment_nearby_theaters.*
 import javax.inject.Inject
 
-
 class NearbyTheatersFragment : MvpFragment<NearbyTheatersView, NearbyTheatersPresenter>(),
         NearbyTheatersView, OnMapReadyCallback {
 
