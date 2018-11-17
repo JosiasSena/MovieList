@@ -8,4 +8,5 @@
     <color name="black_transparent_25">#000000</color>
     <color name="dark_grey">#212121</color>
     <color name="map_info_bg_color">#6100f7</color>
+    <color name="splash_bg">#0099cc</color>
 </resources>

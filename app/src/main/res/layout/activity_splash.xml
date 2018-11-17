@@ -8,6 +8,7 @@
     tools:context="com.josiassena.movielist.splash.SplashActivity">
 
     <ImageView
+        android:id="@+id/ivLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/movies"
@@ -15,7 +16,7 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/fullscreen_content"
+        android:id="@+id/tvAppName"
         style="@style/MainTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
