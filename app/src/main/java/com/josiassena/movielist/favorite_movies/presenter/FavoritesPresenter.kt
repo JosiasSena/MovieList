@@ -8,4 +8,5 @@ import com.josiassena.movielist.favorite_movies.view.FavoritesView
  */
 interface FavoritesPresenter : MvpPresenter<FavoritesView> {
     fun getFavoriteMovies()
+    fun unsubscribe()
 }

@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion Versions.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':core')
+
+    implementation Deps.supportV7
+
+    implementation Deps.kotlin
+
+    implementation Deps.retrofit
+    implementation Deps.retrofitRxJavaAdapter
+    implementation Deps.retrofitGsonConverter
+
+    implementation Deps.okHttp
+    implementation Deps.okHttpLoggingInterceptor
+
+    implementation Deps.rxJava2
+    implementation Deps.rxAndroid2
+    implementation Deps.rxKotlin2
+
+    implementation Deps.dagger
+    kapt Deps.daggerCompiler
+
+    androidTestImplementation Deps.dagger
+    kaptAndroidTest Deps.daggerCompiler
+
+    testImplementation Deps.dagger
+    kaptTest Deps.daggerCompiler
+
+    testImplementation Deps.jUnit
+    androidTestImplementation Deps.androidTestRunner
+    androidTestImplementation Deps.espressoCore
+}

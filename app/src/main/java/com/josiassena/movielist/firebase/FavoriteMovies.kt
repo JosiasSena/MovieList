@@ -5,7 +5,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.josiassena.movielist.app_helpers.exceptions.MovieException
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -49,7 +48,7 @@ class FavoriteMovies @Inject constructor(private val firebaseFirestore: Firebase
 
             getAll(OnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val favorites = task.result.data?.get(FAVORITES) as List<Long>?
+                    val favorites = task.result?.data?.get(FAVORITES) as List<Long>?
 
                     if (favorites != null && !favorites.isEmpty()) {
                         if (favorites.contains(movieId)) {
@@ -90,7 +89,7 @@ class FavoriteMovies @Inject constructor(private val firebaseFirestore: Firebase
 
         getAll(OnCompleteListener { task ->
             if (task.isSuccessful) {
-                val favorites = task.result.data?.get(FAVORITES) as List<Long>?
+                val favorites = task.result?.data?.get(FAVORITES) as List<Long>?
 
                 if (favorites != null && !favorites.isEmpty()) {
                     if (favorites.contains(movieId)) {

@@ -45,4 +45,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favorite_movies">Favorite movies</string>
     <string name="favorites_you_must_sign_in">You must be signed in to access Favorites.</string>
+    <string name="title_activity_nearby_theaters">Nearby Theaters</string>
+    <string name="nearby_theaters">Theaters near me</string>
+    <string name="my_location">My location</string>
 </resources>

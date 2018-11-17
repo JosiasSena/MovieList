@@ -1,6 +1,5 @@
 package com.josiassena.movielist.app_helpers.data_providers.movies
 
-import com.josiassena.core.MovieResults
 import retrofit2.Response
 
 /**
@@ -8,7 +7,7 @@ import retrofit2.Response
  */
 internal interface ApiErrorFormatter {
 
-    fun getFormattedError(response: Response<MovieResults>): String {
+    fun getFormattedError(response: Response<*>): String {
         return "${response.message()}: \n ${response.errorBody()?.string()}"
     }
 

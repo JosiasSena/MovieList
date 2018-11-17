@@ -43,6 +43,7 @@ dependencies {
     implementation project(':helpers')
     implementation project(':movieapi')
     implementation project(':database')
+    implementation project(':googleplacesapi')
 
     implementation Deps.multidex
 
@@ -87,6 +88,10 @@ dependencies {
     implementation Deps.leakCanary
     implementation Deps.leakCanarySupportFragments
 
+    implementation Deps.googleMaps
+    implementation Deps.googlePlaces
+    implementation Deps.googleLocation
+
     implementation Deps.mockito
     implementation Deps.supportV4
     testImplementation Deps.mockito
@@ -119,3 +124,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

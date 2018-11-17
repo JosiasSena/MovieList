@@ -1,1 +1,1 @@
-include ':app', ':core', ':helpers', ':database', ':movieapi'
+include ':app', ':core', ':helpers', ':database', ':movieapi', ':googleplacesapi'
