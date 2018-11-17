@@ -29,6 +29,8 @@ import com.josiassena.movielist.app.App
 import com.josiassena.movielist.nearby_theaters.presenter.NearbyTheatersPresenter
 import com.josiassena.movielist.nearby_theaters.presenter.NearbyTheatersPresenterImpl
 import kotlinx.android.synthetic.main.fragment_nearby_theaters.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 class NearbyTheatersFragment : MvpFragment<NearbyTheatersView, NearbyTheatersPresenter>(),
@@ -150,12 +152,16 @@ class NearbyTheatersFragment : MvpFragment<NearbyTheatersView, NearbyTheatersPre
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
 
-                locationResult?.lastLocation?.let {
-                    val currentPlaceLtLng = LatLng(it.latitude, it.longitude)
+                locationResult?.lastLocation?.let { location ->
+                    val currentPlaceLtLng = LatLng(location.latitude, location.longitude)
                     val latLngZoom = CameraUpdateFactory.newLatLngZoom(currentPlaceLtLng, START_ZOOM_LEVEL)
-                    map.animateCamera(latLngZoom)
 
-                    getNearbyTheaters(it)
+                    doAsync {
+                        uiThread {
+                            map.animateCamera(latLngZoom)
+                            getNearbyTheaters(location)
+                        }
+                    }
                 }
             }
         }, presenter.getMapsLooper())
